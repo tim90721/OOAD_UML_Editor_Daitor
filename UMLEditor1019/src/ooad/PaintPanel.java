@@ -8,13 +8,17 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ooad.model.Model;
+
 public class PaintPanel extends JPanel{
 	private int squareX = 50;
 	private int squareY = 50;
 	private int squareW = 20;
 	private int squareH = 20;
+	private Model _model;
 	
-	public PaintPanel() {
+	public PaintPanel(Model model) {
+		this._model = model;
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setBackground(Color.WHITE);
 		
@@ -47,6 +51,7 @@ public class PaintPanel extends JPanel{
 		super.paintComponent(g);
 		g.setColor(Color.BLUE);
 		g.fillRect(squareX, squareY, squareW, squareH);
+		_model.draw(g);
 	}
 
 }

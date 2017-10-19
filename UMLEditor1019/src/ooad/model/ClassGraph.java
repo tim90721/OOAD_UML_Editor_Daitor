@@ -1,4 +1,4 @@
-package ooad;
+package ooad.model;
 
 import java.awt.Graphics;
 

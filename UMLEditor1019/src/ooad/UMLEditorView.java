@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import ooad.model.Model;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -36,6 +39,7 @@ public class UMLEditorView extends JFrame {
 	private JButton _btnClass;
 	private JButton _btnUseCase;
 	private PaintPanel _pPanel;
+	private Model _model;
 	private final String MOUSE_IMAGE = "Mouse.jpg";
 	private final String ASSOCIATIONLINE_IMAGE = "AssociationLine.jpg";
 	private final String GENERALLINE_IMAGE = "GernalizationLine.jpg";
@@ -51,7 +55,7 @@ public class UMLEditorView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UMLEditorView frame = new UMLEditorView();
+					UMLEditorView frame = new UMLEditorView(new Model());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +67,8 @@ public class UMLEditorView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UMLEditorView() {
+	public UMLEditorView(Model model) {
+		this._model = model;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("UMLEditor");
 		setBounds(100, 100, 1000, 800);
@@ -80,7 +85,7 @@ public class UMLEditorView extends JFrame {
 		
 		initiateComponent();
 		
-		_pPanel = new PaintPanel();
+		_pPanel = new PaintPanel(_model);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridheight = 7;
 		gbc_panel.insets = new Insets(0, 0, 5, 0);

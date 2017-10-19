@@ -1,4 +1,4 @@
-package ooad;
+package ooad.model;
 
 
 public abstract class AbstractShape implements IShape{
