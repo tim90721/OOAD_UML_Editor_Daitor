@@ -11,6 +11,8 @@ import javax.swing.JMenuItem;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
@@ -37,7 +39,7 @@ public class UMLEditorView extends JFrame {
 	private final String MOUSE_IMAGE = "Mouse.jpg";
 	private final String ASSOCIATIONLINE_IMAGE = "AssociationLine.jpg";
 	private final String GENERALLINE_IMAGE = "GernalizationLine.jpg";
-	private final String COMPOSITIONLINE_IMAGE = "compositionLine.jpg";
+	private final String COMPOSITIONLINE_IMAGE = "CompositionLine.jpg";
 	private final String CLASS_IMAGE = "Class.jpg";
 	private final String USECASE_IMAGE = "UseCase.jpg";
 	private final int IMAGE_SIZE = 40;
@@ -85,6 +87,14 @@ public class UMLEditorView extends JFrame {
 		gbc_canvas.gridx = 1;
 		gbc_canvas.gridy = 0;
 		_panelContentPane.add(_canvas, gbc_canvas);
+		repaint();
+	}
+	
+	@Override
+	public void paint(Graphics g){
+		super.paint(g);
+		IShape shape = new ClassGraph(50, 50);
+		shape.Draw(g);
 	}
 	
 	private void InitiateComponent() {
@@ -162,6 +172,5 @@ public class UMLEditorView extends JFrame {
 			e.printStackTrace();
 			System.out.println("!!Image NOT FOUND!!");
 		}
-		
 	}
 }
