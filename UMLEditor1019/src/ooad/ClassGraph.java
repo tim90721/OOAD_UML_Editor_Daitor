@@ -10,23 +10,23 @@ public class ClassGraph extends AbstractShape{
 		this.y = y;
 	}
 	
-	public void SetX(int x){
+	public void setX(int x){
 		this.x = x;
 	}
 	
-	public void SetY(int y){
+	public void setY(int y){
 		this.y = y;
 	}
 	
-	public int GetX(){
+	public int getX(){
 		return this.x;
 	}
 	
-	public int GetY(){
+	public int getY(){
 		return this.y;
 	}
 	
-	public void Draw(Graphics g){
+	public void drawShape(Graphics g){
 		g.drawRect(x, y, 60, 100);
 	}
 }

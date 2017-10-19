@@ -35,7 +35,7 @@ public class UMLEditorView extends JFrame {
 	private JButton _btnCompositionLine;
 	private JButton _btnClass;
 	private JButton _btnUseCase;
-	private Canvas _canvas;
+	private PaintPanel _pPanel;
 	private final String MOUSE_IMAGE = "Mouse.jpg";
 	private final String ASSOCIATIONLINE_IMAGE = "AssociationLine.jpg";
 	private final String GENERALLINE_IMAGE = "GernalizationLine.jpg";
@@ -66,7 +66,7 @@ public class UMLEditorView extends JFrame {
 	public UMLEditorView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("UMLEditor");
-		setBounds(100, 100, 544, 424);
+		setBounds(100, 100, 1000, 800);
 
 		_panelContentPane = new JPanel();
 		_panelContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,35 +75,28 @@ public class UMLEditorView extends JFrame {
 		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
 		_panelContentPane.setLayout(gbl_contentPane);
 		
-		InitiateComponent();
+		initiateComponent();
 		
-		_canvas = new Canvas();
-		GridBagConstraints gbc_canvas = new GridBagConstraints();
-		gbc_canvas.gridheight = 6;
-		gbc_canvas.insets = new Insets(0, 0, 5, 0);
-		gbc_canvas.gridx = 1;
-		gbc_canvas.gridy = 0;
-		_panelContentPane.add(_canvas, gbc_canvas);
-		repaint();
+		_pPanel = new PaintPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridheight = 7;
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 0;
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		_panelContentPane.add(_pPanel, gbc_panel);
 	}
 	
-	@Override
-	public void paint(Graphics g){
-		super.paint(g);
-		IShape shape = new ClassGraph(50, 50);
-		shape.Draw(g);
+	private void initiateComponent() {
+		initiateMenu();
+		initiateButtons();
+		initiateButtonIcon();
 	}
 	
-	private void InitiateComponent() {
-		InitiateMenu();
-		InitiateButtons();
-		InitiateButtonIcon();
-	}
-	
-	private void InitiateMenu() {
+	private void initiateMenu() {
 		_menuBar = new JMenuBar();
 		setJMenuBar(_menuBar);
 		
@@ -122,27 +115,27 @@ public class UMLEditorView extends JFrame {
 		_menuEdit.add(_itemUnGroup);
 	}
 	
-	private void InitiateButtons() {
+	private void initiateButtons() {
 		_btnSelect = new JButton();
-		ConfigButton(_btnSelect, 0);
+		configButton(_btnSelect, 0);
 		
 		_btnAssociaLine = new JButton();
-		ConfigButton(_btnAssociaLine, 1);
+		configButton(_btnAssociaLine, 1);
 		
 		_btnGeneralLine = new JButton();
-		ConfigButton(_btnGeneralLine, 2);
+		configButton(_btnGeneralLine, 2);
 		
 		_btnCompositionLine = new JButton();
-		ConfigButton(_btnCompositionLine, 3);
+		configButton(_btnCompositionLine, 3);
 		
 		_btnClass = new JButton();
-		ConfigButton(_btnClass, 4);
+		configButton(_btnClass, 4);
 		
 		_btnUseCase = new JButton();
-		ConfigButton(_btnUseCase, 5);
+		configButton(_btnUseCase, 5);
 	}
 	
-	private void ConfigButton(JButton button, int index) {
+	private void configButton(JButton button, int index) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 0;
@@ -153,16 +146,16 @@ public class UMLEditorView extends JFrame {
 		button.setMargin(new Insets(0, 0, 0, 0));
 	}
 	
-	private void InitiateButtonIcon() {
-		SetButtonIcon(_btnSelect, MOUSE_IMAGE);
-		SetButtonIcon(_btnAssociaLine, ASSOCIATIONLINE_IMAGE);
-		SetButtonIcon(_btnGeneralLine, GENERALLINE_IMAGE);
-		SetButtonIcon(_btnCompositionLine, COMPOSITIONLINE_IMAGE);
-		SetButtonIcon(_btnClass, CLASS_IMAGE);
-		SetButtonIcon(_btnUseCase, USECASE_IMAGE);
+	private void initiateButtonIcon() {
+		setButtonIcon(_btnSelect, MOUSE_IMAGE);
+		setButtonIcon(_btnAssociaLine, ASSOCIATIONLINE_IMAGE);
+		setButtonIcon(_btnGeneralLine, GENERALLINE_IMAGE);
+		setButtonIcon(_btnCompositionLine, COMPOSITIONLINE_IMAGE);
+		setButtonIcon(_btnClass, CLASS_IMAGE);
+		setButtonIcon(_btnUseCase, USECASE_IMAGE);
 	}
 
-	private void SetButtonIcon(JButton button, String IconName) {
+	private void setButtonIcon(JButton button, String IconName) {
 		String path = "img/" + IconName;
 		try {
 			Image image = ImageIO.read(getClass().getResource(path));
