@@ -8,50 +8,40 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ooad.model.IModel;
+import ooad.model.IObserver;
 import ooad.model.Model;
+import ooad.viewevent.CustomMouseEvent;
 
-public class PaintPanel extends JPanel{
-	private int squareX = 50;
-	private int squareY = 50;
-	private int squareW = 20;
-	private int squareH = 20;
-	private Model _model;
+public class PaintPanel extends JPanel implements IObserver{
+	private IModel _model;
 	
-	public PaintPanel(Model model) {
-		this._model = model;
+	public PaintPanel(IModel model) {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setBackground(Color.WHITE);
 		
-		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				moveSquare(e.getX(), e.getY());
-			}
-		});
+		_model = model;
+		_model.registerObserver(this);
 		
-		addMouseMotionListener(new MouseAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				moveSquare(e.getX(), e.getY());
-			}
-		});
+		initiateMouseListener();
 	}
 	
-	private void moveSquare(int x, int y) {
-		int OFFSET = 1;
-		if((squareX != x) || (squareY != y)) {
-			repaint(squareX, squareY, squareW + OFFSET, squareH + OFFSET);
-			squareX = x;
-			squareY = y;
-			repaint(squareX, squareY, squareW + OFFSET, squareH + OFFSET);
-		}
+	private void initiateMouseListener(){
+		CustomMouseEvent mouseEvent = new CustomMouseEvent(_model);
+		
+		addMouseListener(mouseEvent.getPressedEvent());
+		addMouseMotionListener(mouseEvent.getDraggedEvent());
+		addMouseListener(mouseEvent.getReleasedEvent());
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.BLUE);
-		g.fillRect(squareX, squareY, squareW, squareH);
 		_model.draw(g);
 	}
 
+	@Override
+	public void update() {
+		repaint();
+	}
 }

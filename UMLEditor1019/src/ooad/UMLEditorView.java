@@ -6,7 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ooad.model.IModel;
+import ooad.model.IPresentationModel;
 import ooad.model.Model;
+import ooad.model.PresentationModel;
+import ooad.viewevent.ButtonEnable;
+import ooad.viewevent.CustomButtonEvent;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -39,7 +44,8 @@ public class UMLEditorView extends JFrame {
 	private JButton _btnClass;
 	private JButton _btnUseCase;
 	private PaintPanel _pPanel;
-	private Model _model;
+	private IPresentationModel _presentationModel;
+	private IModel _model;
 	private final String MOUSE_IMAGE = "Mouse.jpg";
 	private final String ASSOCIATIONLINE_IMAGE = "AssociationLine.jpg";
 	private final String GENERALLINE_IMAGE = "GernalizationLine.jpg";
@@ -55,7 +61,7 @@ public class UMLEditorView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UMLEditorView frame = new UMLEditorView(new Model());
+					UMLEditorView frame = new UMLEditorView(new PresentationModel(new Model()));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,8 +73,9 @@ public class UMLEditorView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UMLEditorView(Model model) {
-		this._model = model;
+	public UMLEditorView(IPresentationModel presentationModel) {
+		this._presentationModel = presentationModel;
+		this._model = this._presentationModel.getModel();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("UMLEditor");
 		setBounds(100, 100, 1000, 800);
@@ -121,23 +128,35 @@ public class UMLEditorView extends JFrame {
 	}
 	
 	private void initiateButtons() {
+		CustomButtonEvent buttonEvent = new CustomButtonEvent(_presentationModel);
+		
 		_btnSelect = new JButton();
 		configButton(_btnSelect, 0);
+		_btnSelect.addActionListener(buttonEvent.getSelectClickEvent());
 		
 		_btnAssociaLine = new JButton();
 		configButton(_btnAssociaLine, 1);
+		_btnAssociaLine.addActionListener(buttonEvent.getAssociaLineClickEvent());
 		
 		_btnGeneralLine = new JButton();
 		configButton(_btnGeneralLine, 2);
+		_btnGeneralLine.addActionListener(buttonEvent.getGeneralLineClickEvent());
 		
 		_btnCompositionLine = new JButton();
 		configButton(_btnCompositionLine, 3);
+		_btnCompositionLine.addActionListener(buttonEvent.getCompositionLineClickEvent());
 		
 		_btnClass = new JButton();
 		configButton(_btnClass, 4);
+		_btnClass.addActionListener(buttonEvent.getClassModeClickEvent());
 		
 		_btnUseCase = new JButton();
 		configButton(_btnUseCase, 5);
+		_btnUseCase.addActionListener(buttonEvent.getUseCaseModeClickEvent());
+
+		ButtonEnable btnEnable = new ButtonEnable(_btnSelect, _btnAssociaLine, _btnGeneralLine, _btnCompositionLine, _btnClass, _btnUseCase, _presentationModel);
+		
+		buttonEvent.registerBtnEnableObserver(btnEnable);
 	}
 	
 	private void configButton(JButton button, int index) {
