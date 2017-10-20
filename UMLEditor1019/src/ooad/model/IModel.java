@@ -12,4 +12,6 @@ public interface IModel {
 	int getMouseY();
 	void setMousePressed(boolean isPressed);
 	boolean getMousePressed();
+	void setState(DrawMode mode);
+	DrawMode GetState();
 }

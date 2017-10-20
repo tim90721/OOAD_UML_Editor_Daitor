@@ -3,15 +3,20 @@ package ooad.model;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import ooad.model.Shape.ClassGraph;
+import ooad.model.Shape.IShape;
+
 public class Model implements IModel{
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IObserver> _observers;
 	private int _mouseX, _mouseY;
 	private boolean _isPressed = false;
+	private DrawMode _mode;
 	
 	public Model(){
 		_shapes = new ArrayList<IShape>();
 		_observers = new ArrayList<IObserver>();
+		setState(DrawMode.SELECT);
 	}
 
 	public void draw(Graphics g) {
@@ -68,4 +73,13 @@ public class Model implements IModel{
 		return this._isPressed;
 	}
 
+	@Override
+	public void setState(DrawMode mode) {
+		this._mode = mode;
+	}
+
+	@Override
+	public DrawMode GetState() {
+		return this._mode;
+	}
 }

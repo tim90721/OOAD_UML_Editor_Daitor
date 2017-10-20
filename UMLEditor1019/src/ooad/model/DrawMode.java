@@ -1,0 +1,10 @@
+package ooad.model;
+
+public enum DrawMode {
+	SELECT,
+	ASSOCIATION_LINE,
+	GENERAL_LINE,
+	COMPOSITIONLINE,
+	CLASS_MODE,
+	USECASE_MODE
+}
