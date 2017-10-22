@@ -22,7 +22,7 @@ public class Model implements IModel{
 	public void draw(Graphics g) {
 		for (IShape shape : _shapes) 
 			shape.drawShape(g);
-		IShape shape = new ClassGraph(_mouseX, _mouseY);
+		IShape shape = new ClassGraph();
 		shape.drawShape(g);
 		if(!getMousePressed())
 			_shapes.add(shape);
@@ -41,9 +41,8 @@ public class Model implements IModel{
 
 	@Override
 	public void notifyChange() {
-		for (IObserver observer : _observers) {
+		for (IObserver observer : _observers) 
 			observer.update();
-		}
 	}
 
 	@Override

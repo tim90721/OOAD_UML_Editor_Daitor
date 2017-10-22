@@ -7,8 +7,9 @@ public class ShapeFactory {
 		switch (mode) {
 		case SELECT:
 			return new NoneShape();
+		case ASSOCIATION_LINE:
 		case CLASS_MODE:
-			return new ClassGraph(10, 10);
+			return new ClassGraph();
 		default:
 			return new NoneShape();
 		}
