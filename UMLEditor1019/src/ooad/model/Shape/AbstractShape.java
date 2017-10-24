@@ -3,8 +3,9 @@ package ooad.model.Shape;
 
 public abstract class AbstractShape implements IShape{
 	int _depth;
-	private int _startX, _startY;
-	private int _endX, _endY;
+	protected int _startX, _startY;
+	protected int _endX, _endY;
+	private int _middelX, _middelY;
 
 	@Override
 	public void setStartX(int x) {
@@ -44,6 +45,26 @@ public abstract class AbstractShape implements IShape{
 	@Override
 	public int getEndY() {
 		return _endY;
+	}
+
+	@Override
+	public void setMiddleX(int x) {
+		_middelX = x;
+	}
+
+	@Override
+	public void setMiddleY(int y) {
+		_middelY = y;
+	}
+
+	@Override
+	public int getMiddleX() {
+		return _middelX;
+	}
+
+	@Override
+	public int getMiddleY() {
+		return _middelY;
 	}
 
 	@Override

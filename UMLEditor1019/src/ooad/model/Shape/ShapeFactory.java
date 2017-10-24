@@ -6,7 +6,7 @@ public class ShapeFactory {
 	public IShape getShape(DrawMode mode) {
 		switch (mode) {
 		case SELECT:
-			return new NoneShape();
+			return new SelectShape();
 		case ASSOCIATION_LINE:
 			return new AssociationLine();
 		case GENERAL_LINE:

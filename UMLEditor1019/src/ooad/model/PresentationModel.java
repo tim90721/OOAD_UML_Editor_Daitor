@@ -11,6 +11,7 @@ public class PresentationModel implements IPresentationModel{
 	
 	public PresentationModel(Model model){
 		this._model = model;
+		setSelectMode(true);
 	}
 	
 	public IModel getModel(){

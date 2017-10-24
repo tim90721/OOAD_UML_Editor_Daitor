@@ -23,6 +23,7 @@ public class ButtonEnable implements IObserver{
 		_btnClass = btnClass;
 		_btnUseCase = btnUseCase;
 		_presentationModel = presentationModel;
+		RefreshControl();
 	}
 
 	@Override

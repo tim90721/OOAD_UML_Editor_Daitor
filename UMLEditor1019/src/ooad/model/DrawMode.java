@@ -1,6 +1,7 @@
 package ooad.model;
 
 public enum DrawMode {
+	NONE,
 	SELECT,
 	ASSOCIATION_LINE,
 	GENERAL_LINE,

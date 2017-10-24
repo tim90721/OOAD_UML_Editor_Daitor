@@ -16,6 +16,9 @@ import ooad.viewevent.CustomMouseEvent;
 public class PaintPanel extends JPanel implements IObserver{
 	private IModel _model;
 	
+	/**
+	 * 
+	 */
 	public PaintPanel(IModel model) {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setBackground(Color.WHITE);

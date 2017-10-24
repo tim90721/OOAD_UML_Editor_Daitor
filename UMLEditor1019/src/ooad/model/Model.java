@@ -20,7 +20,7 @@ public class Model implements IModel{
 	public Model(){
 		_shapes = new ArrayList<IShape>();
 		_observers = new ArrayList<IObserver>();
-		setState(DrawMode.SELECT);
+		setState(DrawMode.NONE);
 		_shapeFactory = new ShapeFactory();
 		_shape = _shapeFactory.getShape(GetState());
 	}
@@ -32,8 +32,18 @@ public class Model implements IModel{
 		if(!isMouseDragging())
 			_shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
 		else if (isMouseDragging()){
-			_shape.setEndX(_mouseX);
-			_shape.setEndY(_mouseY);
+			if(GetState() == DrawMode.CLASS_MODE || GetState() == DrawMode.USECASE_MODE){
+				_shape.setStartX(_mouseX);
+				_shape.setStartY(_mouseY);
+//				System.out.println("startX:" + _shape.getStartX());
+//				System.out.println("startY:" + _shape.getStartY());
+//				System.out.println("endX:" + _shape.getEndX());
+//				System.out.println("endY:" + _shape.getEndY());
+			}
+			else{
+				_shape.setEndX(_mouseX);
+				_shape.setEndY(_mouseY);
+			}
 		}
 		_shape.drawShape(g);
 		if(!isMousePressed()){
