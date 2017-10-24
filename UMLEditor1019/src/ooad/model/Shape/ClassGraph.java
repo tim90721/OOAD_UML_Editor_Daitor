@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class ClassGraph extends AbstractSelectableShape{
+public class ClassGraph extends AbstractShape{
 
 	public ClassGraph() {
 		setEndX(getStartX() + 60);

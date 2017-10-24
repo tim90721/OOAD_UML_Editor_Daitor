@@ -3,11 +3,13 @@ package ooad.model;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.jws.WebParam.Mode;
+
 import ooad.model.Shape.ClassGraph;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.ShapeFactory;
 
-public class Model implements IModel{
+public class Model implements IModel {
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IObserver> _observers;
 	private int _mouseX, _mouseY;
@@ -16,8 +18,8 @@ public class Model implements IModel{
 	private DrawMode _mode;
 	private ShapeFactory _shapeFactory;
 	private IShape _shape;
-	
-	public Model(){
+
+	public Model() {
 		_shapes = new ArrayList<IShape>();
 		_observers = new ArrayList<IObserver>();
 		setState(DrawMode.NONE);
@@ -27,29 +29,15 @@ public class Model implements IModel{
 
 	@Override
 	public void draw(Graphics g) {
-		for (IShape shape : _shapes) 
-			shape.drawShape(g);
-		if(!isMouseDragging())
-			_shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
-		else if (isMouseDragging()){
-			if(GetState() == DrawMode.CLASS_MODE || GetState() == DrawMode.USECASE_MODE){
-				_shape.setStartX(_mouseX);
-				_shape.setStartY(_mouseY);
-//				System.out.println("startX:" + _shape.getStartX());
-//				System.out.println("startY:" + _shape.getStartY());
-//				System.out.println("endX:" + _shape.getEndX());
-//				System.out.println("endY:" + _shape.getEndY());
-			}
-			else{
-				_shape.setEndX(_mouseX);
-				_shape.setEndY(_mouseY);
-			}
-		}
-		_shape.drawShape(g);
-		if(!isMousePressed()){
-			_shapes.add(_shape);
+		setCoordinate(_shape, _mouseX, _mouseY);
+		if(isMousePressed())
+			_shape.drawShape(g);
+		if (!isMousePressed()) {
+			storeShape(_shape);
 			setMouseDragging(false);
 		}
+		for (IShape shape : _shapes)
+			shape.drawShape(g);
 	}
 
 	@Override
@@ -65,7 +53,7 @@ public class Model implements IModel{
 
 	@Override
 	public void notifyPaintChange() {
-		for (IObserver observer : _observers) 
+		for (IObserver observer : _observers)
 			observer.update();
 	}
 
@@ -85,7 +73,7 @@ public class Model implements IModel{
 	public int getMouseY() {
 		return _mouseY;
 	}
-	
+
 	@Override
 	public void setMousePressed(boolean isPressed) {
 		this._isPressed = isPressed;
@@ -119,5 +107,35 @@ public class Model implements IModel{
 	@Override
 	public void newShape() {
 		_shape = _shapeFactory.getShape(GetState());
+	}
+
+	@Override
+	public void storeShape(IShape shape) {
+		if (GetState() != DrawMode.SELECT)
+			_shapes.add(shape);
+	}
+
+	@Override
+	public void setCoordinate(IShape shape, int x, int y) {
+		if (!isMouseDragging())
+			shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
+		else if (isMouseDragging()) {
+			if (GetState() == DrawMode.CLASS_MODE || GetState() == DrawMode.USECASE_MODE) {
+				shape.setStartX(x);
+				shape.setStartY(y);
+			} 
+			else {
+				shape.setEndX(x);
+				shape.setEndY(y);
+			}
+		}
+	}
+
+	@Override
+	public void checkIsSelect(IShape selectArea) {
+		int startX = selectArea.getStartX();
+		int startY = selectArea.getStartY();
+		int endX = selectArea.getEndX();
+		int endY = selectArea.getEndY();
 	}
 }

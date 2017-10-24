@@ -1,11 +1,22 @@
 package ooad.model.Shape;
 
+import java.awt.Graphics;
 
 public abstract class AbstractShape implements IShape{
 	int _depth;
 	protected int _startX, _startY;
 	protected int _endX, _endY;
 	private int _middelX, _middelY;
+	private boolean _isSelected = false;
+	private int _selectRectwidth = 10;
+	
+	public void setSelected(boolean isSelect) {
+		_isSelected = isSelect;
+	}
+
+	public boolean isSelected() {
+		return _isSelected;
+	}
 
 	@Override
 	public void setStartX(int x) {
@@ -73,5 +84,15 @@ public abstract class AbstractShape implements IShape{
 		setStartY(startY);
 		setEndX(endX);
 		setEndY(endY);
+	}
+	
+	@Override
+	public void drawShape(Graphics g) {
+		if(isSelected()){
+			g.drawRect(getMiddleX() - _selectRectwidth, getStartY(), _selectRectwidth, _selectRectwidth);
+			g.drawRect(getMiddleX() - _selectRectwidth, getEndY(), _selectRectwidth, _selectRectwidth);
+			g.drawRect(getStartX(), getMiddleY() - _selectRectwidth / 2, _selectRectwidth, _selectRectwidth);
+			g.drawRect(getEndX(), getMiddleY() - _selectRectwidth / 2, _selectRectwidth, _selectRectwidth);
+		}
 	}
 }

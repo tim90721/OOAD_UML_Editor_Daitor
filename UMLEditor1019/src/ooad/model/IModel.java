@@ -2,6 +2,8 @@ package ooad.model;
 
 import java.awt.Graphics;
 
+import ooad.model.Shape.IShape;
+
 public interface IModel {
 	void draw(Graphics g);
 	void registerPaintObserver(IObserver observer);
@@ -17,4 +19,7 @@ public interface IModel {
 	void setState(DrawMode mode);
 	DrawMode GetState();
 	void newShape();
+	void storeShape(IShape shape);
+	void setCoordinate(IShape shape, int x, int y);
+	void checkIsSelect(IShape selectArea);
 }
