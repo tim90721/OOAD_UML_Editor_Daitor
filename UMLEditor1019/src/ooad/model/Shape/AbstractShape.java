@@ -45,4 +45,12 @@ public abstract class AbstractShape implements IShape{
 	public int getEndY() {
 		return _endY;
 	}
+
+	@Override
+	public void setCoordinate(int startX, int startY, int endX, int endY) {
+		setStartX(startX);
+		setStartY(startY);
+		setEndX(endX);
+		setEndY(endY);
+	}
 }

@@ -8,8 +8,12 @@ public class ShapeFactory {
 		case SELECT:
 			return new NoneShape();
 		case ASSOCIATION_LINE:
+			return new AssociationLine();
+		case GENERAL_LINE:
+		case COMPOSITIONLINE:
 		case CLASS_MODE:
 			return new ClassGraph();
+		case USECASE_MODE:
 		default:
 			return new NoneShape();
 		}

@@ -35,6 +35,7 @@ public class CustomMouseEvent {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			_model.setMousePressed(true);
+			_model.newShape();
 			_model.setMouseXY(e.getX(), e.getY());
 		}
 	}
@@ -49,6 +50,7 @@ public class CustomMouseEvent {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			_model.setMouseXY(e.getX(), e.getY());
+			_model.setMouseDragging(true);
 		}
 	}
 

@@ -2,10 +2,11 @@ package ooad.model.Shape;
 
 import java.awt.Graphics;
 
-public class AssociationLine extends AbstractShape{
+public class AssociationLine extends BasicLine{
 
 	@Override
 	public void drawShape(Graphics g) {
-		g.drawLine(getStartX(), getStartY(), getEndX(), getEndY());
+		super.drawShape(g);
+//		g.drawLine(getStartX(), getStartY(), getEndX(), getEndY());
 	}
 }

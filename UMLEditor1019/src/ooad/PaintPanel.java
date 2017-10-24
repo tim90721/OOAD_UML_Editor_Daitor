@@ -21,7 +21,7 @@ public class PaintPanel extends JPanel implements IObserver{
 		setBackground(Color.WHITE);
 		
 		_model = model;
-		_model.registerObserver(this);
+		_model.registerPaintObserver(this);
 		
 		initiateMouseListener();
 	}
