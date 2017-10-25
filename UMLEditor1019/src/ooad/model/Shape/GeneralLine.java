@@ -21,7 +21,7 @@ public class GeneralLine extends BasicLine {
 		g2.rotate(getAngle(), getEndX(), getEndY());
 		g2.setStroke(new BasicStroke(1));
 	}
-	
+
 	private void configTrianglePoints(int x, int y) {
 		for(int i = 0;i < _trianglePointsX.length; i++) {
 			_trianglePointsX[i] = getEndX() + _trianglePointsOrgX[i];

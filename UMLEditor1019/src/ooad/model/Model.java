@@ -13,6 +13,7 @@ public class Model implements IModel {
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IObserver> _observers;
 	private int _mouseX, _mouseY;
+	private int _closeOffset = 30;
 	private boolean _isPressed = false;
 	private boolean _isDragging = false;
 	private DrawMode _mode;
@@ -24,7 +25,7 @@ public class Model implements IModel {
 		_observers = new ArrayList<IObserver>();
 		setState(DrawMode.NONE);
 		_shapeFactory = new ShapeFactory();
-		_shape = _shapeFactory.getShape(GetState());
+		_shape = _shapeFactory.getShape(getState());
 	}
 
 	@Override
@@ -32,8 +33,12 @@ public class Model implements IModel {
 		setCoordinate(_shape, _mouseX, _mouseY);
 		if(isMousePressed())
 			_shape.drawShape(g);
+		if(getState() == DrawMode.ASSOCIATION_LINE || getState() == DrawMode.GENERAL_LINE
+				|| getState() == DrawMode.COMPOSITIONLINE) {
+			checkIsLineEnclose(_shape);
+		}
 		if (!isMousePressed()) {
-			if(GetState() == DrawMode.SELECT)
+			if(getState() == DrawMode.SELECT)
 				checkIsSelect(_shape);
 			storeShape(_shape);
 			setMouseDragging(false);
@@ -92,7 +97,7 @@ public class Model implements IModel {
 	}
 
 	@Override
-	public DrawMode GetState() {
+	public DrawMode getState() {
 		return this._mode;
 	}
 
@@ -108,12 +113,12 @@ public class Model implements IModel {
 
 	@Override
 	public void newShape() {
-		_shape = _shapeFactory.getShape(GetState());
+		_shape = _shapeFactory.getShape(getState());
 	}
 
 	@Override
 	public void storeShape(IShape shape) {
-		if (GetState() != DrawMode.SELECT)
+		if (getState() != DrawMode.SELECT)
 			_shapes.add(shape);
 	}
 
@@ -123,7 +128,7 @@ public class Model implements IModel {
 			shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
 		}
 		else if (isMouseDragging()) {
-			if (GetState() == DrawMode.CLASS_MODE || GetState() == DrawMode.USECASE_MODE) {
+			if (getState() == DrawMode.CLASS_MODE || getState() == DrawMode.USECASE_MODE) {
 				shape.setStartX(x);
 				shape.setStartY(y);
 			} 
@@ -148,6 +153,28 @@ public class Model implements IModel {
 			else {
 				shape.setSelected(false);
 			}
+		}
+	}
+
+	@Override
+	public void checkIsLineEnclose(IShape line) {
+		for (IShape shape : _shapes) {
+//			int difXwithStart = Math.abs(line.getEndX() - shape.getStartX());
+//			int difXwithEnd = Math.abs(line.getEndX() - shape.getEndX());
+//			int difYwithStart = Math.abs(line.getEndY() - shape.getStartY());
+//			int difYwithEnd = Math.abs(line.getEndY() - shape.getEndY());
+//			if((difXwithStart < _closeOffset || difXwithEnd < _closeOffset)
+//					&& (difYwithStart < _closeOffset || difYwithEnd < _closeOffset))
+//				shape.setSelected(true);
+//			else
+//				shape.setSelected(false);
+			if((shape.getStartX() - _closeOffset) < line.getEndX() && 
+					shape.getEndX() + _closeOffset > line.getEndX() &&
+					shape.getStartY() - _closeOffset < line.getEndY() &&
+					shape.getEndY() + _closeOffset > line.getEndY())
+				shape.setSelected(true);
+			else
+				shape.setSelected(false);
 		}
 	}
 }
