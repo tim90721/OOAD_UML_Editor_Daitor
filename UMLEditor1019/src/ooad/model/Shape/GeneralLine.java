@@ -5,8 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class GeneralLine extends BasicLine {
-	private int[] _trianglePointsOrgX = new int[]{ 0, 0, 10, 0, 0 };
-	private int[] _trianglePointsOrgY = new int[]{ 0, 5, 0, -5, 0 };
+	private int[] _trianglePointsOrg = new int[]{ 0, 5, 10, -5, 0 };
 	private int[] _trianglePointsX = new int[5];
 	private int[] _trianglePointsY = new int[5];
 
@@ -21,22 +20,20 @@ public class GeneralLine extends BasicLine {
 		g2.rotate(-1 * getAngle(), getEndX(), getEndY());
 	}
 	
-	private void configTrianglePoints(int x, int y){
-		resetTrianglePoints();
-		for(int i = 0; i < _trianglePointsX.length;	i++)
-			_trianglePointsX[i] = (int)(Math.pow(Math.cos(getAngle()), 2) * (double)_trianglePointsOrgX[i])
-			+ (int)(Math.pow(Math.sin(getAngle()), 2) * (double)_trianglePointsOrgX[i])
-			+ getEndX();
-		for(int i = 0; i < _trianglePointsY.length; i++)
-			_trianglePointsY[i] = (int)(Math.pow(Math.cos(getAngle()), 2) * (double)_trianglePointsOrgY[i]) 
-			+ (int)(Math.pow(Math.sin(getAngle()), 2) * (double)_trianglePointsOrgY[i]) 
-			+ getEndY();
-	}
-	
-	private void resetTrianglePoints(){
-		for(int i = 0;i < _trianglePointsOrgX.length; i++){
-			_trianglePointsX[i] = _trianglePointsOrgX[i];
-			_trianglePointsY[i] = _trianglePointsOrgY[i];
+	private void configTrianglePoints(int x, int y) {
+		_trianglePointsX[0] = (int)(Math.cos(getAngle()) * _trianglePointsOrg[0]);
+		_trianglePointsX[1] = (int)(Math.sin(getAngle()) * _trianglePointsOrg[1]);
+		_trianglePointsX[2] = (int)(Math.cos(getAngle()) * _trianglePointsOrg[2]);
+		_trianglePointsX[3] = (int)(Math.sin(getAngle()) * _trianglePointsOrg[3]);
+		_trianglePointsX[4] = (int)(Math.cos(getAngle()) * _trianglePointsOrg[4]);
+		_trianglePointsY[0] = (int)(Math.sin(getAngle()) * _trianglePointsOrg[0]);
+		_trianglePointsY[1] = (int)(Math.cos(getAngle()) * _trianglePointsOrg[1]);
+		_trianglePointsY[2] = (int)(Math.sin(getAngle()) * _trianglePointsOrg[2]);
+		_trianglePointsY[3] = (int)(Math.cos(getAngle()) * _trianglePointsOrg[3]);
+		_trianglePointsY[4] = (int)(Math.sin(getAngle()) * _trianglePointsOrg[4]);
+		for(int i = 0;i < _trianglePointsX.length; i++) {
+			_trianglePointsX[i] += getEndX();
+			_trianglePointsY[i] += getEndY();
 		}
 	}
 }
