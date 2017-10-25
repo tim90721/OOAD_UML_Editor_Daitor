@@ -12,6 +12,7 @@ public class ShapeFactory {
 		case GENERAL_LINE:
 			return new GeneralLine();
 		case COMPOSITIONLINE:
+			return new CompositionLine();
 		case CLASS_MODE:
 			return new ClassGraph();
 		case USECASE_MODE:
