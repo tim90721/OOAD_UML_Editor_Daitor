@@ -17,4 +17,6 @@ public interface IShape {
 	int getEndY();
 	int getMiddleX();
 	int getMiddleY();
+	void setSelected(boolean isSelect);
+	boolean isSelected();
 }

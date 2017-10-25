@@ -33,6 +33,8 @@ public class Model implements IModel {
 		if(isMousePressed())
 			_shape.drawShape(g);
 		if (!isMousePressed()) {
+			if(GetState() == DrawMode.SELECT)
+				checkIsSelect(_shape);
 			storeShape(_shape);
 			setMouseDragging(false);
 		}
@@ -117,8 +119,9 @@ public class Model implements IModel {
 
 	@Override
 	public void setCoordinate(IShape shape, int x, int y) {
-		if (!isMouseDragging())
+		if (!isMouseDragging()){
 			shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
+		}
 		else if (isMouseDragging()) {
 			if (GetState() == DrawMode.CLASS_MODE || GetState() == DrawMode.USECASE_MODE) {
 				shape.setStartX(x);
@@ -137,5 +140,14 @@ public class Model implements IModel {
 		int startY = selectArea.getStartY();
 		int endX = selectArea.getEndX();
 		int endY = selectArea.getEndY();
+		for (IShape shape : _shapes) {
+			if(shape.getStartX() > startX && shape.getStartY() > startY &&
+					shape.getEndX() < endX && shape.getEndY() < endY){
+				shape.setSelected(true);
+			}
+			else {
+				shape.setSelected(false);
+			}
+		}
 	}
 }

@@ -7,6 +7,5 @@ public class AssociationLine extends BasicLine{
 	@Override
 	public void drawShape(Graphics g) {
 		super.drawShape(g);
-//		g.drawLine(getStartX(), getStartY(), getEndX(), getEndY());
 	}
 }

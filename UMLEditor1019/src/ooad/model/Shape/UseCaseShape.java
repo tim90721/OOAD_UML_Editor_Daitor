@@ -4,19 +4,19 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class ClassGraph extends AbstractAreaShape{
+public class UseCaseShape extends AbstractAreaShape{
 
-	public ClassGraph() {
-		setWidth(60);
-		setHeight(100);
+	public UseCaseShape() {
+		setWidth(100);
+		setHeight(60);
 	}
 	
 	@Override
-	public void drawShape(Graphics g){
+	public void drawShape(Graphics g) {
 		super.drawShape(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
-		g2.drawRect(getStartX(), getStartY(), getWidth(), getHeight());
+		g2.drawOval(getStartX(), getStartY(), getWidth(), getHeight());
 		g2.setStroke(new BasicStroke(1));
 	}
 }
