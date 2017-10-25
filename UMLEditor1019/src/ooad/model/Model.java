@@ -159,15 +159,6 @@ public class Model implements IModel {
 	@Override
 	public void checkIsLineEnclose(IShape line) {
 		for (IShape shape : _shapes) {
-//			int difXwithStart = Math.abs(line.getEndX() - shape.getStartX());
-//			int difXwithEnd = Math.abs(line.getEndX() - shape.getEndX());
-//			int difYwithStart = Math.abs(line.getEndY() - shape.getStartY());
-//			int difYwithEnd = Math.abs(line.getEndY() - shape.getEndY());
-//			if((difXwithStart < _closeOffset || difXwithEnd < _closeOffset)
-//					&& (difYwithStart < _closeOffset || difYwithEnd < _closeOffset))
-//				shape.setSelected(true);
-//			else
-//				shape.setSelected(false);
 			if((shape.getStartX() - _closeOffset) < line.getEndX() && 
 					shape.getEndX() + _closeOffset > line.getEndX() &&
 					shape.getStartY() - _closeOffset < line.getEndY() &&
