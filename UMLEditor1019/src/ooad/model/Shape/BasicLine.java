@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import ooad.model.IObserver;
+
 public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	private int _offset = 10;
 	protected Direction _direction;
@@ -87,6 +89,11 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 		super.setEndY(y);
 		setDifY(getStartY() - getEndY());
 		setAngle(getDifX(), getDifY());
+	}
+
+	@Override
+	public void setSelected(boolean isSelect) {
+		setSelected(false);
 	}
 }
 

@@ -98,4 +98,15 @@ public abstract class AbstractShape implements IShape{
 			g.drawRect(getEndX(), getMiddleY() - _selectRectwidth / 2, _selectRectwidth, _selectRectwidth);
 		}
 	}
+
+	@Override
+	public void checkLineEnclose(IShape line, int closeOffset) {
+		if((getStartX() - closeOffset) < line.getEndX() && 
+				getEndX() + closeOffset > line.getEndX() &&
+				getStartY() - closeOffset < line.getEndY() &&
+				getEndY() + closeOffset > line.getEndY())
+			setSelected(true);
+		else
+			setSelected(false);
+	}
 }

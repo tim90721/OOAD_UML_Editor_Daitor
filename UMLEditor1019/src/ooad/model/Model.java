@@ -23,22 +23,19 @@ public class Model implements IModel {
 	public Model() {
 		_shapes = new ArrayList<IShape>();
 		_observers = new ArrayList<IObserver>();
-		setState(DrawMode.NONE);
 		_shapeFactory = new ShapeFactory();
+		setState(DrawMode.NONE);
 		_shape = _shapeFactory.getShape(getState());
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		setCoordinate(_shape, _mouseX, _mouseY);
-		if(isMousePressed())
+		checkIsLineEnclose(_shape);
+		if (isMousePressed())
 			_shape.drawShape(g);
-		if(getState() == DrawMode.ASSOCIATION_LINE || getState() == DrawMode.GENERAL_LINE
-				|| getState() == DrawMode.COMPOSITIONLINE) {
-			checkIsLineEnclose(_shape);
-		}
 		if (!isMousePressed()) {
-			if(getState() == DrawMode.SELECT)
+			if (getState() == DrawMode.SELECT)
 				checkIsSelect(_shape);
 			storeShape(_shape);
 			setMouseDragging(false);
@@ -94,11 +91,20 @@ public class Model implements IModel {
 	@Override
 	public void setState(DrawMode mode) {
 		this._mode = mode;
+		refreshShapeState();
 	}
 
 	@Override
 	public DrawMode getState() {
 		return this._mode;
+	}
+
+	@Override
+	public void refreshShapeState() {
+		for (IShape shape : _shapes)
+			shape.setSelected(false);
+		_shape = _shapeFactory.getShape(DrawMode.NONE);
+		notifyPaintChange();
 	}
 
 	@Override
@@ -124,15 +130,14 @@ public class Model implements IModel {
 
 	@Override
 	public void setCoordinate(IShape shape, int x, int y) {
-		if (!isMouseDragging()){
+		if (!isMouseDragging()) {
 			shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
-		}
-		else if (isMouseDragging()) {
-			if (getState() == DrawMode.CLASS_MODE || getState() == DrawMode.USECASE_MODE) {
+		} else if (isMouseDragging()) {
+			if (getState() == DrawMode.CLASS_MODE
+					|| getState() == DrawMode.USECASE_MODE) {
 				shape.setStartX(x);
 				shape.setStartY(y);
-			} 
-			else {
+			} else {
 				shape.setEndX(x);
 				shape.setEndY(y);
 			}
@@ -141,16 +146,15 @@ public class Model implements IModel {
 
 	@Override
 	public void checkIsSelect(IShape selectArea) {
-		int startX = selectArea.getStartX();
-		int startY = selectArea.getStartY();
+		int areaStartX = selectArea.getStartX();
+		int areaStartY = selectArea.getStartY();
 		int endX = selectArea.getEndX();
 		int endY = selectArea.getEndY();
 		for (IShape shape : _shapes) {
-			if(shape.getStartX() > startX && shape.getStartY() > startY &&
-					shape.getEndX() < endX && shape.getEndY() < endY){
+			if (shape.getStartX() > areaStartX && shape.getStartY() > areaStartY
+					&& shape.getEndX() < endX && shape.getEndY() < endY) {
 				shape.setSelected(true);
-			}
-			else {
+			} else {
 				shape.setSelected(false);
 			}
 		}
@@ -158,14 +162,13 @@ public class Model implements IModel {
 
 	@Override
 	public void checkIsLineEnclose(IShape line) {
-		for (IShape shape : _shapes) {
-			if((shape.getStartX() - _closeOffset) < line.getEndX() && 
-					shape.getEndX() + _closeOffset > line.getEndX() &&
-					shape.getStartY() - _closeOffset < line.getEndY() &&
-					shape.getEndY() + _closeOffset > line.getEndY())
-				shape.setSelected(true);
-			else
-				shape.setSelected(false);
-		}
+		for (IShape shape : _shapes)
+			if (getState() == DrawMode.ASSOCIATION_LINE
+					|| getState() == DrawMode.GENERAL_LINE
+					|| getState() == DrawMode.COMPOSITIONLINE)
+				if (isMousePressed())
+					shape.checkLineEnclose(line, _closeOffset);
+				else
+					shape.setSelected(false);
 	}
 }

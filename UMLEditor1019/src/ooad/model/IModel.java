@@ -18,6 +18,7 @@ public interface IModel {
 	boolean isMouseDragging();
 	void setState(DrawMode mode);
 	DrawMode getState();
+	void refreshShapeState();
 	void newShape();
 	void storeShape(IShape shape);
 	void setCoordinate(IShape shape, int x, int y);

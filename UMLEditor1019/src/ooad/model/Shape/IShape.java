@@ -19,4 +19,5 @@ public interface IShape {
 	int getMiddleY();
 	void setSelected(boolean isSelect);
 	boolean isSelected();
+	void checkLineEnclose(IShape line, int closeOffset);
 }

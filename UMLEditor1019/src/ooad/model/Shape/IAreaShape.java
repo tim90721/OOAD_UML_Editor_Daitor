@@ -5,4 +5,6 @@ public interface IAreaShape {
 	void setHeight(int height);
 	int getWidth();
 	int getHeight();
+	void setCloseSide(CloseSide side);
+	CloseSide getCloseSide();
 }
