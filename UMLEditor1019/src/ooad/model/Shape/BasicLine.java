@@ -93,7 +93,6 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 
 	@Override
 	public void setSelected(boolean isSelect) {
-		setSelected(false);
 	}
 }
 

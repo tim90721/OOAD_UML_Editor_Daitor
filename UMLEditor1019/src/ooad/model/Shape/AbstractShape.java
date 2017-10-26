@@ -8,7 +8,7 @@ public abstract class AbstractShape implements IShape{
 	protected int _startX, _startY;
 	protected int _endX, _endY;
 	private int _middelX, _middelY;
-	private boolean _isSelected = false;
+	protected boolean _isSelected = false;
 	private int _selectRectwidth = 10;
 	
 	@Override
