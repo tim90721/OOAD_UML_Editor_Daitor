@@ -50,10 +50,10 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	}
 
 	@Override
-	public void checkLineEnclose(IShape line, int closeOffset) {
-		super.checkLineEnclose(line, closeOffset);
+	public void isLineEnclose(IShape line, int mouseLineX, int mouseLineY, int closeOffset) {
+		super.isLineEnclose(line, mouseLineX, mouseLineY, closeOffset);
 		if(isSelected()){
-			findCloseSide(line, closeOffset);
+			findCloseSide(mouseLineX, mouseLineY, closeOffset);
 			setAssociationLinePos(line);
 		}
 	}
@@ -68,12 +68,12 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		return _side;
 	}
 
-	private void findCloseSide(IShape line, int closeOffset){
+	private void findCloseSide(int mouseLineX, int mouseLineY, int closeOffset){
 		ArrayList<Double> distances = new ArrayList<Double>();
-		double difNorth = getDistance(line.getEndX(), line.getEndY(), getMiddleX(), getStartY());
-		double difSouth = getDistance(line.getEndX(), line.getEndY(), getMiddleX(), getEndY());
-		double difWest = getDistance(line.getEndX(), line.getEndY(), getStartX(), getMiddleY());
-		double difEast = getDistance(line.getEndX(), line.getEndY(), getEndX(), getMiddleY());
+		double difNorth = getDistance(mouseLineX, mouseLineY, getMiddleX(), getStartY());
+		double difSouth = getDistance(mouseLineX, mouseLineY, getMiddleX(), getEndY());
+		double difWest = getDistance(mouseLineX, mouseLineY, getStartX(), getMiddleY());
+		double difEast = getDistance(mouseLineX, mouseLineY, getEndX(), getMiddleY());
 		distances.add(difNorth);
 		distances.add(difSouth);
 		distances.add(difWest);
@@ -99,20 +99,16 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	private void setAssociationLinePos(IShape line){
 		switch (getCloseSide()) {
 		case North:
-			line.setEndX(getMiddleX());
-			line.setEndY(getStartY());
+			line.setEnd(getMiddleX(), getStartY());
 			break;
 		case South:
-			line.setEndX(getMiddleX());
-			line.setEndY(getEndY());
+			line.setEnd(getMiddleX(), getEndY());
 			break;
 		case West:
-			line.setEndX(getStartX());
-			line.setEndY(getMiddleY());
+			line.setEnd(getStartX(), getMiddleY());
 			break;
 		case East:
-			line.setEndX(getEndX());
-			line.setEndY(getMiddleY());
+			line.setEnd(getEndX(), getMiddleY());
 			break;
 		}
 	}

@@ -22,6 +22,6 @@ public interface IShape {
 	int getMiddleY();
 	void setSelected(boolean isSelect);
 	boolean isSelected();
-	void checkLineEnclose(IShape line, int closeOffset);
+	void isLineEnclose(IShape line, int mouseLineX, int mouseLineY, int closeOffset);
 	double getDistance(int x1, int y1, int x2, int y2);
 }

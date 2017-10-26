@@ -6,8 +6,8 @@ import ooad.model.Shape.IShape;
 
 public interface IModel {
 	void draw(Graphics g);
-	void registerPaintObserver(IObserver observer);
-	void unregisterPaintObserver(IObserver observer);
+	void registerPaintObserver(IPaintObserver observer);
+	void unregisterPaintObserver(IPaintObserver observer);
 	void notifyPaintChange();
 	void setMouseXY(int x, int y);
 	int getMouseX();
@@ -24,4 +24,6 @@ public interface IModel {
 	void setCoordinate(IShape shape, int x, int y);
 	void checkIsSelect(IShape selectArea);
 	void checkIsLineEnclose(IShape line);
+	void setShapeSelectStatus(boolean selected);
+	void addShapeString(String name);
 }

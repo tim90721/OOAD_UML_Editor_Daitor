@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import ooad.model.IObserver;
+import ooad.model.IPaintObserver;
 
 public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	private int _offset = 10;

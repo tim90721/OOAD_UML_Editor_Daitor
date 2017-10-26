@@ -9,29 +9,27 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ooad.model.IModel;
-import ooad.model.IObserver;
+import ooad.model.IPaintObserver;
 import ooad.model.Model;
 import ooad.viewevent.CustomMouseEvent;
 
-public class PaintPanel extends JPanel implements IObserver{
+public class PaintPanel extends JPanel implements IPaintObserver{
 	private IModel _model;
 	
 	/**
 	 * 
 	 */
-	public PaintPanel(IModel model) {
+	public PaintPanel(IModel model, CustomMouseEvent mouseEvent) {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setBackground(Color.WHITE);
 		
 		_model = model;
 		_model.registerPaintObserver(this);
 		
-		initiateMouseListener();
+		initiateMouseListener(mouseEvent);
 	}
 	
-	private void initiateMouseListener(){
-		CustomMouseEvent mouseEvent = new CustomMouseEvent(_model);
-		
+	private void initiateMouseListener(CustomMouseEvent mouseEvent){
 		addMouseListener(mouseEvent.getPressedEvent());
 		addMouseMotionListener(mouseEvent.getDraggedEvent());
 		addMouseListener(mouseEvent.getReleasedEvent());
@@ -44,7 +42,7 @@ public class PaintPanel extends JPanel implements IObserver{
 	}
 
 	@Override
-	public void update() {
+	public void updatePaint() {
 		repaint();
 	}
 }

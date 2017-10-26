@@ -1,17 +1,20 @@
 package ooad.model;
 
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.util.ArrayList;
 
 import javax.jws.WebParam.Mode;
 
+import ooad.model.Shape.AbstractAreaShape;
 import ooad.model.Shape.ClassGraph;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.ShapeFactory;
+import ooad.model.Shape.StringField;
 
-public class Model implements IModel {
+public class Model implements IModel, IPaintSubject{
 	private ArrayList<IShape> _shapes;
-	private ArrayList<IObserver> _observers;
+	private ArrayList<IPaintObserver> _observers;
 	private int _mouseX, _mouseY;
 	private int _closeOffset = 30;
 	private boolean _isPressed = false;
@@ -22,7 +25,7 @@ public class Model implements IModel {
 
 	public Model() {
 		_shapes = new ArrayList<IShape>();
-		_observers = new ArrayList<IObserver>();
+		_observers = new ArrayList<IPaintObserver>();
 		_shapeFactory = new ShapeFactory();
 		setState(DrawMode.NONE);
 		_shape = _shapeFactory.getShape(getState());
@@ -37,6 +40,10 @@ public class Model implements IModel {
 		if (!isMousePressed()) {
 			if (getState() == DrawMode.SELECT)
 				checkIsSelect(_shape);
+			if (getState() == DrawMode.ASSOCIATION_LINE ||
+					getState() == DrawMode.COMPOSITIONLINE ||
+					getState() == DrawMode.GENERAL_LINE)
+				setShapeSelectStatus(false);
 			storeShape(_shape);
 			setMouseDragging(false);
 		}
@@ -45,20 +52,20 @@ public class Model implements IModel {
 	}
 
 	@Override
-	public void registerPaintObserver(IObserver observer) {
+	public void registerPaintObserver(IPaintObserver observer) {
 		_observers.add(observer);
 	}
 
 	@Override
-	public void unregisterPaintObserver(IObserver observer) {
+	public void unregisterPaintObserver(IPaintObserver observer) {
 		int i = _observers.indexOf(observer);
 		_observers.remove(i);
 	}
 
 	@Override
 	public void notifyPaintChange() {
-		for (IObserver observer : _observers)
-			observer.update();
+		for (IPaintObserver observer : _observers)
+			observer.updatePaint();
 	}
 
 	@Override
@@ -148,14 +155,14 @@ public class Model implements IModel {
 		int areaStartY = selectArea.getStartY();
 		int endX = selectArea.getEndX();
 		int endY = selectArea.getEndY();
-		for (IShape shape : _shapes) {
-			if (shape.getStartX() > areaStartX && shape.getStartY() > areaStartY
-					&& shape.getEndX() < endX && shape.getEndY() < endY) {
+		for (IShape shape : _shapes)
+			if (shape.getStartX() > areaStartX
+					&& shape.getStartY() > areaStartY && shape.getEndX() < endX
+					&& shape.getEndY() < endY)
 				shape.setSelected(true);
-			} else {
+			else
 				shape.setSelected(false);
-			}
-		}
+
 	}
 
 	@Override
@@ -164,9 +171,25 @@ public class Model implements IModel {
 			if (getState() == DrawMode.ASSOCIATION_LINE
 					|| getState() == DrawMode.GENERAL_LINE
 					|| getState() == DrawMode.COMPOSITIONLINE)
-				if (isMousePressed())
-					shape.checkLineEnclose(line, _closeOffset);
-				else
-					shape.setSelected(false);
+				shape.isLineEnclose(line, _mouseX, _mouseY, _closeOffset);
+			else
+				shape.setSelected(false);
+	}
+
+	@Override
+	public void setShapeSelectStatus(boolean selected) {
+		for (IShape shape : _shapes) {
+			shape.setSelected(selected);
+		}
+	}
+
+	@Override
+	public void addShapeString(String name) {
+		IShape stringField = new StringField((AbstractAreaShape)_shape, name);
+		stringField.setStartX(_shape.getStartX() + 20);
+		stringField.setStartY(_shape.getStartY() + 20);
+		_shapes.remove(_shape);
+		_shapes.add(stringField);
+		notifyPaintChange();
 	}
 }

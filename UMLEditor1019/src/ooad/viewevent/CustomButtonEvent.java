@@ -5,25 +5,25 @@ import java.awt.event.ActionListener;
 import java.util.Observer;
 
 import ooad.model.IModel;
-import ooad.model.IObserver;
+import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
 public class CustomButtonEvent {
 	private IPresentationModel _presentationModel;
 	private IModel _model;
-	private IObserver _oBtnEnable;
+	private IPaintObserver _oBtnEnable;
 	
 	public CustomButtonEvent(IPresentationModel presentationModel){
 		this._presentationModel = presentationModel;
 		this._model = this._presentationModel.getModel();
 	}
 	
-	public void registerBtnEnableObserver(IObserver observer){
+	public void registerBtnEnableObserver(IPaintObserver observer){
 		_oBtnEnable = observer;
 	}
 	
 	public void notifyChange(){
-		_oBtnEnable.update();
+		_oBtnEnable.updatePaint();
 	}
 	
 	public BtnSelectClickEvent getSelectClickEvent(){

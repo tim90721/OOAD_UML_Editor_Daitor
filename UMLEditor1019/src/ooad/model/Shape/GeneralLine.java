@@ -15,10 +15,10 @@ public class GeneralLine extends BasicLine {
 		super.drawShape(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
-		g2.rotate(-1 *getAngle(), getEndX(), getEndY());
+		g2.rotate(getAngle(), getStartX(), getStartY());
 		configTrianglePoints(getEndX(), getEndY());
 		g2.drawPolyline(_trianglePointsX, _trianglePointsY, 5);
-		g2.rotate(getAngle(), getEndX(), getEndY());
+		g2.rotate(-1 * getAngle(), getStartX(), getStartY());
 		g2.setStroke(new BasicStroke(1));
 	}
 
@@ -27,5 +27,11 @@ public class GeneralLine extends BasicLine {
 			_trianglePointsX[i] = getEndX() + _trianglePointsOrgX[i];
 			_trianglePointsY[i] = getEndY() - _trianglePointsOrgY[i];
 		}
+	}
+
+	@Override
+	public void setEnd(int endX, int endY) {
+		super.setEnd(endX, endY);
+		setEndX(getEndX() - 20);
 	}
 }

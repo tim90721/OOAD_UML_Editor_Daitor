@@ -6,16 +6,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ooad.model.DrawMode;
 import ooad.model.IModel;
+import ooad.model.IPopMsgObserver;
 import ooad.model.IPresentationModel;
 import ooad.model.Model;
 import ooad.model.PresentationModel;
 import ooad.viewevent.ButtonEnable;
 import ooad.viewevent.CustomButtonEvent;
+import ooad.viewevent.CustomMouseEvent;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,10 +30,11 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.IOException;
+import java.util.jar.Attributes.Name;
 import java.awt.Canvas;
 import java.awt.Font;
 
-public class UMLEditorView extends JFrame {
+public class UMLEditorView extends JFrame implements IPopMsgObserver {
 
 	private JPanel _panelContentPane;
 	private JMenuBar _menuBar;
@@ -61,7 +66,8 @@ public class UMLEditorView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UMLEditorView frame = new UMLEditorView(new PresentationModel(new Model()));
+					UMLEditorView frame = new UMLEditorView(
+							new PresentationModel(new Model()));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,15 +90,20 @@ public class UMLEditorView extends JFrame {
 		_panelContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(_panelContentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0,
+				Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, Double.MIN_VALUE };
 		_panelContentPane.setLayout(gbl_contentPane);
-		
+
 		initiateComponent();
-		
-		_pPanel = new PaintPanel(_model);
+
+		CustomMouseEvent mouseEvent = new CustomMouseEvent(_model);
+		mouseEvent.registerPopMsgObserver(this);
+
+		_pPanel = new PaintPanel(_model, mouseEvent);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridheight = 7;
 		gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -101,64 +112,70 @@ public class UMLEditorView extends JFrame {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		_panelContentPane.add(_pPanel, gbc_panel);
 	}
-	
+
 	private void initiateComponent() {
 		initiateMenu();
 		initiateButtons();
 		initiateButtonIcon();
 	}
-	
+
 	private void initiateMenu() {
 		_menuBar = new JMenuBar();
 		setJMenuBar(_menuBar);
-		
+
 		_menuFile = new JMenu("File");
 		_menuFile.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		_menuBar.add(_menuFile);
-		
+
 		_menuEdit = new JMenu("Edit");
 		_menuEdit.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		_menuBar.add(_menuEdit);
-		
+
 		_itemGroup = new JMenuItem("Group");
 		_menuEdit.add(_itemGroup);
-		
+
 		_itemUnGroup = new JMenuItem("UnGroup");
 		_menuEdit.add(_itemUnGroup);
 	}
-	
+
 	private void initiateButtons() {
-		CustomButtonEvent buttonEvent = new CustomButtonEvent(_presentationModel);
-		
+		CustomButtonEvent buttonEvent = new CustomButtonEvent(
+				_presentationModel);
+
 		_btnSelect = new JButton();
 		configButton(_btnSelect, 0);
 		_btnSelect.addActionListener(buttonEvent.getSelectClickEvent());
-		
+
 		_btnAssociaLine = new JButton();
 		configButton(_btnAssociaLine, 1);
-		_btnAssociaLine.addActionListener(buttonEvent.getAssociaLineClickEvent());
-		
+		_btnAssociaLine.addActionListener(buttonEvent
+				.getAssociaLineClickEvent());
+
 		_btnGeneralLine = new JButton();
 		configButton(_btnGeneralLine, 2);
-		_btnGeneralLine.addActionListener(buttonEvent.getGeneralLineClickEvent());
-		
+		_btnGeneralLine.addActionListener(buttonEvent
+				.getGeneralLineClickEvent());
+
 		_btnCompositionLine = new JButton();
 		configButton(_btnCompositionLine, 3);
-		_btnCompositionLine.addActionListener(buttonEvent.getCompositionLineClickEvent());
-		
+		_btnCompositionLine.addActionListener(buttonEvent
+				.getCompositionLineClickEvent());
+
 		_btnClass = new JButton();
 		configButton(_btnClass, 4);
 		_btnClass.addActionListener(buttonEvent.getClassModeClickEvent());
-		
+
 		_btnUseCase = new JButton();
 		configButton(_btnUseCase, 5);
 		_btnUseCase.addActionListener(buttonEvent.getUseCaseModeClickEvent());
 
-		ButtonEnable btnEnable = new ButtonEnable(_btnSelect, _btnAssociaLine, _btnGeneralLine, _btnCompositionLine, _btnClass, _btnUseCase, _presentationModel);
-		
+		ButtonEnable btnEnable = new ButtonEnable(_btnSelect, _btnAssociaLine,
+				_btnGeneralLine, _btnCompositionLine, _btnClass, _btnUseCase,
+				_presentationModel);
+
 		buttonEvent.registerBtnEnableObserver(btnEnable);
 	}
-	
+
 	private void configButton(JButton button, int index) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 5, 5);
@@ -169,7 +186,7 @@ public class UMLEditorView extends JFrame {
 		button.setFocusPainted(true);
 		button.setMargin(new Insets(0, 0, 0, 0));
 	}
-	
+
 	private void initiateButtonIcon() {
 		setButtonIcon(_btnSelect, MOUSE_IMAGE);
 		setButtonIcon(_btnAssociaLine, ASSOCIATIONLINE_IMAGE);
@@ -183,11 +200,27 @@ public class UMLEditorView extends JFrame {
 		String path = "img/" + IconName;
 		try {
 			Image image = ImageIO.read(getClass().getResource(path));
-			Image scaleImage = image.getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_REPLICATE);
+			Image scaleImage = image.getScaledInstance(IMAGE_SIZE, IMAGE_SIZE,
+					Image.SCALE_REPLICATE);
 			button.setIcon(new ImageIcon(scaleImage));
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("!!Image NOT FOUND!!");
+		}
+	}
+
+	@Override
+	public void updatePopMsg() {
+		showMsgBox();
+	}
+
+	private void showMsgBox(){
+		if(_model.getState() == DrawMode.CLASS_MODE || _model.getState() == DrawMode.USECASE_MODE){
+			String name = (String)JOptionPane.showInputDialog(this, "class name:",
+					"Set Name", JOptionPane.PLAIN_MESSAGE, 
+					null, null, null);
+			if(!name.equals(""))
+				_model.addShapeString(name);
 		}
 	}
 }

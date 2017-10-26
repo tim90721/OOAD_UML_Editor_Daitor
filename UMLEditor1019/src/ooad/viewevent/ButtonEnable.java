@@ -2,10 +2,10 @@ package ooad.viewevent;
 
 import javax.swing.JButton;
 
-import ooad.model.IObserver;
+import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
-public class ButtonEnable implements IObserver{
+public class ButtonEnable implements IPaintObserver{
 	private JButton _btnSelect;
 	private JButton _btnAssociaLine;
 	private JButton _btnGeneralLine;
@@ -27,7 +27,7 @@ public class ButtonEnable implements IObserver{
 	}
 
 	@Override
-	public void update() {
+	public void updatePaint() {
 		RefreshControl();
 	}
 
