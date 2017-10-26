@@ -49,6 +49,7 @@ public class Model implements IModel, IPaintSubject{
 		}
 		for (IShape shape : _shapes)
 			shape.drawShape(g);
+		System.out.println(_shapes.size());
 	}
 
 	@Override
@@ -186,8 +187,7 @@ public class Model implements IModel, IPaintSubject{
 	@Override
 	public void addShapeString(String name) {
 		IShape stringField = new StringField((AbstractAreaShape)_shape, name);
-		stringField.setStartX(_shape.getStartX() + 20);
-		stringField.setStartY(_shape.getStartY() + 20);
+		stringField.setStart(_shape.getStartX() + 20, _shape.getStartY() + 20);
 		_shapes.remove(_shape);
 		_shapes.add(stringField);
 		notifyPaintChange();
