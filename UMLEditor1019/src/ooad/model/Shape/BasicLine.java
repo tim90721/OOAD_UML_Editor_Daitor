@@ -8,6 +8,7 @@ import ooad.model.IObserver;
 
 public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	private int _offset = 10;
+	protected double _distance;
 	protected Direction _direction;
 	protected int _difX, _difY;
 	protected double _angle;
@@ -20,8 +21,10 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	public void drawShape(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(5));
+		g2.rotate(getAngle(), getStartX(), getStartY());
 		g2.drawLine(getStartX(), getStartY(), getEndX(), getEndY());
 		g2.setStroke(new BasicStroke(1));
+		g2.rotate(-1 * getAngle(), getStartX(), getStartY());
 	}
 	
 	@Override
@@ -78,17 +81,13 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	}
 
 	@Override
-	public void setEndX(int x) {
-		super.setEndX(x);
-		setDifX(getEndX() - getStartX());
+	public void setEnd(int endX, int endY) {
+		setDifX(endX - getStartX());
+		setDifY(endY - getStartY());
 		setAngle(getDifX(), getDifY());
-	}
-
-	@Override
-	public void setEndY(int y) {
-		super.setEndY(y);
-		setDifY(getStartY() - getEndY());
-		setAngle(getDifX(), getDifY());
+		_distance = getDistance(endX, endY, getStartX(), getStartY());
+		setEndX(getStartX() + (int)_distance);
+		setEndY(getStartY());
 	}
 
 	@Override

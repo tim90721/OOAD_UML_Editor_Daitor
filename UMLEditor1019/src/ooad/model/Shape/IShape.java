@@ -10,6 +10,9 @@ public interface IShape {
 	void setEndY(int y);
 	void setMiddleX(int x);
 	void setMiddleY(int y);
+	void setStart(int startX, int startY);
+	void setEnd(int endX, int endY);
+	void setMiddle(int middleX, int middleY);
 	void setCoordinate(int startX, int startY, int endX, int endY);
 	int getStartX();
 	int getEndX();
@@ -20,4 +23,5 @@ public interface IShape {
 	void setSelected(boolean isSelect);
 	boolean isSelected();
 	void checkLineEnclose(IShape line, int closeOffset);
+	double getDistance(int x1, int y1, int x2, int y2);
 }

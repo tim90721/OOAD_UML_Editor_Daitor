@@ -15,10 +15,10 @@ public class CompositionLine extends BasicLine {
 		super.drawShape(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
-		g2.rotate(-1 * getAngle(), getEndX(), getEndY());
+		g2.rotate(-1 * getAngle(), getStartX(), getStartY());
 		configTrianglePoints(getEndX(), getEndY());
 		g2.drawPolyline(_diamondPointX, _diamondPointY, 5);
-		g2.rotate(getAngle(), getEndX(), getEndY());
+		g2.rotate(getAngle(), getStartX(), getStartY());
 		g2.setStroke(new BasicStroke(1));
 	}
 
@@ -27,5 +27,11 @@ public class CompositionLine extends BasicLine {
 			_diamondPointX[i] = getEndX() + _diamondOrgPointX[i];
 			_diamondPointY[i] = getEndY() - _diamondOrgPointY[i];
 		}
+	}
+
+	@Override
+	public void setEnd(int endX, int endY) {
+		super.setEnd(endX, endY);
+		setEndX(getEndX() - 20);
 	}
 }

@@ -42,6 +42,24 @@ public abstract class AbstractShape implements IShape{
 	}
 
 	@Override
+	public void setStart(int startX, int startY) {
+		setStartX(startX);
+		setStartY(startY);
+	}
+
+	@Override
+	public void setEnd(int endX, int endY) {
+		setEndX(endX);
+		setEndY(endY);
+	}
+
+	@Override
+	public void setMiddle(int middleX, int middleY) {
+		setMiddleX(middleX);
+		setMiddleY(middleY);
+	}
+
+	@Override
 	public int getStartX() {
 		return _startX;
 	}
@@ -108,5 +126,11 @@ public abstract class AbstractShape implements IShape{
 			setSelected(true);
 		else
 			setSelected(false);
+	}
+	
+	@Override
+	public double getDistance(int x1, int y1, int x2, int y2) {
+		return Math.sqrt(Math.pow(x1 - x2, 2)
+				+ Math.pow(y1 - y2, 2));
 	}
 }

@@ -135,11 +135,9 @@ public class Model implements IModel {
 		} else if (isMouseDragging()) {
 			if (getState() == DrawMode.CLASS_MODE
 					|| getState() == DrawMode.USECASE_MODE) {
-				shape.setStartX(x);
-				shape.setStartY(y);
+				shape.setStart(x, y);
 			} else {
-				shape.setEndX(x);
-				shape.setEndY(y);
+				shape.setEnd(x, y);
 			}
 		}
 	}
