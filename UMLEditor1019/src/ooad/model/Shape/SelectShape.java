@@ -16,6 +16,14 @@ public class SelectShape extends AbstractShape{
 				getEndY() - _selectStartY);
 	}
 	
+	public int getSelectStartX(){
+		return _selectStartX;
+	}
+	
+	public int getSelectStartY(){
+		return _selectStartY;
+	}
+	
 	private void configCoordinate(){
 		_selectStartX = _startX;
 		_selectStartY = _startY;

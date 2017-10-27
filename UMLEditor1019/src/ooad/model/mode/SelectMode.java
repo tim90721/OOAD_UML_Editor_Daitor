@@ -4,8 +4,13 @@ import java.awt.Graphics;
 
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.SelectShape;
 
 public class SelectMode extends AbstractMode{
+	private int _startX;
+	private int _startY;
+	private int _endX;
+	private int _endY;
 	
 	public SelectMode(IModel model) {
 		super(model);
@@ -24,17 +29,37 @@ public class SelectMode extends AbstractMode{
 	@Override
 	public void checkIsSelect(IShape selectArea) {
 		super.checkIsSelect(selectArea);
-		int areaStartX = selectArea.getStartX();
-		int areaStartY = selectArea.getStartY();
-		int endX = selectArea.getEndX();
-		int endY = selectArea.getEndY();
+		configCoordinate(selectArea);
 		for (IShape shape : _model.getStoreShapes())
-			if (shape.getStartX() > areaStartX
-					&& shape.getStartY() > areaStartY && shape.getEndX() < endX
-					&& shape.getEndY() < endY)
+			if (shape.getStartX() > _startX
+					&& shape.getStartY() > _startY 
+					&& shape.getEndX() < _endX
+					&& shape.getEndY() < _endY)
 				shape.setSelected(true);
 	}
 
+	private void configCoordinate(IShape selectArea){
+		_startX = selectArea.getStartX();
+		_startY = selectArea.getStartY();
+		int selectStartX = _startX;
+		int selectStartY = _startY;
+		_endX = selectArea.getEndX();
+		_endY = selectArea.getEndY();
+		int temp;
+		if(_startX > _endX){
+			temp = _endX;
+			_endX = selectStartX;
+			selectStartX = temp;
+		}
+		if(_startY > _endY){
+			temp = _endY;
+			_endY = selectStartY;
+			selectStartY = temp;
+		}
+		_startX = selectStartX;
+		_startY = selectStartY;
+	}
+	
 	@Override
 	public void isLineEnclose(IShape line, int mouseX, int mouseY, int closeOffset) {
 		super.isLineEnclose(line, mouseX, mouseY, closeOffset);

@@ -72,6 +72,13 @@ public class CustomMouseEvent implements IPopMsgSubject{
 		public void mouseDragged(MouseEvent e) {
 			_model.setMouseXY(e.getX(), e.getY());
 			_model.setMouseDragging(true);
+			System.out.println(e.getX() + " " + e.getY());
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			super.mouseMoved(e);
+			System.out.println(e.getX() + " " + e.getY());
 		}
 	}
 
