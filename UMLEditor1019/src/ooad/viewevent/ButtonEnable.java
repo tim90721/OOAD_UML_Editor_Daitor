@@ -2,10 +2,12 @@ package ooad.viewevent;
 
 import javax.swing.JButton;
 
+import ooad.model.IModeSwitchObserver;
+import ooad.model.IModeSwitchSubject;
 import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
-public class ButtonEnable implements IPaintObserver{
+public class ButtonEnable implements IModeSwitchObserver{
 	private JButton _btnSelect;
 	private JButton _btnAssociaLine;
 	private JButton _btnGeneralLine;
@@ -27,7 +29,7 @@ public class ButtonEnable implements IPaintObserver{
 	}
 
 	@Override
-	public void updatePaint() {
+	public void updateMode() {
 		RefreshControl();
 	}
 

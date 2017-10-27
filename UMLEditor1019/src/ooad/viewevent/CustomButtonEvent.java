@@ -4,26 +4,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observer;
 
+import ooad.model.IModeSwitchObserver;
+import ooad.model.IModeSwitchSubject;
 import ooad.model.IModel;
 import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
-public class CustomButtonEvent {
+public class CustomButtonEvent implements IModeSwitchSubject{
 	private IPresentationModel _presentationModel;
 	private IModel _model;
-	private IPaintObserver _oBtnEnable;
+	private IModeSwitchObserver _oBtnEnable;
 	
 	public CustomButtonEvent(IPresentationModel presentationModel){
 		this._presentationModel = presentationModel;
 		this._model = this._presentationModel.getModel();
 	}
 	
-	public void registerBtnEnableObserver(IPaintObserver observer){
+	@Override
+	public void registerBtnEnableObserver(IModeSwitchObserver observer){
 		_oBtnEnable = observer;
 	}
 	
-	public void notifyChange(){
-		_oBtnEnable.updatePaint();
+	@Override
+	public void notifyModeChange(){
+		_oBtnEnable.updateMode();;
 	}
 	
 	public BtnSelectClickEvent getSelectClickEvent(){
@@ -75,7 +79,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setSelectMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 	
@@ -89,7 +93,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setAssociaLineMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 	
@@ -103,7 +107,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setGeneralLineMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 	
@@ -117,7 +121,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setCompositionLineMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 	
@@ -131,7 +135,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setClassMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 	
@@ -145,7 +149,7 @@ public class CustomButtonEvent {
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
 			_presentationModel.setUseCaseMode(true);
-			notifyChange();
+			notifyModeChange();
 		}
 	}
 }

@@ -1,8 +1,10 @@
 package ooad.model;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import ooad.model.Shape.IShape;
+import ooad.model.mode.IMode;
 
 public interface IModel {
 	void draw(Graphics g);
@@ -21,9 +23,11 @@ public interface IModel {
 	void refreshShapeState();
 	void newShape();
 	void storeShape(IShape shape);
-	void setCoordinate(IShape shape, int x, int y);
-	void checkIsSelect(IShape selectArea);
-	void checkIsLineEnclose(IShape line);
+//	void setCoordinate(IShape shape, int x, int y);
+//	void checkIsSelect(IShape selectArea);
+//	void checkIsLineEnclose(IShape line);
 	void setShapeSelectStatus(boolean selected);
 	void addShapeString(String name);
+	ArrayList<IShape> getStoreShapes();
+	void setUserMode(DrawMode mode);
 }

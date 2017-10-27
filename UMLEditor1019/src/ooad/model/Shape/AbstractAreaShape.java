@@ -13,10 +13,12 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 
 	public void setWidth(int width) {
 		_widthOffset = width;
+		setStartX(getStartX());
 	}
 
 	public void setHeight(int height) {
 		_heightOffset = height;
+		setStartY(getStartY());
 	}
 
 	public int getWidth() {

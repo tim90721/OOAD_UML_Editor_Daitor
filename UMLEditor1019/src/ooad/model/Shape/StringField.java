@@ -1,37 +1,70 @@
 package ooad.model.Shape;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
-public class StringField extends AbstractAreaShape{
+public class StringField extends AbstractAreaShape implements IStringField{
 	private AbstractAreaShape _parent;
 	private String _name;
-	private int _fontSize = 20;
 	private Font _font;
-	private int _fontPixelSize;
+	private int _fontSize = 20;
+	private int _fontPixelWidth;
+	private int _fontPixelHeight;
 	
 	public StringField(AbstractAreaShape shape, String name){
 		_parent = shape;
 		_name = name;
 		_font = new Font("Arial Black", Font.PLAIN, _fontSize);
-		_fontPixelSize = _font.getSize();
-		setStart(_parent.getStartX() + _fontSize, _parent.getStartY() + _fontSize);
+		AffineTransform affineTransform = _font.getTransform();
+		FontRenderContext context = new FontRenderContext(affineTransform, true, true);
+		_fontPixelWidth = (int)(_font.getStringBounds(_name, context).getWidth());
+		_fontPixelHeight = (int)(_font.getStringBounds(_name, context).getHeight());
+		_parent.setWidth(2 * _fontSize + _fontPixelWidth);
+		_parent.setHeight(2 * _fontSize + _fontPixelHeight);
 	}
 
 	@Override
 	public void drawShape(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		super.drawShape(g);
 		g2.setFont(new Font("Arial Black", Font.PLAIN, _fontSize));
-		_parent.setWidth(_fontSize + _name.length() * _fontPixelSize);
 		_parent.drawShape(g);
 		g2.drawString(_name, getStartX(), getStartY());
 	}
 
 	@Override
 	public void isLineEnclose(IShape line, int mouseLineX, int mouseLineY, int closeOffset) {
+	}
+	
+	@Override
+	public int getFontSize(){
+		return _fontSize;
+	}
+	
+	@Override
+	public void setName(String name) {
+		_name = name;
+	}
+
+	@Override
+	public String getName() {
+		return _name;
+	}
+
+	@Override
+	public void setFontSize(int fontSize) {
+		_fontSize = fontSize;
+	}
+
+	@Override
+	public int getFontPixelWidth() {
+		return _fontPixelWidth;
+	}
+
+	@Override
+	public int getFontPixelHeight() {
+		return _fontPixelHeight;
 	}
 }

@@ -11,6 +11,8 @@ import ooad.model.Shape.ClassGraph;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.ShapeFactory;
 import ooad.model.Shape.StringField;
+import ooad.model.mode.IMode;
+import ooad.model.mode.ModeFactory;
 
 public class Model implements IModel, IPaintSubject{
 	private ArrayList<IShape> _shapes;
@@ -21,35 +23,32 @@ public class Model implements IModel, IPaintSubject{
 	private boolean _isDragging = false;
 	private DrawMode _mode;
 	private ShapeFactory _shapeFactory;
+	private ModeFactory _modeFactory;
 	private IShape _shape;
+	private IMode _userMode;
 
 	public Model() {
 		_shapes = new ArrayList<IShape>();
 		_observers = new ArrayList<IPaintObserver>();
 		_shapeFactory = new ShapeFactory();
+		_modeFactory = new ModeFactory(this);
 		setState(DrawMode.NONE);
 		_shape = _shapeFactory.getShape(getState());
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		setCoordinate(_shape, _mouseX, _mouseY);
-		checkIsLineEnclose(_shape);
+		_userMode.setCoordinate(_shape, _mouseX, _mouseY);
+		_userMode.isLineEnclose(_shape, _mouseX, _mouseY, _closeOffset);
 		if (isMousePressed())
 			_shape.drawShape(g);
 		if (!isMousePressed()) {
-			if (getState() == DrawMode.SELECT)
-				checkIsSelect(_shape);
-			if (getState() == DrawMode.ASSOCIATION_LINE ||
-					getState() == DrawMode.COMPOSITIONLINE ||
-					getState() == DrawMode.GENERAL_LINE)
-				setShapeSelectStatus(false);
-			storeShape(_shape);
+			_userMode.checkIsSelect(_shape);
+			_userMode.storeShape(_shape);
 			setMouseDragging(false);
 		}
 		for (IShape shape : _shapes)
 			shape.drawShape(g);
-		System.out.println(_shapes.size());
 	}
 
 	@Override
@@ -99,6 +98,7 @@ public class Model implements IModel, IPaintSubject{
 	@Override
 	public void setState(DrawMode mode) {
 		this._mode = mode;
+		setUserMode(mode);
 		refreshShapeState();
 	}
 
@@ -132,64 +132,27 @@ public class Model implements IModel, IPaintSubject{
 
 	@Override
 	public void storeShape(IShape shape) {
-		if (getState() != DrawMode.SELECT)
 			_shapes.add(shape);
 	}
 
 	@Override
-	public void setCoordinate(IShape shape, int x, int y) {
-		if (!isMouseDragging()) {
-			shape.setCoordinate(_mouseX, _mouseY, _mouseX, _mouseY);
-		} else if (isMouseDragging()) {
-			if (getState() == DrawMode.CLASS_MODE
-					|| getState() == DrawMode.USECASE_MODE) {
-				shape.setStart(x, y);
-			} else {
-				shape.setEnd(x, y);
-			}
-		}
-	}
-
-	@Override
-	public void checkIsSelect(IShape selectArea) {
-		int areaStartX = selectArea.getStartX();
-		int areaStartY = selectArea.getStartY();
-		int endX = selectArea.getEndX();
-		int endY = selectArea.getEndY();
-		for (IShape shape : _shapes)
-			if (shape.getStartX() > areaStartX
-					&& shape.getStartY() > areaStartY && shape.getEndX() < endX
-					&& shape.getEndY() < endY)
-				shape.setSelected(true);
-			else
-				shape.setSelected(false);
-
-	}
-
-	@Override
-	public void checkIsLineEnclose(IShape line) {
-		for (IShape shape : _shapes)
-			if (getState() == DrawMode.ASSOCIATION_LINE
-					|| getState() == DrawMode.GENERAL_LINE
-					|| getState() == DrawMode.COMPOSITIONLINE)
-				shape.isLineEnclose(line, _mouseX, _mouseY, _closeOffset);
-			else
-				shape.setSelected(false);
-	}
-
-	@Override
 	public void setShapeSelectStatus(boolean selected) {
-		for (IShape shape : _shapes) {
+		for (IShape shape : _shapes) 
 			shape.setSelected(selected);
-		}
 	}
 
 	@Override
 	public void addShapeString(String name) {
-		IShape stringField = new StringField((AbstractAreaShape)_shape, name);
-		stringField.setStart(_shape.getStartX() + 20, _shape.getStartY() + 20);
-		_shapes.remove(_shape);
-		_shapes.add(stringField);
-		notifyPaintChange();
+		_userMode.addShapeString(_shape, name);
+	}
+
+	@Override
+	public ArrayList<IShape> getStoreShapes() {
+		return _shapes;
+	}
+
+	@Override
+	public void setUserMode(DrawMode mode) {
+		_userMode = _modeFactory.getMode(mode);
 	}
 }
