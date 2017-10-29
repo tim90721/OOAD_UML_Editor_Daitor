@@ -14,7 +14,11 @@ public abstract class BasicLineMode extends AbstractMode{
 			int closeOffset) {
 		super.isLineEnclose(line, mouseX, mouseY, closeOffset);
 		for (IShape shape : _model.getStoreShapes())
-			shape.isLineEnclose(line, mouseX, mouseY, closeOffset);
+			if(_model.isMouseDragging())
+				shape.isLineEnclose(line, mouseX, mouseY, closeOffset);
+			else {
+				shape.isLineEnclose(mouseX, mouseY, closeOffset);
+			}
 	}
 
 	@Override
@@ -26,7 +30,5 @@ public abstract class BasicLineMode extends AbstractMode{
 
 	@Override
 	public void addShapeString(IShape shape, String name) {
-		// TODO Auto-generated method stub
-		
 	}
 }

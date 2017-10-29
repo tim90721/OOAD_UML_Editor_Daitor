@@ -132,7 +132,7 @@ public class Model implements IModel, IPaintSubject{
 
 	@Override
 	public void storeShape(IShape shape) {
-			_shapes.add(shape);
+		_shapes.add(shape);
 	}
 
 	@Override

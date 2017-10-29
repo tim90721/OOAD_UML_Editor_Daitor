@@ -9,7 +9,7 @@ public abstract class AbstractShape implements IShape{
 	protected int _endX, _endY;
 	private int _middelX, _middelY;
 	protected boolean _isSelected = false;
-	private int _selectRectwidth = 10;
+	protected int _selectRectwidth = 10;
 	
 	@Override
 	public void setSelected(boolean isSelect) {
@@ -119,6 +119,19 @@ public abstract class AbstractShape implements IShape{
 
 	@Override
 	public void isLineEnclose(IShape line, int mouseLineX, int mouseLineY, int closeOffset) {
+		isLineEnclose(mouseLineX, mouseLineY, closeOffset);
+//		if((getStartX() - closeOffset) < mouseLineX && 
+//				getEndX() + closeOffset > mouseLineX &&
+//				getStartY() - closeOffset < mouseLineY &&
+//				getEndY() + closeOffset > mouseLineY){
+//			setSelected(true);
+//		}
+//		else
+//			setSelected(false);
+	}
+	
+	@Override
+	public void isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
 		if((getStartX() - closeOffset) < mouseLineX && 
 				getEndX() + closeOffset > mouseLineX &&
 				getStartY() - closeOffset < mouseLineY &&
@@ -128,7 +141,7 @@ public abstract class AbstractShape implements IShape{
 		else
 			setSelected(false);
 	}
-	
+
 	@Override
 	public double getDistance(int x1, int y1, int x2, int y2) {
 		return Math.sqrt(Math.pow(x1 - x2, 2)

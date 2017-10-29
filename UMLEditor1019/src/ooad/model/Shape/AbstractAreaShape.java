@@ -1,5 +1,8 @@
 package ooad.model.Shape;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,6 +14,10 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	protected int _heightOffset;
 	protected CloseSide _side;
 
+	public AbstractAreaShape() {
+		_side = CloseSide.None;
+	}
+	
 	public void setWidth(int width) {
 		_widthOffset = width;
 		setStartX(getStartX());
@@ -58,6 +65,17 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 			findCloseSide(mouseLineX, mouseLineY, closeOffset);
 			setAssociationLinePos(line);
 		}
+		else
+			_side = CloseSide.None;
+	}
+
+	@Override
+	public void isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
+		super.isLineEnclose(mouseLineX, mouseLineY, closeOffset);
+		if(isSelected())
+			findCloseSide(mouseLineX, mouseLineY, closeOffset);
+		else
+			_side = CloseSide.None;
 	}
 
 	@Override
@@ -112,7 +130,34 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		case East:
 			line.setEnd(getEndX(), getMiddleY());
 			break;
+		default:
+			break;
 		}
+	}
+
+	@Override
+	public void drawShape(Graphics g) {
+		super.drawShape(g);
+		g.setColor(Color.red);
+		if(isSelected()) {
+			switch (_side) {
+			case North:
+				g.fillRect(getMiddleX() - _selectRectwidth / 2, getStartY() - _selectRectwidth, _selectRectwidth, _selectRectwidth);
+				break;
+			case South:
+				g.fillRect(getMiddleX() - _selectRectwidth / 2, getEndY(), _selectRectwidth, _selectRectwidth);
+				break;
+			case West:
+				g.fillRect(getStartX() - _selectRectwidth, getMiddleY() - _selectRectwidth / 2, _selectRectwidth, _selectRectwidth);
+				break;
+			case East:
+				g.fillRect(getEndX(), getMiddleY() - _selectRectwidth / 2, _selectRectwidth, _selectRectwidth);
+				break;
+			default:
+				break;
+			}
+		}
+		g.setColor(Color.BLACK);
 	}
 }
 
@@ -120,5 +165,6 @@ enum CloseSide{
 	North,
 	South,
 	West,
-	East
+	East,
+	None
 }
