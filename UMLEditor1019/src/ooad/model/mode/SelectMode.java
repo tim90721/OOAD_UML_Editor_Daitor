@@ -29,13 +29,24 @@ public class SelectMode extends AbstractMode{
 	@Override
 	public void checkIsSelect(IShape selectArea) {
 		super.checkIsSelect(selectArea);
-		configCoordinate(selectArea);
-		for (IShape shape : _model.getStoreShapes())
-			if (shape.getStartX() > _startX
-					&& shape.getStartY() > _startY 
-					&& shape.getEndX() < _endX
-					&& shape.getEndY() < _endY)
-				shape.setSelected(true);
+		if(_model.isMouseDragging()) {
+			configCoordinate(selectArea);
+			for (IShape shape : _model.getStoreShapes())
+				if (shape.getStartX() > _startX
+						&& shape.getStartY() > _startY 
+						&& shape.getEndX() < _endX
+						&& shape.getEndY() < _endY)
+					shape.setSelected(true);
+		}
+		else {
+			for (IShape shape : _model.getStoreShapes()) {
+				if(shape.getStartX() < selectArea.getStartX()
+						&& shape.getEndX() > selectArea.getStartX()
+						&& shape.getStartY() < selectArea.getStartY()
+						&& shape.getEndY() > selectArea.getStartY())
+					shape.setSelected(true);
+			}
+		}
 	}
 
 	private void configCoordinate(IShape selectArea){
