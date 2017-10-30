@@ -24,10 +24,10 @@ public abstract class BasicLineMode extends AbstractMode {
 					line.setCoordinate(mouseX, mouseY, mouseX, mouseY);
 					shape.setLineStartPos(line);
 				} 
-				else if(!isClose && !shape.isLine()){
-					_model.newShape(DrawMode.NONE);
-					System.out.println("not");
-				}
+//				else if(!isClose && !shape.isLine()){
+//					_model.newShape(DrawMode.NONE);
+//					System.out.println("not");
+//				}
 			} else
 				shape.isLineEnclose(mouseX, mouseY, closeOffset);
 	}

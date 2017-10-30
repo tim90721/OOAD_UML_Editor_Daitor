@@ -36,8 +36,14 @@ public class StringField extends AbstractAreaShape implements IStringField{
 
 	@Override
 	public void isLineEnclose(IShape line, int mouseLineX, int mouseLineY, int closeOffset) {
+		_parent.isLineEnclose(line, mouseLineX, mouseLineY, closeOffset);
 	}
 	
+	@Override
+	public boolean isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
+		return _parent.isLineEnclose(mouseLineX, mouseLineY, closeOffset);
+	}
+
 	@Override
 	public int getFontSize(){
 		return _fontSize;
@@ -66,5 +72,15 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	@Override
 	public int getFontPixelHeight() {
 		return _fontPixelHeight;
+	}
+
+	@Override
+	public void setLineStartPos(IShape line) {
+		_parent.setLineStartPos(line);
+	}
+
+	@Override
+	public void setLineEndPos(IShape line) {
+		_parent.setLineEndPos(line);
 	}
 }
