@@ -11,4 +11,5 @@ public interface IMode {
 	void checkIsSelect(IShape selectArea);
 	void isLineEnclose(IShape line, int mouseX, int mouseY, int closeOffset);
 	void addShapeString(IShape shape, String name);
+	void setMode();
 }

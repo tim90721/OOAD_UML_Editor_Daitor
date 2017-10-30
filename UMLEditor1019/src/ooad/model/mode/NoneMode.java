@@ -30,4 +30,8 @@ public class NoneMode implements IMode{
 	@Override
 	public void addShapeString(IShape shape, String name) {
 	}
+
+	@Override
+	public void setMode() {
+	}
 }

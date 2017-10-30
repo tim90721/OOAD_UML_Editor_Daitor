@@ -215,7 +215,7 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 	}
 
 	private void showMsgBox(){
-		if(_model.getState() == DrawMode.CLASS_MODE || _model.getState() == DrawMode.USECASE_MODE){
+		if(_model.getDrawMode() == DrawMode.CLASS_MODE || _model.getDrawMode() == DrawMode.USECASE_MODE){
 			String name = (String)JOptionPane.showInputDialog(this, "class name:",
 					"Set Name", JOptionPane.PLAIN_MESSAGE, 
 					null, null, null);

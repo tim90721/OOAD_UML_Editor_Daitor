@@ -39,4 +39,12 @@ public class SelectShape extends AbstractShape{
 			_selectStartY = temp;
 		}
 	}
+
+	@Override
+	public void setLineStartPos(IShape line) {
+	}
+
+	@Override
+	public void setLineEndPos(IShape line) {
+	}
 }

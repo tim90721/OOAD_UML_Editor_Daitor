@@ -63,19 +63,23 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		super.isLineEnclose(line, mouseLineX, mouseLineY, closeOffset);
 		if(isSelected()){
 			findCloseSide(mouseLineX, mouseLineY, closeOffset);
-			setAssociationLinePos(line);
+			setLineEndPos(line);
 		}
 		else
 			_side = CloseSide.None;
 	}
 
 	@Override
-	public void isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
+	public boolean isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
 		super.isLineEnclose(mouseLineX, mouseLineY, closeOffset);
-		if(isSelected())
+		if(isSelected()){
 			findCloseSide(mouseLineX, mouseLineY, closeOffset);
-		else
+			return true;
+		}
+		else{
 			_side = CloseSide.None;
+			return false;
+		}
 	}
 
 	@Override
@@ -116,7 +120,28 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		}
 	}
 	
-	private void setAssociationLinePos(IShape line){
+	@Override
+	public void setLineStartPos(IShape line) {
+		switch (getCloseSide()) {
+		case North:
+			line.setStart(getMiddleX(), getStartY());
+			break;
+		case South:
+			line.setStart(getMiddleX(), getEndY());
+			break;
+		case West:
+			line.setStart(getStartX(), getMiddleY());
+			break;
+		case East:
+			line.setStart(getEndX(), getMiddleY());
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void setLineEndPos(IShape line) {
 		switch (getCloseSide()) {
 		case North:
 			line.setEnd(getMiddleX(), getStartY());

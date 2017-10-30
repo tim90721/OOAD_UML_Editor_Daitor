@@ -4,10 +4,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.IPopMsgObserver;
 import ooad.model.IPopMsgSubject;
-import ooad.model.Model;
 
 public class CustomMouseEvent implements IPopMsgSubject{
 	private IModel _model;
@@ -56,6 +56,7 @@ public class CustomMouseEvent implements IPopMsgSubject{
 		@Override
 		public void mousePressed(MouseEvent e) {
 			_model.setMousePressed(true);
+			_model.setMouseMoving(false);
 			_model.newShape();
 			_model.setMouseXY(e.getX(), e.getY());
 		}
@@ -77,8 +78,12 @@ public class CustomMouseEvent implements IPopMsgSubject{
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			super.mouseMoved(e);
-			if(!_model.isMouseDragging())
+			if(!_model.isMouseDragging()){
+				if(!_model.isMouseMoving())
+					_model.newShape(DrawMode.NONE);
+				_model.setMouseMoving(true);
 				_model.setMouseXY(e.getX(), e.getY());
+			}
 		}
 	}
 

@@ -3,6 +3,7 @@ package ooad.model.mode;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.AbstractAreaShape;
 import ooad.model.Shape.IShape;
@@ -35,5 +36,10 @@ public class ClassGraphMode extends AbstractMode{
 		super.setCoordinate(shape, mouseX, mouseY);
 		if(_model.isMouseDragging())
 			shape.setStart(mouseX, mouseY);
+	}
+
+	@Override
+	public void setMode() {
+		_model.setDrawMode(DrawMode.CLASS_MODE);
 	}
 }

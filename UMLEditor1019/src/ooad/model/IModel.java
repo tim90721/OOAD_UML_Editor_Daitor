@@ -18,16 +18,17 @@ public interface IModel {
 	boolean isMousePressed();
 	void setMouseDragging(boolean isDragging);
 	boolean isMouseDragging();
-	void setState(DrawMode mode);
-	DrawMode getState();
+	void setMouseMoving(boolean isMoving);
+	boolean isMouseMoving();
+	void setDrawMode(DrawMode mode);
+	DrawMode getDrawMode();
 	void refreshShapeState();
 	void newShape();
+	void newShape(DrawMode mode);
 	void storeShape(IShape shape);
-//	void setCoordinate(IShape shape, int x, int y);
-//	void checkIsSelect(IShape selectArea);
-//	void checkIsLineEnclose(IShape line);
 	void setShapeSelectStatus(boolean selected);
 	void addShapeString(String name);
 	ArrayList<IShape> getStoreShapes();
 	void setUserMode(DrawMode mode);
+	void checkMouseEnclose(int mouseX, int mouseY);
 }

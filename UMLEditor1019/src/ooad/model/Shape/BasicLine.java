@@ -15,6 +15,7 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	
 	public BasicLine(){
 		_direction = Direction.VERTICAL;
+		_isLine = true;
 	}
 	
 	@Override
@@ -92,6 +93,24 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 
 	@Override
 	public void setSelected(boolean isSelect) {
+	}
+
+	@Override
+	public void setLineStartPos(IShape line) {
+	}
+
+	@Override
+	public void setLineEndPos(IShape line) {
+	}
+
+	@Override
+	public void isLineEnclose(IShape line, int mouseLineX, int mouseLineY,
+			int closeOffset) {
+	}
+
+	@Override
+	public boolean isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
+		return false;
 	}
 }
 

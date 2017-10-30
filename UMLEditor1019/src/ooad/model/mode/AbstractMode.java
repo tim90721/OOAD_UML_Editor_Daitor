@@ -1,5 +1,6 @@
 package ooad.model.mode;
 
+import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
 
@@ -12,7 +13,8 @@ public abstract class AbstractMode implements IMode{
 	
 	@Override
 	public void storeShape(IShape shape) {
-		_model.storeShape(shape);
+		if(_model.getDrawMode() != DrawMode.NONE)
+			_model.storeShape(shape);
 	}
 
 	@Override
@@ -22,7 +24,8 @@ public abstract class AbstractMode implements IMode{
 
 	@Override
 	public void isLineEnclose(IShape line, int mouseX, int mouseY, int closeOffset) {
-		setShapesSelected(false);
+		if(!_model.isMouseMoving())
+			setShapesSelected(false);
 	}
 	
 	@Override

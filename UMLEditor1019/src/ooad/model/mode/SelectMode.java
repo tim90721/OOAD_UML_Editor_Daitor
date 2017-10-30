@@ -2,6 +2,7 @@ package ooad.model.mode;
 
 import java.awt.Graphics;
 
+import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.SelectShape;
@@ -86,5 +87,9 @@ public class SelectMode extends AbstractMode{
 		if(_model.isMouseDragging())
 			shape.setEnd(mouseX, mouseY);
 	}
-	
+
+	@Override
+	public void setMode() {
+		_model.setDrawMode(DrawMode.SELECT);
+	}
 }
