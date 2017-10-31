@@ -17,10 +17,6 @@ public class ClassGraphMode extends AbstractMode{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-	}
-
-	@Override
 	public void addShapeString(IShape shape, String name) {
 		ArrayList<IShape> shapes = _model.getStoreShapes();
 		IStringField stringField = new StringField((AbstractAreaShape)shape, name);

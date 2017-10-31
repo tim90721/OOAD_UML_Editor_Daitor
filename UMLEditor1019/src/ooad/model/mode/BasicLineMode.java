@@ -5,6 +5,8 @@ import ooad.model.IModel;
 import ooad.model.Shape.IShape;
 
 public abstract class BasicLineMode extends AbstractMode {
+	
+	private boolean _hasCloseShape = false;
 
 	public BasicLineMode(IModel model) {
 		super(model);
@@ -14,22 +16,25 @@ public abstract class BasicLineMode extends AbstractMode {
 	public void isLineEnclose(IShape line, int mouseX, int mouseY,
 			int closeOffset) {
 		super.isLineEnclose(line, mouseX, mouseY, closeOffset);
+		if(_model.isMouseDragging() && !_model.isMousePressed())
+			_hasCloseShape = false;
 		for (IShape shape : _model.getStoreShapes())
-			if (_model.isMouseDragging())
+			if (_model.isMouseDragging()){
 				shape.isLineEnclose(line, mouseX, mouseY, closeOffset);
+				if(!_model.isMousePressed() && shape.isLineEnclose(mouseX, mouseY, closeOffset)){
+					_hasCloseShape = true;
+				}
+			}
 			else if (!_model.isMouseDragging() && _model.isMousePressed()) {
-				boolean isClose = false;
-				isClose = shape.isLineEnclose(mouseX, mouseY, closeOffset);
-				if (isClose) {
+				if (shape.isLineEnclose(mouseX, mouseY, closeOffset)) {
 					line.setCoordinate(mouseX, mouseY, mouseX, mouseY);
 					shape.setLineStartPos(line);
+					_hasCloseShape = true;
 				} 
-//				else if(!isClose && !shape.isLine()){
-//					_model.newShape(DrawMode.NONE);
-//					System.out.println("not");
-//				}
 			} else
 				shape.isLineEnclose(mouseX, mouseY, closeOffset);
+		if(!_hasCloseShape)
+			_model.newShape(DrawMode.NONE);
 	}
 
 	@Override
@@ -41,5 +46,11 @@ public abstract class BasicLineMode extends AbstractMode {
 
 	@Override
 	public void addShapeString(IShape shape, String name) {
+	}
+
+	@Override
+	public void storeShape(IShape shape) {
+		super.storeShape(shape);
+		_hasCloseShape = false;
 	}
 }

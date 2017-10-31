@@ -23,6 +23,7 @@ public class Model implements IModel, IPaintSubject {
 	private boolean _isPressed = false;
 	private boolean _isDragging = false;
 	private boolean _isMouseMoving = false;
+	private boolean _hasSelectShape = false;
 	private DrawMode _mode;
 	private ShapeFactory _shapeFactory;
 	private ModeFactory _modeFactory;
@@ -40,18 +41,21 @@ public class Model implements IModel, IPaintSubject {
 
 	@Override
 	public void draw(Graphics g) {
-		_userMode.setCoordinate(_shape, _mouseX, _mouseY);
-		_userMode.isLineEnclose(_shape, _mouseX, _mouseY, _closeOffset);
-		if (isMousePressed())
-			_shape.drawShape(g);
-		if (!isMousePressed() && !isMouseMoving()) {
-			_userMode.checkIsSelect(_shape);
-			_userMode.storeShape(_shape);
-			setMouseDragging(false);
-		}
+//		_userMode.setCoordinate(_shape, _mouseX, _mouseY);
+//		_userMode.isLineEnclose(_shape, _mouseX, _mouseY, _closeOffset);
+//		if (isMousePressed())
+//			_shape.drawShape(g);
+//		if (!isMousePressed() && !isMouseMoving()) {
+//			if(_hasSelectShape)
+//				_hasSelectShape = _userMode.moveSelectShape(_mouseX, _mouseY);
+//			if(!_hasSelectShape)
+//				_hasSelectShape = _userMode.checkIsSelect(_shape);
+//			_userMode.storeShape(_shape);
+//			setMouseDragging(false);
+//		}
+		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
 		for (IShape shape : _shapes)
 			shape.drawShape(g);
-		System.out.println(_shapes.size());
 	}
 
 	@Override

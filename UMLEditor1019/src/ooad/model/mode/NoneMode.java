@@ -7,7 +7,8 @@ import ooad.model.Shape.IShape;
 public class NoneMode implements IMode{
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
+			int closeOffset) {
 	}
 
 	@Override
@@ -19,7 +20,8 @@ public class NoneMode implements IMode{
 	}
 
 	@Override
-	public void checkIsSelect(IShape selectArea) {
+	public boolean checkIsSelect(IShape selectArea) {
+		return false;
 	}
 
 	@Override
@@ -33,5 +35,11 @@ public class NoneMode implements IMode{
 
 	@Override
 	public void setMode() {
+	}
+
+	@Override
+	public boolean moveSelectShape(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

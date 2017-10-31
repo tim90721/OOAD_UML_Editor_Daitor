@@ -1,14 +1,18 @@
 package ooad.model.mode;
 
+import java.awt.Graphics;
+
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
 
 public abstract class AbstractMode implements IMode{
 	protected IModel _model;
+	protected boolean _hasSelectShape;
 	
 	public AbstractMode(IModel model) {
 		this._model = model;
+		_hasSelectShape = false;
 	}
 	
 	@Override
@@ -18,8 +22,9 @@ public abstract class AbstractMode implements IMode{
 	}
 
 	@Override
-	public void checkIsSelect(IShape selectArea) {
+	public boolean checkIsSelect(IShape selectArea) {
 		setShapesSelected(false);
+		return false;
 	}
 
 	@Override
@@ -38,4 +43,24 @@ public abstract class AbstractMode implements IMode{
 		for (IShape shape : _model.getStoreShapes())
 			shape.setSelected(false);
 	}
+
+	@Override
+	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
+			int closeOffset) {
+		setCoordinate(shape, mouseX, mouseY);
+		isLineEnclose(shape, mouseX, mouseY, closeOffset);
+		if (_model.isMousePressed())
+			shape.drawShape(g);
+		if (!_model.isMousePressed() && !_model.isMouseMoving()) {
+			_hasSelectShape = checkIsSelect(shape);
+			storeShape(shape);
+			_model.setMouseDragging(false);
+		}
+	}
+
+	@Override
+	public boolean moveSelectShape(int mouseX, int mouseY) {
+		return false;
+	}
+	
 }

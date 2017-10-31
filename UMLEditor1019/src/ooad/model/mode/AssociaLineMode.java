@@ -13,10 +13,6 @@ public class AssociaLineMode extends BasicLineMode{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-	}
-
-	@Override
 	public void setMode() {
 		_model.setDrawMode(DrawMode.ASSOCIATION_LINE);
 	}

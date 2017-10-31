@@ -12,10 +12,6 @@ public class CompositionLineMode extends BasicLineMode{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-	}
-
-	@Override
 	public void setMode() {
 		_model.setDrawMode(DrawMode.COMPOSITIONLINE);
 	}

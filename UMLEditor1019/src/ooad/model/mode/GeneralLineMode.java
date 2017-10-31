@@ -10,10 +10,6 @@ public class GeneralLineMode extends BasicLineMode {
 	public GeneralLineMode(IModel model) {
 		super(model);
 	}
-	
-	@Override
-	public void draw(Graphics g) {
-	}
 
 	@Override
 	public void setMode() {
