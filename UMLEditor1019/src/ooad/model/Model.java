@@ -9,6 +9,7 @@ import javax.jws.WebParam.Mode;
 import ooad.model.Shape.AbstractAreaShape;
 import ooad.model.Shape.ClassGraph;
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
 import ooad.model.Shape.NoneShape;
 import ooad.model.Shape.ShapeFactory;
 import ooad.model.Shape.StringField;
@@ -203,8 +204,9 @@ public class Model implements IModel, IPaintSubject {
 
 	@Override
 	public void addShapeString(String name) {
-		IShape shape = _shapes.get(_shapes.size() - 1);
-		_userMode.addShapeString(shape, name);
+		_shape = new StringField((AbstractAreaShape)_shape, name); 
+		_userMode.addShapeString((IStringField)_shape, name);
+		newShape(DrawMode.NONE);
 	}
 
 	@Override

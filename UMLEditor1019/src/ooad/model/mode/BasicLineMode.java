@@ -3,6 +3,8 @@ package ooad.model.mode;
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
+import ooad.model.Shape.NoneShape;
 
 public abstract class BasicLineMode extends AbstractMode {
 	
@@ -45,7 +47,7 @@ public abstract class BasicLineMode extends AbstractMode {
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
+	public void addShapeString(IStringField stringField, String name) {
 	}
 
 	@Override

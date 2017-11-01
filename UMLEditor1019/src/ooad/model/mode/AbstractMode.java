@@ -17,7 +17,8 @@ public abstract class AbstractMode implements IMode{
 	
 	@Override
 	public void storeShape(IShape shape) {
-		if(_model.getDrawMode() != DrawMode.NONE)
+//		if(_model.getDrawMode() != DrawMode.NONE)
+		if(shape.getShapeName() != "None")
 			_model.storeShape(shape);
 	}
 

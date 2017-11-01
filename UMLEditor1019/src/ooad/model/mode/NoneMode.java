@@ -3,6 +3,8 @@ package ooad.model.mode;
 import java.awt.Graphics;
 
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
+import ooad.model.Shape.NoneShape;
 
 public class NoneMode implements IMode{
 
@@ -30,7 +32,7 @@ public class NoneMode implements IMode{
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
+	public void addShapeString(IStringField stringField, String name) {
 	}
 
 	@Override

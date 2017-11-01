@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
 
 public interface IMode {
 	void drawing(Graphics g, IShape shape, int mouseX, int mouseY, int closeOffset);
@@ -12,6 +13,6 @@ public interface IMode {
 	boolean checkIsSelect(IShape selectArea);
 	boolean moveSelectShape(int mouseX, int mouseY);
 	void isLineEnclose(IShape line, int mouseX, int mouseY, int closeOffset);
-	void addShapeString(IShape shape, String name);
+	void addShapeString(IStringField stringField, String name);
 	void setMode();
 }

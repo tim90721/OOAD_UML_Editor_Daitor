@@ -20,4 +20,13 @@ public class ClassGraph extends AbstractAreaShape{
 		g2.drawRect(getStartX(), getStartY(), getWidth(), getHeight());
 		g2.setStroke(new BasicStroke(1));
 	}
+	
+	/* (non-Javadoc)
+	 * add string to shape
+	 */
+	@Override
+	public void addShapeString(IStringField stringField, String name) {
+		stringField.setStart(getStartX() + stringField.getFontSize(),
+				getStartY() + stringField.getFontSize());
+	}
 }

@@ -7,4 +7,5 @@ public interface IAreaShape {
 	int getHeight();
 	void setCloseSide(CloseSide side);
 	CloseSide getCloseSide();
+	void addShapeString(IStringField stringField, String name);
 }

@@ -32,7 +32,7 @@ public class StringField extends AbstractAreaShape implements IStringField{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("Arial Black", Font.PLAIN, _fontSize));
 		_parent.drawShape(g);
-		g2.drawString(_nameField, getStartX(), getStartY());
+		g2.drawString(_nameField, _startX, _startY);
 	}
 
 	@Override
@@ -83,5 +83,41 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	@Override
 	public void setLineEndPos(IShape line) {
 		_parent.setLineEndPos(line);
+	}
+
+	@Override
+	public int getStartX() {
+		return _parent.getStartX();
+	}
+
+	@Override
+	public int getEndX() {
+		return _parent.getEndX();
+	}
+
+	@Override
+	public int getStartY() {
+		return _parent.getStartY();
+	}
+
+	@Override
+	public int getEndY() {
+		return _parent.getEndY();
+	}
+
+	@Override
+	public void setSelected(boolean isSelect) {
+		_parent.setSelected(isSelect);
+	}
+
+	@Override
+	public boolean isSelected() {
+		return _parent.isSelected();
+	}
+
+	@Override
+	public void addShapeString(IStringField stringField, String name) {
+		// TODO Auto-generated method stub
+		
 	}
 }

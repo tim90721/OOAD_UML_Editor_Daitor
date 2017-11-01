@@ -17,12 +17,11 @@ public class UseCaseMode extends AbstractMode{
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
+	public void addShapeString(IStringField stringField, String name) {
 		ArrayList<IShape> shapes = _model.getStoreShapes();
-		IStringField stringField = new StringField((AbstractAreaShape)shape, name);
-		stringField.setStart(shape.getStartX() + stringField.getFontSize(),
-				shape.getStartY() + (int)(1.8 * stringField.getFontSize()));
-		shapes.remove(shape);
+		AbstractAreaShape useCase = (AbstractAreaShape)shapes.get(shapes.size() - 1);
+		useCase.addShapeString(stringField, name);
+		shapes.remove(useCase);
 		shapes.add(stringField);
 		_model.notifyPaintChange();
 	}

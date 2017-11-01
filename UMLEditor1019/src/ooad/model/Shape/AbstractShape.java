@@ -3,8 +3,6 @@ package ooad.model.Shape;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import org.omg.CosNaming._NamingContextExtStub;
-
 public abstract class AbstractShape implements IShape{
 	int _depth;
 	protected int _startX, _startY;

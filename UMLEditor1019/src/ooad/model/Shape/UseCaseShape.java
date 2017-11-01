@@ -20,4 +20,13 @@ public class UseCaseShape extends AbstractAreaShape{
 		g2.drawOval(getStartX(), getStartY(), getWidth(), getHeight());
 		g2.setStroke(new BasicStroke(1));
 	}
+	
+	/* (non-Javadoc)
+	 * add string to shape
+	 */
+	@Override
+	public void addShapeString(IStringField stringField, String name) {
+		stringField.setStart(getStartX() + stringField.getFontSize(),
+				getStartY() + (int)(1.8 * stringField.getFontSize()));
+	}
 }

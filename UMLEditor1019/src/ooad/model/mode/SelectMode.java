@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
+import ooad.model.Shape.NoneShape;
 
 public class SelectMode extends AbstractMode {
 	private int _startX;
@@ -82,7 +84,7 @@ public class SelectMode extends AbstractMode {
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
+	public void addShapeString(IStringField stringField, String name) {
 	}
 
 	@Override
@@ -106,9 +108,13 @@ public class SelectMode extends AbstractMode {
 	@Override
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
 			int closeOffset) {
-		if (_model.isMousePressed() || !_model.isMouseDragging()){
+		if (_model.isMousePressed() && !_model.isMouseDragging()){
 			boolean isClickInSelectArea = false;
 			for (IShape selectShape : _selectShapes) {
+				System.out.println(selectShape.getStartX());
+				System.out.println(selectShape.getEndX());
+				System.out.println(mouseX);
+				System.out.println(mouseY);
 				if (selectShape.getStartX() < mouseX
 						&& selectShape.getEndX() > mouseX
 						&& selectShape.getStartY() < mouseY

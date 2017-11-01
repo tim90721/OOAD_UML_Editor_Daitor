@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.Shape.IShape;
+import ooad.model.Shape.IStringField;
+import ooad.model.Shape.NoneShape;
 
 public class MovingMode extends AbstractMode{
 	private int _prevMouseX;
@@ -16,9 +18,7 @@ public class MovingMode extends AbstractMode{
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
-		// TODO Auto-generated method stub
-		
+	public void addShapeString(IStringField stringField, String name) {
 	}
 
 	@Override

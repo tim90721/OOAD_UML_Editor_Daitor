@@ -1,6 +1,5 @@
 package ooad.model.mode;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import ooad.model.DrawMode;
@@ -17,14 +16,13 @@ public class ClassGraphMode extends AbstractMode{
 	}
 
 	@Override
-	public void addShapeString(IShape shape, String name) {
+	public void addShapeString(IStringField stringField, String name) {
 		ArrayList<IShape> shapes = _model.getStoreShapes();
-		IStringField stringField = new StringField((AbstractAreaShape)shape, name);
-		stringField.setStart(shape.getStartX() + stringField.getFontSize(),
-				shape.getStartY() + stringField.getFontSize());
-		shapes.remove(shape);
-//		shapes.add(stringField);
-		shape = stringField;
+		AbstractAreaShape classGraph = (AbstractAreaShape)shapes.get(shapes.size() - 1);
+		classGraph.addShapeString(stringField, name);
+		System.out.println(stringField.getStartX());
+		shapes.remove(classGraph);
+		shapes.add(stringField);
 		_model.notifyPaintChange();
 	}
 
