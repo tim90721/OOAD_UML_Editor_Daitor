@@ -107,6 +107,7 @@ public class SelectMode extends AbstractMode {
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
 			int closeOffset) {
 		if (_model.isMousePressed() || !_model.isMouseDragging()){
+			boolean isClickInSelectArea = false;
 			for (IShape selectShape : _selectShapes) {
 				if (selectShape.getStartX() < mouseX
 						&& selectShape.getEndX() > mouseX
@@ -115,9 +116,12 @@ public class SelectMode extends AbstractMode {
 					_model.setPrevMousePos(mouseX, mouseY);
 					_model.setSelectShapes(_selectShapes);
 					_model.setUserMode(DrawMode.MOVING);
+					isClickInSelectArea = true;
 					return;
 				}
 			}
+			if(!isClickInSelectArea)
+				_selectShapes = new ArrayList<IShape>();
 		}
 		super.drawing(g, shape, mouseX, mouseY, closeOffset);
 	}

@@ -7,6 +7,10 @@ import java.awt.Graphics2D;
 public class SelectShape extends AbstractShape{
 	private int _selectStartX, _selectStartY;
 	
+	public SelectShape() {
+		_name = "Select";
+	}
+	
 	@Override
 	public void drawShape(Graphics g) {
 		configCoordinate();

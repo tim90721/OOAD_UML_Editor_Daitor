@@ -27,23 +27,6 @@ public class MovingMode extends AbstractMode{
 		
 	}
 
-//	public void setPrevMousePos(int mouseX, int mouseY){
-//		_prevMouseX = mouseX;
-//		_prevMouseY = mouseY;
-//	}
-//	
-//	public int getPrevMouseX(){
-//		return _prevMouseX;
-//	}
-//	
-//	public int getPrevMouseY(){
-//		return _prevMouseY;
-//	}
-//	
-//	public void setSelectShapes(ArrayList<IShape> selectShapes){
-//		_selectShapes = selectShapes;
-//	}
-
 	/* (non-Javadoc)
 	 * @see ooad.model.mode.AbstractMode#drawing(java.awt.Graphics, ooad.model.Shape.IShape, int, int, int)
 	 */

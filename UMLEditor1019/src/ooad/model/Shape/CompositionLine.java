@@ -10,6 +10,10 @@ public class CompositionLine extends BasicLine {
 	private int[] _diamondPointX = new int[5];
 	private int[] _diamondPointY = new int[5];
 
+	public CompositionLine() {
+		_name = "CompositionLine";
+	}
+	
 	@Override
 	public void drawShape(Graphics g) {
 		super.drawShape(g);

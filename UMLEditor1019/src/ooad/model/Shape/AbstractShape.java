@@ -3,6 +3,8 @@ package ooad.model.Shape;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import org.omg.CosNaming._NamingContextExtStub;
+
 public abstract class AbstractShape implements IShape{
 	int _depth;
 	protected int _startX, _startY;
@@ -11,6 +13,7 @@ public abstract class AbstractShape implements IShape{
 	protected boolean _isSelected = false;
 	protected int _selectRectwidth = 10;
 	protected boolean _isLine = false;
+	protected String _name;
 	
 	@Override
 	public void setSelected(boolean isSelect) {
@@ -147,5 +150,10 @@ public abstract class AbstractShape implements IShape{
 	@Override
 	public boolean isLine() {
 		return _isLine;
+	}
+
+	@Override
+	public String getShapeName() {
+		return _name;
 	}
 }

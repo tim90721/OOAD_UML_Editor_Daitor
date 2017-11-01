@@ -9,6 +9,7 @@ public class UseCaseShape extends AbstractAreaShape{
 	public UseCaseShape() {
 		setWidth(100);
 		setHeight(60);
+		_name = "UseCase";
 	}
 	
 	@Override

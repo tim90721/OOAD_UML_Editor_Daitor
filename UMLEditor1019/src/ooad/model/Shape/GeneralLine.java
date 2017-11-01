@@ -10,6 +10,10 @@ public class GeneralLine extends BasicLine {
 	private int[] _trianglePointsX = new int[5];
 	private int[] _trianglePointsY = new int[5];
 
+	public GeneralLine() {
+		_name = "GeneralLine";
+	}
+	
 	@Override
 	public void drawShape(Graphics g) {
 		super.drawShape(g);

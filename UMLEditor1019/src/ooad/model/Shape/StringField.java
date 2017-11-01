@@ -8,20 +8,21 @@ import java.awt.geom.AffineTransform;
 
 public class StringField extends AbstractAreaShape implements IStringField{
 	private AbstractAreaShape _parent;
-	private String _name;
+	private String _nameField;
 	private Font _font;
 	private int _fontSize = 20;
 	private int _fontPixelWidth;
 	private int _fontPixelHeight;
 	
 	public StringField(AbstractAreaShape shape, String name){
+		_name = "StringField";
 		_parent = shape;
-		_name = name;
+		_nameField = name;
 		_font = new Font("Arial Black", Font.PLAIN, _fontSize);
 		AffineTransform affineTransform = _font.getTransform();
 		FontRenderContext context = new FontRenderContext(affineTransform, true, true);
-		_fontPixelWidth = (int)(_font.getStringBounds(_name, context).getWidth());
-		_fontPixelHeight = (int)(_font.getStringBounds(_name, context).getHeight());
+		_fontPixelWidth = (int)(_font.getStringBounds(_nameField, context).getWidth());
+		_fontPixelHeight = (int)(_font.getStringBounds(_nameField, context).getHeight());
 		_parent.setWidth(2 * _fontSize + _fontPixelWidth);
 		_parent.setHeight(2 * _fontSize + _fontPixelHeight);
 	}
@@ -31,7 +32,7 @@ public class StringField extends AbstractAreaShape implements IStringField{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("Arial Black", Font.PLAIN, _fontSize));
 		_parent.drawShape(g);
-		g2.drawString(_name, getStartX(), getStartY());
+		g2.drawString(_nameField, getStartX(), getStartY());
 	}
 
 	@Override
@@ -51,12 +52,12 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	
 	@Override
 	public void setName(String name) {
-		_name = name;
+		_nameField = name;
 	}
 
 	@Override
 	public String getName() {
-		return _name;
+		return _nameField;
 	}
 
 	@Override

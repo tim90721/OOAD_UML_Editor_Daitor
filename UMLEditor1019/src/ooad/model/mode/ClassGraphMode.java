@@ -23,7 +23,8 @@ public class ClassGraphMode extends AbstractMode{
 		stringField.setStart(shape.getStartX() + stringField.getFontSize(),
 				shape.getStartY() + stringField.getFontSize());
 		shapes.remove(shape);
-		shapes.add(stringField);
+//		shapes.add(stringField);
+		shape = stringField;
 		_model.notifyPaintChange();
 	}
 

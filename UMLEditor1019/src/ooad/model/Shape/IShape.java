@@ -28,4 +28,5 @@ public interface IShape {
 	void setLineStartPos(IShape line);
 	void setLineEndPos(IShape line);
 	boolean isLine();
+	String getShapeName();
 }

@@ -25,7 +25,6 @@ public class Model implements IModel, IPaintSubject {
 	private boolean _isPressed = false;
 	private boolean _isDragging = false;
 	private boolean _isMouseMoving = false;
-	private boolean _hasSelectShape = false;
 	private DrawMode _mode;
 	private ShapeFactory _shapeFactory;
 	private ModeFactory _modeFactory;
@@ -44,8 +43,11 @@ public class Model implements IModel, IPaintSubject {
 	@Override
 	public void draw(Graphics g) {
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
-		for (IShape shape : _shapes)
+		for (IShape shape : _shapes) {
 			shape.drawShape(g);
+			System.out.println(shape.getShapeName());
+		}
+		System.out.println();
 	}
 
 	@Override

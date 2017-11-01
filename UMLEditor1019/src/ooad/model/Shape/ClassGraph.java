@@ -9,6 +9,7 @@ public class ClassGraph extends AbstractAreaShape{
 	public ClassGraph() {
 		setWidth(60);
 		setHeight(100);
+		_name = "ClassGraph";
 	}
 	
 	@Override
