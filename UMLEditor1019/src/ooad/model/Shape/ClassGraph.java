@@ -3,6 +3,7 @@ package ooad.model.Shape;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public class ClassGraph extends AbstractAreaShape{
 

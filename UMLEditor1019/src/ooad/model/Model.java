@@ -46,9 +46,7 @@ public class Model implements IModel, IPaintSubject {
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
 		for (IShape shape : _shapes) {
 			shape.drawShape(g);
-			System.out.println(shape.getShapeName());
 		}
-		System.out.println();
 	}
 
 	@Override

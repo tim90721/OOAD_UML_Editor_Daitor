@@ -111,10 +111,6 @@ public class SelectMode extends AbstractMode {
 		if (_model.isMousePressed() && !_model.isMouseDragging()){
 			boolean isClickInSelectArea = false;
 			for (IShape selectShape : _selectShapes) {
-				System.out.println(selectShape.getStartX());
-				System.out.println(selectShape.getEndX());
-				System.out.println(mouseX);
-				System.out.println(mouseY);
 				if (selectShape.getStartX() < mouseX
 						&& selectShape.getEndX() > mouseX
 						&& selectShape.getStartY() < mouseY
@@ -130,12 +126,5 @@ public class SelectMode extends AbstractMode {
 				_selectShapes = new ArrayList<IShape>();
 		}
 		super.drawing(g, shape, mouseX, mouseY, closeOffset);
-	}
-	
-	private void configSelectShapePos(IShape shape, int mouseX, int mouseY){
-//		int difX = mouseX - shape.getStartX();
-//		int difY = mouseY - shape.getStartY();
-//		shape.setStart(mouseX, mouseY);
-//		shape.setEnd(shape.getEndX() + difX, shape.getEndY() + difY);
 	}
 }

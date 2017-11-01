@@ -10,8 +10,6 @@ import ooad.model.Shape.IStringField;
 import ooad.model.Shape.NoneShape;
 
 public class MovingMode extends AbstractMode{
-	private int _prevMouseX;
-	private int _prevMouseY;
 	
 	public MovingMode(IModel model) {
 		super(model);
@@ -34,14 +32,18 @@ public class MovingMode extends AbstractMode{
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
 			int closeOffset) {
 		if(_model.isMousePressed()){
-			int difX = _prevMouseX - mouseX;
-			int difY = _prevMouseY - mouseY;
+			int difX = _model.getPrevMouseX() - mouseX;
+			int difY = _model.getPrevMouseY() - mouseY;
 			for (IShape selectShape : _model.getSelectShapes()) 
-				selectShape.setStart(shape.getStartX() - difX, shape.getStartY() - difY);
+				selectShape.movePos(difX, difY);
 			for (IShape storeShape : _model.getStoreShapes())
 				storeShape.drawShape(g);
+			_model.setPrevMousePos(mouseX, mouseY);
 		}
-		else
+		else {
 			_model.setUserMode(DrawMode.SELECT);
+			_model.newShape(DrawMode.NONE);
+			_model.setMouseDragging(false);
+		}
 	}
 }

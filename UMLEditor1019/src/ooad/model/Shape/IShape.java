@@ -29,4 +29,5 @@ public interface IShape {
 	void setLineEndPos(IShape line);
 	boolean isLine();
 	String getShapeName();
+	void movePos(int difX, int difY);
 }

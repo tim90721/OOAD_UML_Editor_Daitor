@@ -118,6 +118,11 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void movePos(int difX, int difY) {
+		_parent.movePos(difX, difY);
+		super.movePos(difX, difY);
 	}
 }

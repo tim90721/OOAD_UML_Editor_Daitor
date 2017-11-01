@@ -2,20 +2,21 @@ package ooad.model.Shape;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import javax.sound.sampled.Line;
 
 public abstract class AbstractAreaShape extends AbstractShape implements
 		IAreaShape {
 	protected int _widthOffset;
 	protected int _heightOffset;
 	protected CloseSide _side;
+	protected ArrayList<StoredLine> _startLines;
+	protected ArrayList<StoredLine> _endLines;
 
 	public AbstractAreaShape() {
 		_side = CloseSide.None;
+		_startLines = new ArrayList<StoredLine>();
+		_endLines = new ArrayList<StoredLine>();
 	}
 	
 	public void setWidth(int width) {
@@ -48,6 +49,23 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		super.setStartY(y);
 		setEndY(getStartY() + _heightOffset);
 		setMiddleY(getStartY() + (getEndY() - getStartY()) / 2);
+	}
+	
+	@Override
+	public void setStart(int startX, int startY) {
+		super.setStart(startX, startY);
+		for (StoredLine storedLine : _startLines) {
+			IShape line = storedLine.getLine();
+			_side = storedLine.getCloseSide();
+			_startLines.remove(storedLine);
+			setLineStartPos(line);
+		}
+		for (StoredLine storedLine : _endLines) {
+			IShape line = storedLine.getLine();
+			_side = storedLine.getCloseSide();
+			_startLines.remove(storedLine);
+			setLineEndPos(line);
+		}
 	}
 
 	@Override
@@ -138,6 +156,9 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		default:
 			break;
 		}
+		if(getCloseSide() != CloseSide.None) {
+			storeStartLine(line, getCloseSide());
+		}
 	}
 
 	@Override
@@ -158,6 +179,17 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		default:
 			break;
 		}
+		if(getCloseSide() != CloseSide.None) {
+			storeEndLine(line, getCloseSide());
+		}
+	}
+	
+	private void storeStartLine(IShape line, CloseSide closeSide) {
+		_startLines.add(new StoredLine(line, closeSide));
+	}
+	
+	private void storeEndLine(IShape line, CloseSide closeSide) {
+		_endLines.add(new StoredLine(line, closeSide));
 	}
 
 	@Override
@@ -183,6 +215,11 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 			}
 		}
 		g.setColor(Color.BLACK);
+	}
+
+	@Override
+	public void movePos(int difX, int difY) {
+		setStart(_startX - difX, _startY - difY);
 	}
 }
 

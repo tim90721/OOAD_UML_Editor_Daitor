@@ -112,6 +112,10 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	public boolean isLineEnclose(int mouseLineX, int mouseLineY, int closeOffset) {
 		return false;
 	}
+
+	@Override
+	public void movePos(int difX, int difY) {
+	}
 }
 
 enum Direction{

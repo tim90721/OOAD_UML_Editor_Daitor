@@ -120,4 +120,8 @@ public class NoneShape extends AbstractShape{
 	public double getDistance(int x1, int y1, int x2, int y2) {
 		return super.getDistance(x1, y1, x2, y2);
 	}
+
+	@Override
+	public void movePos(int difX, int difY) {
+	}
 }
