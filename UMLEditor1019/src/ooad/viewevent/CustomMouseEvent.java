@@ -58,7 +58,7 @@ public class CustomMouseEvent implements IPopMsgSubject{
 			_model.setMousePressed(true);
 			_model.setMouseMoving(false);
 			_model.newShape();
-			_model.setMouseXY(e.getX(), e.getY());
+			_model.setMousePos(e.getX(), e.getY());
 		}
 	}
 
@@ -71,7 +71,7 @@ public class CustomMouseEvent implements IPopMsgSubject{
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			_model.setMouseXY(e.getX(), e.getY());
+			_model.setMousePos(e.getX(), e.getY());
 			_model.setMouseDragging(true);
 		}
 
@@ -82,7 +82,7 @@ public class CustomMouseEvent implements IPopMsgSubject{
 				if(!_model.isMouseMoving())
 					_model.newShape(DrawMode.NONE);
 				_model.setMouseMoving(true);
-				_model.setMouseXY(e.getX(), e.getY());
+				_model.setMousePos(e.getX(), e.getY());
 			}
 		}
 	}
@@ -96,7 +96,7 @@ public class CustomMouseEvent implements IPopMsgSubject{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			_model.setMousePressed(false);
-			_model.setMouseXY(e.getX(), e.getY());
+			_model.setMousePos(e.getX(), e.getY());
 			notifyPopMsgObserver();
 		}
 	}

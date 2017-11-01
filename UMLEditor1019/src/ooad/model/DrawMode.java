@@ -3,6 +3,7 @@ package ooad.model;
 public enum DrawMode {
 	NONE,
 	SELECT,
+	MOVING,
 	ASSOCIATION_LINE,
 	GENERAL_LINE,
 	COMPOSITIONLINE,

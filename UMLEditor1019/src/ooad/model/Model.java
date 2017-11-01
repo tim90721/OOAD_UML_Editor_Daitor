@@ -17,8 +17,10 @@ import ooad.model.mode.ModeFactory;
 
 public class Model implements IModel, IPaintSubject {
 	private ArrayList<IShape> _shapes;
+	private ArrayList<IShape> _selectShapes;
 	private ArrayList<IPaintObserver> _observers;
 	private int _mouseX, _mouseY;
+	private int _prevMouseX, _prevMouseY;
 	private int _closeOffset = 30;
 	private boolean _isPressed = false;
 	private boolean _isDragging = false;
@@ -41,18 +43,6 @@ public class Model implements IModel, IPaintSubject {
 
 	@Override
 	public void draw(Graphics g) {
-//		_userMode.setCoordinate(_shape, _mouseX, _mouseY);
-//		_userMode.isLineEnclose(_shape, _mouseX, _mouseY, _closeOffset);
-//		if (isMousePressed())
-//			_shape.drawShape(g);
-//		if (!isMousePressed() && !isMouseMoving()) {
-//			if(_hasSelectShape)
-//				_hasSelectShape = _userMode.moveSelectShape(_mouseX, _mouseY);
-//			if(!_hasSelectShape)
-//				_hasSelectShape = _userMode.checkIsSelect(_shape);
-//			_userMode.storeShape(_shape);
-//			setMouseDragging(false);
-//		}
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
 		for (IShape shape : _shapes)
 			shape.drawShape(g);
@@ -76,10 +66,20 @@ public class Model implements IModel, IPaintSubject {
 	}
 
 	@Override
-	public void setMouseXY(int x, int y) {
+	public void setMousePos(int x, int y) {
 		this._mouseX = x;
 		this._mouseY = y;
 		notifyPaintChange();
+	}
+
+	/* (non-Javadoc)
+	 * set mouse previous position
+	 */
+	@Override
+	public void setPrevMousePos(int x, int y) {
+		//TODO set mouse previous position
+		_prevMouseX = x;
+		_prevMouseY = y;
 	}
 
 	@Override
@@ -90,6 +90,24 @@ public class Model implements IModel, IPaintSubject {
 	@Override
 	public int getMouseY() {
 		return _mouseY;
+	}
+
+	/* (non-Javadoc)
+	 * get previous mouse x
+	 */
+	@Override
+	public int getPrevMouseX() {
+		// TODO Auto-generated method stub
+		return _prevMouseX;
+	}
+
+	/* (non-Javadoc)
+	 * get previous mouse y
+	 */
+	@Override
+	public int getPrevMouseY() {
+		// TODO Auto-generated method stub
+		return _prevMouseY;
 	}
 
 	@Override
@@ -163,6 +181,24 @@ public class Model implements IModel, IPaintSubject {
 			shape.setSelected(selected);
 	}
 
+	/* (non-Javadoc)
+	 * set select shapes
+	 */
+	@Override
+	public void setSelectShapes(ArrayList<IShape> selectShapes) {
+		// TODO Auto-generated method stub
+		_selectShapes = selectShapes;
+	}
+
+	/* (non-Javadoc)
+	 * get select shapes
+	 */
+	@Override
+	public ArrayList<IShape> getSelectShapes() {
+		// TODO Auto-generated method stub
+		return _selectShapes;
+	}
+
 	@Override
 	public void addShapeString(String name) {
 		IShape shape = _shapes.get(_shapes.size() - 1);
@@ -186,6 +222,6 @@ public class Model implements IModel, IPaintSubject {
 			if (shape.isLineEnclose(mouseX, mouseY, _closeOffset))
 				isClose = true;
 		if (isClose)
-			setMouseXY(mouseX, mouseY);
+			setMousePos(mouseX, mouseY);
 	}
 }

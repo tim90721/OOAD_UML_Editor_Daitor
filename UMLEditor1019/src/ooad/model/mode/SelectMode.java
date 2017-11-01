@@ -13,13 +13,11 @@ public class SelectMode extends AbstractMode {
 	private int _endX;
 	private int _endY;
 	private ArrayList<IShape> _selectShapes;
-	private boolean _isMoving;
 
 	public SelectMode(IModel model) {
 		super(model);
 		_selectShapes = new ArrayList<IShape>();
 		_hasSelectShape = false;
-		_isMoving = false;
 	}
 
 	@Override
@@ -108,20 +106,20 @@ public class SelectMode extends AbstractMode {
 	@Override
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
 			int closeOffset) {
-		if (_model.isMousePressed() || _model.isMouseDragging()){
+		if (_model.isMousePressed() || !_model.isMouseDragging()){
 			for (IShape selectShape : _selectShapes) {
 				if (selectShape.getStartX() < mouseX
 						&& selectShape.getEndX() > mouseX
 						&& selectShape.getStartY() < mouseY
 						&& selectShape.getEndY() > mouseY) {
-					configSelectShapePos(selectShape, mouseX, mouseY);
-					_isMoving = true;
+					_model.setPrevMousePos(mouseX, mouseY);
+					_model.setSelectShapes(_selectShapes);
+					_model.setUserMode(DrawMode.MOVING);
+					return;
 				}
 			}
 		}
-		if (!_isMoving){
-			super.drawing(g, shape, mouseX, mouseY, closeOffset);
-		}
+		super.drawing(g, shape, mouseX, mouseY, closeOffset);
 	}
 	
 	private void configSelectShapePos(IShape shape, int mouseX, int mouseY){

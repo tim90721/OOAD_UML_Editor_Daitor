@@ -5,6 +5,7 @@ import ooad.model.IModel;
 
 public class ModeFactory {
 	private SelectMode _selectMode;
+	private MovingMode _movingMode;
 	private AssociaLineMode _associaLineMode;
 	private GeneralLineMode _generalLineMode;
 	private CompositionLineMode _compositionLineMode;
@@ -14,6 +15,7 @@ public class ModeFactory {
 	
 	public ModeFactory(IModel model){
 		_selectMode = new SelectMode(model);
+		_movingMode = new MovingMode(model);
 		_associaLineMode = new AssociaLineMode(model);
 		_generalLineMode = new GeneralLineMode(model);
 		_compositionLineMode = new CompositionLineMode(model);
@@ -26,6 +28,8 @@ public class ModeFactory {
 		switch (mode) {
 		case SELECT:
 			return _selectMode;
+		case MOVING:
+			return _movingMode;
 		case ASSOCIATION_LINE:
 			return _associaLineMode;
 		case GENERAL_LINE:

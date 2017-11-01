@@ -11,9 +11,12 @@ public interface IModel {
 	void registerPaintObserver(IPaintObserver observer);
 	void unregisterPaintObserver(IPaintObserver observer);
 	void notifyPaintChange();
-	void setMouseXY(int x, int y);
+	void setMousePos(int x, int y);
+	void setPrevMousePos(int x, int y);
 	int getMouseX();
 	int getMouseY();
+	int getPrevMouseX();
+	int getPrevMouseY();
 	void setMousePressed(boolean isPressed);
 	boolean isMousePressed();
 	void setMouseDragging(boolean isDragging);
@@ -29,6 +32,8 @@ public interface IModel {
 	void setShapeSelectStatus(boolean selected);
 	void addShapeString(String name);
 	ArrayList<IShape> getStoreShapes();
+	void setSelectShapes(ArrayList<IShape> selectShapes);
+	ArrayList<IShape> getSelectShapes();
 	void setUserMode(DrawMode mode);
 	void checkMouseEnclose(int mouseX, int mouseY);
 }
