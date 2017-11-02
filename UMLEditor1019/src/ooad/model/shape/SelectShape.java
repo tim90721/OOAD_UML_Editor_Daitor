@@ -55,4 +55,9 @@ public class SelectShape extends AbstractShape{
 	@Override
 	public void movePos(int difX, int difY) {
 	}
+
+	@Override
+	public boolean isGrouped() {
+		return false;
+	}
 }

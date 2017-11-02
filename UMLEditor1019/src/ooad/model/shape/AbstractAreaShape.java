@@ -252,6 +252,11 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 			return true;
 		return false;
 	}
+
+	@Override
+	public boolean isGrouped() {
+		return false;
+	}
 }
 
 enum CloseSide{

@@ -38,4 +38,6 @@ public interface IModel {
 	void checkMouseEnclose(int mouseX, int mouseY);
 	void groupShapes();
 	void unGroupShapes();
+	boolean checkCanGroup();
+	boolean checkCanUnGroup();
 }

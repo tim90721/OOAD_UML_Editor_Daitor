@@ -7,7 +7,9 @@ public interface IPresentationModel {
 	void setCompositionLineMode(boolean isCompositionLine);
 	void setClassMode(boolean isClassMode);
 	void setUseCaseMode(boolean isUseCaseMode);
-	void refreshState();
+	void setCanGroup();
+	void setCanUngroup();
+	void refreshButtonState();
 	IModel getModel();
 	boolean isSelectMode();
 	boolean isAssociaLineMode();
@@ -15,4 +17,6 @@ public interface IPresentationModel {
 	boolean isCompositionLineMode();
 	boolean isClassMode();
 	boolean isUseCaseMode();
+	boolean canGroup();
+	boolean canUngroup();
 }

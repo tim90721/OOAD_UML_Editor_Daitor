@@ -65,7 +65,7 @@ public class CustomButtonEventGetter implements IModeSwitchSubject{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			_presentationModel.refreshState();
+			_presentationModel.refreshButtonState();
 		}
 	}
 	

@@ -12,16 +12,18 @@ import ooad.model.mode.ModeFactory;
 import ooad.model.shape.AbstractAreaShape;
 import ooad.model.shape.ClassGraph;
 import ooad.model.shape.IGroupShape;
+import ooad.model.shape.IGroupable;
 import ooad.model.shape.IShape;
 import ooad.model.shape.IStringField;
 import ooad.model.shape.NoneShape;
 import ooad.model.shape.ShapeFactory;
 import ooad.model.shape.StringField;
 
-public class Model implements IModel, IPaintSubject {
+public class Model implements IModel, IPaintSubject ,IMenuItemChangeSubject{
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IShape> _selectShapes;
-	private ArrayList<IPaintObserver> _observers;
+	private ArrayList<IPaintObserver> _paintObservers;
+	private ArrayList<IMenuItemChangeObserver> _menuObservers;
 	private int _mouseX, _mouseY;
 	private int _prevMouseX, _prevMouseY;
 	private int _closeOffset = 30;
@@ -36,7 +38,9 @@ public class Model implements IModel, IPaintSubject {
 
 	public Model() {
 		_shapes = new ArrayList<IShape>();
-		_observers = new ArrayList<IPaintObserver>();
+		_selectShapes = new ArrayList<IShape>();
+		_paintObservers = new ArrayList<IPaintObserver>();
+		_menuObservers = new ArrayList<IMenuItemChangeObserver>();
 		_shapeFactory = new ShapeFactory();
 		_modeFactory = new ModeFactory(this);
 		setDrawMode(DrawMode.NONE);
@@ -51,26 +55,24 @@ public class Model implements IModel, IPaintSubject {
 			_shape.drawShape(g);
 		if (!isMousePressed() && !isMouseMoving()) 
 			_userMode.storeShape(_shape);
-		for (IShape shape : _shapes){
+		for (IShape shape : _shapes)
 			shape.drawShape(g);
-//			System.out.println(shape.getShapeName());
-		}
 	}
 
 	@Override
 	public void registerPaintObserver(IPaintObserver observer) {
-		_observers.add(observer);
+		_paintObservers.add(observer);
 	}
 
 	@Override
 	public void unregisterPaintObserver(IPaintObserver observer) {
-		int i = _observers.indexOf(observer);
-		_observers.remove(i);
+		int i = _paintObservers.indexOf(observer);
+		_paintObservers.remove(i);
 	}
 
 	@Override
 	public void notifyPaintChange() {
-		for (IPaintObserver observer : _observers)
+		for (IPaintObserver observer : _paintObservers)
 			observer.updatePaint();
 	}
 
@@ -79,14 +81,14 @@ public class Model implements IModel, IPaintSubject {
 		this._mouseX = x;
 		this._mouseY = y;
 		notifyPaintChange();
+		notifyMenuItemChange();
 	}
 
-	/* (non-Javadoc)
+	/** 
 	 * set mouse previous position
 	 */
 	@Override
 	public void setPrevMousePos(int x, int y) {
-		//TODO set mouse previous position
 		_prevMouseX = x;
 		_prevMouseY = y;
 	}
@@ -101,21 +103,19 @@ public class Model implements IModel, IPaintSubject {
 		return _mouseY;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * get previous mouse x
 	 */
 	@Override
 	public int getPrevMouseX() {
-		// TODO Auto-generated method stub
 		return _prevMouseX;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * get previous mouse y
 	 */
 	@Override
 	public int getPrevMouseY() {
-		// TODO Auto-generated method stub
 		return _prevMouseY;
 	}
 
@@ -183,28 +183,23 @@ public class Model implements IModel, IPaintSubject {
 	public void storeShape(IShape shape) {
 		_shapes.add(shape);
 	}
-
+	
 	@Override
 	public void setShapeSelectStatus(boolean selected) {
 		for (IShape shape : _shapes)
 			shape.setSelected(selected);
 	}
 
-	/* (non-Javadoc)
+	/** 
 	 * set select shapes
 	 */
 	@Override
 	public void setSelectShapes(ArrayList<IShape> selectShapes) {
-		// TODO Auto-generated method stub
 		_selectShapes = selectShapes;
 	}
 
-	/* (non-Javadoc)
-	 * get select shapes
-	 */
 	@Override
 	public ArrayList<IShape> getSelectShapes() {
-		// TODO Auto-generated method stub
 		return _selectShapes;
 	}
 
@@ -249,11 +244,43 @@ public class Model implements IModel, IPaintSubject {
 
 	@Override
 	public void unGroupShapes() {
-		IGroupShape groupShape = (IGroupShape)_selectShapes.get(0);
-		for(int i = 0; i < groupShape.getShapeCount(); i++){
-			IShape shape = groupShape.getStoredShape(i);
-			_shapes.add(shape);
+		if(_selectShapes.size() < 2) {
+			IGroupShape groupShape = (IGroupShape)_selectShapes.get(0);
+			for(int i = 0; i < groupShape.getShapeCount(); i++){
+				IShape shape = groupShape.getStoredShape(i);
+				_shapes.add(shape);
+				_selectShapes.add(shape);
+			}
+			_shapes.remove((IShape)groupShape);
+			_selectShapes.remove((IShape)groupShape);
 		}
-		_shapes.remove(groupShape);
+	}
+
+	@Override
+	public boolean checkCanGroup() {
+		if(_selectShapes.size() > 1) 
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean checkCanUnGroup() {
+		if(_selectShapes.size() == 1) 
+			for (IShape shape : _selectShapes) 
+				if(((IGroupable)shape).isGrouped()) 
+					return true;
+		return false;
+	}
+
+	@Override
+	public void registerMenuItemObserver(IMenuItemChangeObserver observer) {
+		_menuObservers.add(observer);
+	}
+
+	@Override
+	public void notifyMenuItemChange() {
+		for (IMenuItemChangeObserver observer : _menuObservers) {
+			observer.updateItem();
+		}
 	}
 }

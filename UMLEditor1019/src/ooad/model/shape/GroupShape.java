@@ -209,4 +209,9 @@ public class GroupShape extends AbstractAreaShape implements IGroupShape{
 			}
 		return hasSelectShape;
 	}
+
+	@Override
+	public boolean isGrouped() {
+		return true;
+	}
 }

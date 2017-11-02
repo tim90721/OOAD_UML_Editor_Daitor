@@ -3,7 +3,7 @@ package ooad.model.shape;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public abstract class AbstractShape implements IShape{
+public abstract class AbstractShape implements IShape, IGroupable{
 	int _depth;
 	protected int _startX, _startY;
 	protected int _endX, _endY;

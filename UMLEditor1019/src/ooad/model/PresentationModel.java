@@ -8,6 +8,8 @@ public class PresentationModel implements IPresentationModel{
 	private boolean _isCompositionLine;
 	private boolean _isClassMode;
 	private boolean _isUseCaseMode;
+	private boolean _canGroup;
+	private boolean _canUngroup;
 	
 	public PresentationModel(Model model){
 		this._model = model;
@@ -55,7 +57,17 @@ public class PresentationModel implements IPresentationModel{
 	}
 
 	@Override
-	public void refreshState() {
+	public void setCanGroup() {
+		_canGroup = _model.checkCanGroup();
+	}
+
+	@Override
+	public void setCanUngroup() {
+		_canUngroup = _model.checkCanUnGroup();
+	}
+
+	@Override
+	public void refreshButtonState() {
 		_isSelect = false;
 		_isAssociationLine = false;
 		_isGeneralLine = false;
@@ -92,5 +104,15 @@ public class PresentationModel implements IPresentationModel{
 	@Override
 	public boolean isUseCaseMode() {
 		return _isUseCaseMode;
+	}
+
+	@Override
+	public boolean canGroup() {
+		return _canGroup;
+	}
+
+	@Override
+	public boolean canUngroup() {
+		return _canUngroup;
 	}
 }

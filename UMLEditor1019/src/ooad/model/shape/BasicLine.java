@@ -132,6 +132,11 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	@Override
 	public void movePos(int difX, int difY) {
 	}
+
+	@Override
+	public boolean isGrouped() {
+		return false;
+	}
 }
 
 enum Direction{

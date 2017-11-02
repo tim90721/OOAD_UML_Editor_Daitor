@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ooad.model.DrawMode;
+import ooad.model.IMenuItemChangeSubject;
 import ooad.model.IModel;
 import ooad.model.IPopMsgObserver;
 import ooad.model.IPresentationModel;
@@ -16,6 +17,7 @@ import ooad.viewevent.ButtonEnable;
 import ooad.viewevent.CustomButtonEventGetter;
 import ooad.viewevent.CustomMenuEventGetter;
 import ooad.viewevent.CustomMouseEvent;
+import ooad.viewevent.MenuItemEnable;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -41,6 +43,8 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 	private JMenuBar _menuBar;
 	private JMenu _menuFile;
 	private JMenu _menuEdit;
+	private JMenuItem _itemEditName;
+	private JMenuItem _itemAddNewName;
 	private JMenuItem _itemGroup;
 	private JMenuItem _itemUnGroup;
 	private JButton _btnSelect;
@@ -101,7 +105,7 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 
 		initiateComponent();
 
-		CustomMouseEvent mouseEvent = new CustomMouseEvent(_model);
+		CustomMouseEvent mouseEvent = new CustomMouseEvent(_presentationModel);
 		mouseEvent.registerPopMsgObserver(this);
 
 		_pPanel = new PaintPanel(_model, mouseEvent);
@@ -133,6 +137,14 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 		_menuEdit.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		_menuBar.add(_menuEdit);
 
+		_itemEditName = new JMenuItem("Edit Name");
+		_menuEdit.add(_itemEditName);
+		
+		_itemAddNewName = new JMenuItem("Add New Name");
+		_menuEdit.add(_itemAddNewName);
+		
+		_menuEdit.addSeparator();
+		
 		_itemGroup = new JMenuItem("Group");
 		_itemGroup.addActionListener(menuEventGetter.getGroupMenuEvent());
 		_menuEdit.add(_itemGroup);
@@ -140,6 +152,11 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 		_itemUnGroup = new JMenuItem("UnGroup");
 		_itemUnGroup.addActionListener(menuEventGetter.getUnGroupMenuEvent());
 		_menuEdit.add(_itemUnGroup);
+		
+		MenuItemEnable menuItemEnable = new MenuItemEnable(_itemGroup,
+				_itemUnGroup, _presentationModel);
+		((IMenuItemChangeSubject)_model).registerMenuItemObserver(menuItemEnable);
+		menuEventGetter.registerMenuItemObserver(menuItemEnable);
 	}
 
 	private void initiateButtons() {
