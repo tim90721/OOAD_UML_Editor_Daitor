@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -19,12 +19,10 @@ public class StringField extends AbstractAreaShape implements IStringField{
 		_parent = shape;
 		_nameField = name;
 		_font = new Font("Arial Black", Font.PLAIN, _fontSize);
-		AffineTransform affineTransform = _font.getTransform();
-		FontRenderContext context = new FontRenderContext(affineTransform, true, true);
-		_fontPixelWidth = (int)(_font.getStringBounds(_nameField, context).getWidth());
-		_fontPixelHeight = (int)(_font.getStringBounds(_nameField, context).getHeight());
-		_parent.setWidth(2 * _fontSize + _fontPixelWidth);
-		_parent.setHeight(2 * _fontSize + _fontPixelHeight);
+		configFontWidth(name);
+		configFontHeight(name);
+		setWidth(2 * _fontSize + _fontPixelWidth);
+		setHeight(2 * _fontSize + _fontPixelHeight);
 	}
 
 	@Override
@@ -117,12 +115,35 @@ public class StringField extends AbstractAreaShape implements IStringField{
 
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void movePos(int difX, int difY) {
 		_parent.movePos(difX, difY);
 		super.movePos(difX, difY);
+	}
+
+	@Override
+	public void setWidth(int width) {
+		_parent.setWidth(width);
+	}
+
+	@Override
+	public void setHeight(int height) {
+		_parent.setHeight(height);
+	}
+
+	@Override
+	public void configFontWidth(String name) {
+		AffineTransform affineTransform = _font.getTransform();
+		FontRenderContext context = new FontRenderContext(affineTransform, true, true);
+		_fontPixelWidth = (int)(_font.getStringBounds(_nameField, context).getWidth());
+	}
+
+	@Override
+	public void configFontHeight(String name) {
+		AffineTransform affineTransform = _font.getTransform();
+		FontRenderContext context = new FontRenderContext(affineTransform, true, true);
+		_fontPixelHeight = (int)(_font.getStringBounds(_nameField, context).getHeight());
 	}
 }

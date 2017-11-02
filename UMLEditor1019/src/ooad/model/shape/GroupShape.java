@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -18,6 +18,16 @@ public class GroupShape extends AbstractAreaShape implements IGroupShape{
 	@Override
 	public void addShapeToGroup(IShape shape) {
 		_groupShapes.add(shape);		
+	}
+
+	@Override
+	public IShape getStoredShape(int index) {
+		return _groupShapes.get(index);
+	}
+
+	@Override
+	public int getShapeCount() {
+		return _groupShapes.size();
 	}
 
 	@Override
@@ -95,7 +105,7 @@ public class GroupShape extends AbstractAreaShape implements IGroupShape{
 	@Override
 	public void setSelected(boolean isSelect) {
 		for (IShape shape : _groupShapes) 
-			shape.setSelected(true);
+			shape.setSelected(isSelect);
 	}
 
 	@Override
@@ -176,5 +186,27 @@ public class GroupShape extends AbstractAreaShape implements IGroupShape{
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		return super.equals(obj);
+	}
+
+	@Override
+	public boolean checkIsSelect(int x1, int y1, int x2, int y2) {
+		boolean hasSelectShape = false;
+		for (IShape shape : _groupShapes) 
+			if(shape.checkIsSelect(x1, y1, x2, y2)){
+				hasSelectShape = true;
+				break;
+			}
+		return hasSelectShape;
+	}
+
+	@Override
+	public boolean checkIsSelect(IShape selectArea) {
+		boolean hasSelectShape = false;
+		for (IShape shape : _groupShapes) 
+			if(shape.checkIsSelect(selectArea)){
+				hasSelectShape = true;
+				break;
+			}
+		return hasSelectShape;
 	}
 }

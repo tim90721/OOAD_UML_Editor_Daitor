@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 public class StoredLine {
 	private IShape _line;

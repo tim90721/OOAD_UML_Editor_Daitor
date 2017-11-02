@@ -3,8 +3,8 @@ package ooad.model;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import ooad.model.Shape.IShape;
 import ooad.model.mode.IMode;
+import ooad.model.shape.IShape;
 
 public interface IModel {
 	void draw(Graphics g);
@@ -36,4 +36,6 @@ public interface IModel {
 	ArrayList<IShape> getSelectShapes();
 	void setUserMode(DrawMode mode);
 	void checkMouseEnclose(int mouseX, int mouseY);
+	void groupShapes();
+	void unGroupShapes();
 }

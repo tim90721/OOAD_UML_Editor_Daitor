@@ -1,20 +1,22 @@
 package ooad.model;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Shape;
 import java.util.ArrayList;
 
 import javax.jws.WebParam.Mode;
 
-import ooad.model.Shape.AbstractAreaShape;
-import ooad.model.Shape.ClassGraph;
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
-import ooad.model.Shape.NoneShape;
-import ooad.model.Shape.ShapeFactory;
-import ooad.model.Shape.StringField;
 import ooad.model.mode.IMode;
 import ooad.model.mode.ModeFactory;
+import ooad.model.shape.AbstractAreaShape;
+import ooad.model.shape.ClassGraph;
+import ooad.model.shape.IGroupShape;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
+import ooad.model.shape.NoneShape;
+import ooad.model.shape.ShapeFactory;
+import ooad.model.shape.StringField;
 
 public class Model implements IModel, IPaintSubject {
 	private ArrayList<IShape> _shapes;
@@ -43,13 +45,16 @@ public class Model implements IModel, IPaintSubject {
 
 	@Override
 	public void draw(Graphics g) {
+		g.setColor(Color.BLACK);
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
 		if (isMousePressed())
 			_shape.drawShape(g);
 		if (!isMousePressed() && !isMouseMoving()) 
 			_userMode.storeShape(_shape);
-		for (IShape shape : _shapes) 
+		for (IShape shape : _shapes){
 			shape.drawShape(g);
+//			System.out.println(shape.getShapeName());
+		}
 	}
 
 	@Override
@@ -228,5 +233,27 @@ public class Model implements IModel, IPaintSubject {
 				isClose = true;
 		if (isClose)
 			setMousePos(mouseX, mouseY);
+	}
+
+	@Override
+	public void groupShapes() {
+		newShape(DrawMode.GROUP);
+		for (IShape shape : _selectShapes) {
+			((IGroupShape)_shape).addShapeToGroup(shape);
+			_shapes.remove(shape);
+		}
+		_shapes.add(_shape);
+		_selectShapes.removeAll(_selectShapes);
+		_selectShapes.add(_shape);
+	}
+
+	@Override
+	public void unGroupShapes() {
+		IGroupShape groupShape = (IGroupShape)_selectShapes.get(0);
+		for(int i = 0; i < groupShape.getShapeCount(); i++){
+			IShape shape = groupShape.getStoredShape(i);
+			_shapes.add(shape);
+		}
+		_shapes.remove(groupShape);
 	}
 }

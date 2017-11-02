@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
-import ooad.model.Shape.IShape;
+import ooad.model.shape.IShape;
 
 public class AssociaLineMode extends BasicLineMode{
 	

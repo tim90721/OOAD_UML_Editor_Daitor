@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 import ooad.model.DrawMode;
 
@@ -17,6 +17,8 @@ public class ShapeFactory {
 			return new ClassGraph();
 		case USECASE_MODE:
 			return new UseCaseShape();
+		case GROUP:
+			return new GroupShape();
 		default:
 			return new NoneShape();
 		}

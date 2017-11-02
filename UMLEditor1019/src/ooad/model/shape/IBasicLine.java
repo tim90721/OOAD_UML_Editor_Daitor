@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 public interface IBasicLine {
 	void setMiddle();

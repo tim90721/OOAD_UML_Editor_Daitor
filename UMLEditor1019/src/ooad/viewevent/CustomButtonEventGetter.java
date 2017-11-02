@@ -10,12 +10,12 @@ import ooad.model.IModel;
 import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
-public class CustomButtonEvent implements IModeSwitchSubject{
+public class CustomButtonEventGetter implements IModeSwitchSubject{
 	private IPresentationModel _presentationModel;
 	private IModel _model;
 	private IModeSwitchObserver _oBtnEnable;
 	
-	public CustomButtonEvent(IPresentationModel presentationModel){
+	public CustomButtonEventGetter(IPresentationModel presentationModel){
 		this._presentationModel = presentationModel;
 		this._model = this._presentationModel.getModel();
 	}

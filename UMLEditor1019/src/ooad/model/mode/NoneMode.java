@@ -2,9 +2,9 @@ package ooad.model.mode;
 
 import java.awt.Graphics;
 
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
-import ooad.model.Shape.NoneShape;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
+import ooad.model.shape.NoneShape;
 
 public class NoneMode implements IMode{
 

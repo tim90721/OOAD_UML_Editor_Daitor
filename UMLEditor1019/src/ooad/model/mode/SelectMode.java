@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
-import ooad.model.Shape.NoneShape;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
+import ooad.model.shape.NoneShape;
 
 public class SelectMode extends AbstractMode {
 	private int _startX;
@@ -106,21 +106,26 @@ public class SelectMode extends AbstractMode {
 			int closeOffset) {
 		if (_model.isMousePressed() && !_model.isMouseDragging()){
 			boolean isClickInSelectArea = false;
+			setCoordinate(shape, mouseX, mouseY);
 			for (IShape selectShape : _selectShapes) {
-				if (selectShape.getStartX() < mouseX
-						&& selectShape.getEndX() > mouseX
-						&& selectShape.getStartY() < mouseY
-						&& selectShape.getEndY() > mouseY) {
+				if(selectShape.checkIsSelect(shape)){
 					_model.setPrevMousePos(mouseX, mouseY);
 					_model.setSelectShapes(_selectShapes);
 					_model.setUserMode(DrawMode.MOVING);
 					isClickInSelectArea = true;
 					return;
 				}
+//				if (selectShape.getStartX() < mouseX
+//						&& selectShape.getEndX() > mouseX
+//						&& selectShape.getStartY() < mouseY
+//						&& selectShape.getEndY() > mouseY) {
+//					
+//				}
 			}
 			if(!isClickInSelectArea)
 				_selectShapes = new ArrayList<IShape>();
 		}
 		super.drawing(g, shape, mouseX, mouseY, closeOffset);
+		_model.setSelectShapes(_selectShapes);
 	}
 }

@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics;

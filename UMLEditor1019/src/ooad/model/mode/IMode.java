@@ -3,8 +3,8 @@ package ooad.model.mode;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
 
 public interface IMode {
 	void drawing(Graphics g, IShape shape, int mouseX, int mouseY, int closeOffset);

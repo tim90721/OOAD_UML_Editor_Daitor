@@ -1,4 +1,4 @@
-package ooad.model.Shape;
+package ooad.model.shape;
 
 public interface IStringField extends IShape{
 	void setName(String name);
@@ -7,4 +7,6 @@ public interface IStringField extends IShape{
 	int getFontSize();
 	int getFontPixelWidth();
 	int getFontPixelHeight();
+	void configFontWidth(String name);
+	void configFontHeight(String name);
 }

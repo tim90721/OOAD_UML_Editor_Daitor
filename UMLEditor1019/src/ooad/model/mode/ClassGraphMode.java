@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
-import ooad.model.Shape.AbstractAreaShape;
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
-import ooad.model.Shape.StringField;
+import ooad.model.shape.AbstractAreaShape;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
+import ooad.model.shape.StringField;
 
 public class ClassGraphMode extends AbstractMode{
 	

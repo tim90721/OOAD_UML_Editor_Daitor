@@ -2,9 +2,9 @@ package ooad.model.mode;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
-import ooad.model.Shape.IBasicLine;
-import ooad.model.Shape.IShape;
-import ooad.model.Shape.IStringField;
+import ooad.model.shape.IBasicLine;
+import ooad.model.shape.IShape;
+import ooad.model.shape.IStringField;
 
 public abstract class BasicLineMode extends AbstractMode {
 	

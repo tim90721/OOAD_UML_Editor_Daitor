@@ -13,7 +13,8 @@ import ooad.model.IPresentationModel;
 import ooad.model.Model;
 import ooad.model.PresentationModel;
 import ooad.viewevent.ButtonEnable;
-import ooad.viewevent.CustomButtonEvent;
+import ooad.viewevent.CustomButtonEventGetter;
+import ooad.viewevent.CustomMenuEventGetter;
 import ooad.viewevent.CustomMouseEvent;
 
 import javax.swing.JMenuBar;
@@ -120,6 +121,7 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 	}
 
 	private void initiateMenu() {
+		CustomMenuEventGetter menuEventGetter = new CustomMenuEventGetter(_presentationModel);
 		_menuBar = new JMenuBar();
 		setJMenuBar(_menuBar);
 
@@ -132,14 +134,16 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 		_menuBar.add(_menuEdit);
 
 		_itemGroup = new JMenuItem("Group");
+		_itemGroup.addActionListener(menuEventGetter.getGroupMenuEvent());
 		_menuEdit.add(_itemGroup);
 
 		_itemUnGroup = new JMenuItem("UnGroup");
+		_itemUnGroup.addActionListener(menuEventGetter.getUnGroupMenuEvent());
 		_menuEdit.add(_itemUnGroup);
 	}
 
 	private void initiateButtons() {
-		CustomButtonEvent buttonEvent = new CustomButtonEvent(
+		CustomButtonEventGetter buttonEvent = new CustomButtonEventGetter(
 				_presentationModel);
 
 		_btnSelect = new JButton();
