@@ -103,9 +103,6 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 		setDifY(getMouseEndY() - getStartY());
 		setAngle(getDifX(), getDifY());
 		_distance = getDistance(getMouseEndX(), getMouseEndY(), getStartX(), getStartY());
-//		System.out.println(getMouseEndX());
-//		System.out.println(getStartX());
-//		System.out.println(_distance);
 		setEndX(getStartX() + (int)_distance);
 		setEndY(getStartY());
 	}

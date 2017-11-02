@@ -1,14 +1,10 @@
 package ooad.model.mode;
 
-import java.awt.Shape;
-
 import ooad.model.DrawMode;
 import ooad.model.IModel;
-import ooad.model.Shape.IAreaShape;
 import ooad.model.Shape.IBasicLine;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.IStringField;
-import ooad.model.Shape.NoneShape;
 
 public abstract class BasicLineMode extends AbstractMode {
 	
@@ -33,7 +29,6 @@ public abstract class BasicLineMode extends AbstractMode {
 				if(!_model.isMousePressed() 
 						&& shape.isLineEnclose(mouseX, mouseY, closeOffset)
 						&& !shape.equals(_startShape)){
-					System.out.println("aaa");
 					_hasCloseShape = true;
 				}
 			}

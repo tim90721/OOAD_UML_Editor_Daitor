@@ -20,7 +20,6 @@ public class ClassGraphMode extends AbstractMode{
 		ArrayList<IShape> shapes = _model.getStoreShapes();
 		AbstractAreaShape classGraph = (AbstractAreaShape)shapes.get(shapes.size() - 1);
 		classGraph.addShapeString(stringField, name);
-		System.out.println(stringField.getStartX());
 		shapes.remove(classGraph);
 		shapes.add(stringField);
 		_model.notifyPaintChange();

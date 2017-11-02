@@ -18,7 +18,6 @@ public abstract class AbstractMode implements IMode{
 	
 	@Override
 	public void storeShape(IShape shape) {
-//		if(_model.getDrawMode() != DrawMode.NONE)
 		if(shape.getShapeName() != "None")
 			_model.storeShape(shape);
 	}
@@ -51,16 +50,9 @@ public abstract class AbstractMode implements IMode{
 			int closeOffset) {
 		setCoordinate(shape, mouseX, mouseY);
 		isLineEnclose(shape, mouseX, mouseY, closeOffset);
-		if (_model.isMousePressed())
-			shape.drawShape(g);
 		if (!_model.isMousePressed() && !_model.isMouseMoving()) {
-			System.out.println("111");
 			_hasSelectShape = checkIsSelect(shape);
-			storeShape(shape);
 			_model.setMouseDragging(false);
-		}
-		if(_model.isMouseMoving()){
-			
 		}
 	}
 

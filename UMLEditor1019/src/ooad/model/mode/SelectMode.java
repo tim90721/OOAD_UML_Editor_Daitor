@@ -34,18 +34,14 @@ public class SelectMode extends AbstractMode {
 		if (_model.isMouseDragging()) {
 			configCoordinate(selectArea);
 			for (IShape shape : _model.getStoreShapes())
-				if (shape.getStartX() > _startX && shape.getStartY() > _startY
-						&& shape.getEndX() < _endX && shape.getEndY() < _endY) {
+				if (shape.checkIsSelect(_startX, _startY, _endX, _endY)) {
 					shape.setSelected(true);
 					_selectShapes.add(shape);
 					_hasSelectShape = true;
 				}
 		} else
 			for (IShape shape : _model.getStoreShapes())
-				if (shape.getStartX() < selectArea.getStartX()
-						&& shape.getEndX() > selectArea.getStartX()
-						&& shape.getStartY() < selectArea.getStartY()
-						&& shape.getEndY() > selectArea.getStartY()) {
+				if (shape.checkIsSelect(selectArea)) {
 					shape.setSelected(true);
 					_selectShapes.add(shape);
 					_hasSelectShape = true;

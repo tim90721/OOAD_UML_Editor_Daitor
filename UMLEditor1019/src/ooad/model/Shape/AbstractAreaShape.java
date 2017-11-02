@@ -84,7 +84,14 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 		super.isLineEnclose(line, mouseLineX, mouseLineY, closeOffset);
 		if(isSelected()){
 			findCloseSide(mouseLineX, mouseLineY, closeOffset);
-			setLineEndPos(line);
+			boolean hasStoreInStart = false;
+			for (StoredLine storedLine : _startLines) {
+				IShape shapeLine = storedLine.getLine();
+				if(shapeLine.equals(line))
+					hasStoreInStart = true;
+			}
+			if(!hasStoreInStart)
+				setLineEndPos(line);
 		}
 		else
 			_side = CloseSide.None;
@@ -143,7 +150,6 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	
 	@Override
 	public void setLineStartPos(IShape line) {
-		System.out.println(((IBasicLine)line).getMouseEndX());
 		switch (getCloseSide()) {
 		case North:
 			line.setStart(getMiddleX(), getStartY());
@@ -161,8 +167,6 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 			break;
 		}
 		if(getCloseSide() != CloseSide.None) {
-			System.out.println(((IBasicLine)line).getMouseEndX());
-//			System.out.println(line.getEndX());
 			line.setEnd(((IBasicLine)line).getMouseEndX(), ((IBasicLine)line).getMouseEndY());
 			storeStartLine(line, getCloseSide());
 		}
@@ -231,6 +235,22 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	@Override
 	public void movePos(int difX, int difY) {
 		setStart(_startX - difX, _startY - difY);
+	}
+
+	@Override
+	public boolean checkIsSelect(int x1, int y1, int x2, int y2) {
+		if (getStartX() > x1 && getStartY() > y1
+				&& getEndX() < x2 && getEndY() < y2) 
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean checkIsSelect(IShape selectArea) {
+		if (getStartX() < selectArea.getStartX() && getEndX() > selectArea.getStartX()
+				&& getStartY() < selectArea.getStartY()	&& getEndY() > selectArea.getStartY()) 
+			return true;
+		return false;
 	}
 }
 

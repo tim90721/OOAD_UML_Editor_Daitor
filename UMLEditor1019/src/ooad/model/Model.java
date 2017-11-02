@@ -44,10 +44,12 @@ public class Model implements IModel, IPaintSubject {
 	@Override
 	public void draw(Graphics g) {
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
-		for (IShape shape : _shapes) {
+		if (isMousePressed())
+			_shape.drawShape(g);
+		if (!isMousePressed() && !isMouseMoving()) 
+			_userMode.storeShape(_shape);
+		for (IShape shape : _shapes) 
 			shape.drawShape(g);
-		}
-		System.out.println(_shapes.size());
 	}
 
 	@Override

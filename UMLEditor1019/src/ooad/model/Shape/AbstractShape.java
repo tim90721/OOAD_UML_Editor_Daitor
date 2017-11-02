@@ -166,4 +166,14 @@ public abstract class AbstractShape implements IShape{
 		}
 		return false;
 	}
+
+	@Override
+	public boolean checkIsSelect(int x1, int y1, int x2, int y2) {
+		return false;
+	}
+
+	@Override
+	public boolean checkIsSelect(IShape selectArea) {
+		return false;
+	}
 }
