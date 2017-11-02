@@ -19,7 +19,7 @@ import ooad.model.shape.NoneShape;
 import ooad.model.shape.ShapeFactory;
 import ooad.model.shape.StringField;
 
-public class Model implements IModel, IPaintSubject ,IMenuItemChangeSubject{
+public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IShape> _selectShapes;
 	private ArrayList<IPaintObserver> _paintObservers;
