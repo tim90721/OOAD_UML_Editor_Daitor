@@ -154,4 +154,16 @@ public abstract class AbstractShape implements IShape{
 	public String getShapeName() {
 		return _name;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		IShape shape = (IShape)obj;
+		if(shape.getStartX() == getStartX()
+				&& shape.getStartY() == getStartY()
+				&& shape.getEndX() == getEndX()
+				&& shape.getEndY() == getEndY()){
+			return true;
+		}
+		return false;
+	}
 }

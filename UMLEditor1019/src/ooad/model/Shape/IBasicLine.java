@@ -8,6 +8,9 @@ public interface IBasicLine {
 	void setDifY(int difY);
 	int getDifX();
 	int getDifY();
+	void setMouseEndXY(int x, int y);
+	int getMouseEndX();
+	int getMouseEndY();
 	void setAngle(double angle);
 	void setAngle(int difX, int difY);
 	double getAngle();

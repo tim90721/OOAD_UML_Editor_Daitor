@@ -1,7 +1,11 @@
 package ooad.model.mode;
 
+import java.awt.Shape;
+
 import ooad.model.DrawMode;
 import ooad.model.IModel;
+import ooad.model.Shape.IAreaShape;
+import ooad.model.Shape.IBasicLine;
 import ooad.model.Shape.IShape;
 import ooad.model.Shape.IStringField;
 import ooad.model.Shape.NoneShape;
@@ -9,6 +13,7 @@ import ooad.model.Shape.NoneShape;
 public abstract class BasicLineMode extends AbstractMode {
 	
 	private boolean _hasCloseShape = false;
+	private IShape _startShape;
 
 	public BasicLineMode(IModel model) {
 		super(model);
@@ -18,12 +23,17 @@ public abstract class BasicLineMode extends AbstractMode {
 	public void isLineEnclose(IShape line, int mouseX, int mouseY,
 			int closeOffset) {
 		super.isLineEnclose(line, mouseX, mouseY, closeOffset);
-		if(_model.isMouseDragging() && !_model.isMousePressed())
+		if(_model.isMouseDragging() && !_model.isMousePressed()
+				|| !_model.isMouseDragging() && _model.isMousePressed()){
 			_hasCloseShape = false;
+		}
 		for (IShape shape : _model.getStoreShapes())
 			if (_model.isMouseDragging()){
 				shape.isLineEnclose(line, mouseX, mouseY, closeOffset);
-				if(!_model.isMousePressed() && shape.isLineEnclose(mouseX, mouseY, closeOffset)){
+				if(!_model.isMousePressed() 
+						&& shape.isLineEnclose(mouseX, mouseY, closeOffset)
+						&& !shape.equals(_startShape)){
+					System.out.println("aaa");
 					_hasCloseShape = true;
 				}
 			}
@@ -31,19 +41,24 @@ public abstract class BasicLineMode extends AbstractMode {
 				if (shape.isLineEnclose(mouseX, mouseY, closeOffset)) {
 					line.setCoordinate(mouseX, mouseY, mouseX, mouseY);
 					shape.setLineStartPos(line);
+					_startShape = shape;
 					_hasCloseShape = true;
 				} 
-			} else
+			} else{
 				shape.isLineEnclose(mouseX, mouseY, closeOffset);
-		if(!_hasCloseShape)
+			}
+		if(!_hasCloseShape){
 			_model.newShape(DrawMode.NONE);
+		}
 	}
 
 	@Override
 	public void setCoordinate(IShape shape, int mouseX, int mouseY) {
 		super.setCoordinate(shape, mouseX, mouseY);
-		if (_model.isMouseDragging())
+		if (_model.isMouseDragging() && shape.getShapeName() != "None"){
+			((IBasicLine)shape).setMouseEndXY(mouseX, mouseY);
 			shape.setEnd(mouseX, mouseY);
+		}
 	}
 
 	@Override

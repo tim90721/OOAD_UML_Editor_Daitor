@@ -54,16 +54,19 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	@Override
 	public void setStart(int startX, int startY) {
 		super.setStart(startX, startY);
-		for (StoredLine storedLine : _startLines) {
+		StoredLine storedLine;
+		for(int i = 0; i < _startLines.size(); i++){
+			storedLine = _startLines.get(i);
 			IShape line = storedLine.getLine();
 			_side = storedLine.getCloseSide();
-			_startLines.remove(storedLine);
+			_startLines.remove(i);
 			setLineStartPos(line);
 		}
-		for (StoredLine storedLine : _endLines) {
+		for(int i = 0; i < _endLines.size(); i++){
+			storedLine = _endLines.get(i);
 			IShape line = storedLine.getLine();
 			_side = storedLine.getCloseSide();
-			_startLines.remove(storedLine);
+			_endLines.remove(i);
 			setLineEndPos(line);
 		}
 	}
@@ -140,6 +143,7 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	
 	@Override
 	public void setLineStartPos(IShape line) {
+		System.out.println(((IBasicLine)line).getMouseEndX());
 		switch (getCloseSide()) {
 		case North:
 			line.setStart(getMiddleX(), getStartY());
@@ -157,6 +161,9 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 			break;
 		}
 		if(getCloseSide() != CloseSide.None) {
+			System.out.println(((IBasicLine)line).getMouseEndX());
+//			System.out.println(line.getEndX());
+			line.setEnd(((IBasicLine)line).getMouseEndX(), ((IBasicLine)line).getMouseEndY());
 			storeStartLine(line, getCloseSide());
 		}
 	}
@@ -165,15 +172,19 @@ public abstract class AbstractAreaShape extends AbstractShape implements
 	public void setLineEndPos(IShape line) {
 		switch (getCloseSide()) {
 		case North:
+			((IBasicLine)line).setMouseEndXY(getMiddleX(), getStartY());
 			line.setEnd(getMiddleX(), getStartY());
 			break;
 		case South:
+			((IBasicLine)line).setMouseEndXY(getMiddleX(), getEndY());
 			line.setEnd(getMiddleX(), getEndY());
 			break;
 		case West:
+			((IBasicLine)line).setMouseEndXY(getStartX(), getMiddleY());
 			line.setEnd(getStartX(), getMiddleY());
 			break;
 		case East:
+			((IBasicLine)line).setMouseEndXY(getEndX(), getMiddleY());
 			line.setEnd(getEndX(), getMiddleY());
 			break;
 		default:

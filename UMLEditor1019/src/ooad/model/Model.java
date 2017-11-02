@@ -47,6 +47,7 @@ public class Model implements IModel, IPaintSubject {
 		for (IShape shape : _shapes) {
 			shape.drawShape(g);
 		}
+		System.out.println(_shapes.size());
 	}
 
 	@Override

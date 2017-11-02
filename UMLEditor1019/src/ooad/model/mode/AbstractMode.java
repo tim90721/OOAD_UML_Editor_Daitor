@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
+import ooad.model.Model;
 import ooad.model.Shape.IShape;
 
 public abstract class AbstractMode implements IMode{
@@ -53,9 +54,13 @@ public abstract class AbstractMode implements IMode{
 		if (_model.isMousePressed())
 			shape.drawShape(g);
 		if (!_model.isMousePressed() && !_model.isMouseMoving()) {
+			System.out.println("111");
 			_hasSelectShape = checkIsSelect(shape);
 			storeShape(shape);
 			_model.setMouseDragging(false);
+		}
+		if(_model.isMouseMoving()){
+			
 		}
 	}
 

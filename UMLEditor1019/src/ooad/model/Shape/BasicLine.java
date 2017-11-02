@@ -12,6 +12,8 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	protected Direction _direction;
 	protected int _difX, _difY;
 	protected double _angle;
+	private int _mouseEndX;
+	private int _mouseEndY;
 	
 	public BasicLine(){
 		_direction = Direction.VERTICAL;
@@ -32,8 +34,6 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	public void setMiddle() {
 		setDifX(_startX - _endX);
 		setDifY(_startY - _endY);
-		int absDifX = Math.abs(getDifX());
-		int absDifY = Math.abs(getDifY());
 	}
 	
 	@Override
@@ -67,6 +67,22 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 	}
 
 	@Override
+	public void setMouseEndXY(int x, int y) {
+		_mouseEndX = x;
+		_mouseEndY = y;
+	}
+
+	@Override
+	public int getMouseEndX() {
+		return _mouseEndX;
+	}
+
+	@Override
+	public int getMouseEndY() {
+		return _mouseEndY;
+	}
+
+	@Override
 	public void setAngle(double angle) {
 		_angle = angle;
 	}
@@ -83,10 +99,13 @@ public abstract class BasicLine extends AbstractShape implements IBasicLine{
 
 	@Override
 	public void setEnd(int endX, int endY) {
-		setDifX(endX - getStartX());
-		setDifY(endY - getStartY());
+		setDifX(getMouseEndX() - getStartX());
+		setDifY(getMouseEndY() - getStartY());
 		setAngle(getDifX(), getDifY());
-		_distance = getDistance(endX, endY, getStartX(), getStartY());
+		_distance = getDistance(getMouseEndX(), getMouseEndY(), getStartX(), getStartY());
+//		System.out.println(getMouseEndX());
+//		System.out.println(getStartX());
+//		System.out.println(_distance);
 		setEndX(getStartX() + (int)_distance);
 		setEndY(getStartY());
 	}
