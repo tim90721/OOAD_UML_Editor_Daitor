@@ -45,6 +45,7 @@ public class SelectMode extends AbstractMode {
 					shape.setSelected(true);
 					_selectShapes.add(shape);
 					_hasSelectShape = true;
+					
 				}
 		if (_hasSelectShape)
 			return true;
