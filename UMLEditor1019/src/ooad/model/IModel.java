@@ -40,4 +40,6 @@ public interface IModel {
 	void unGroupShapes();
 	boolean checkCanGroup();
 	boolean checkCanUnGroup();
+	boolean checkCanEditName();
+	void editShapeName(String name);
 }

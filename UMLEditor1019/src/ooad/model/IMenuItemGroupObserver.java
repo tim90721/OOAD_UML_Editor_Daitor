@@ -1,5 +1,5 @@
 package ooad.model;
 
-public interface IMenuItemChangeObserver {
+public interface IMenuItemGroupObserver {
 	void updateItem();
 }

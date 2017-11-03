@@ -2,6 +2,8 @@ package ooad.model.mode;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
@@ -39,16 +41,37 @@ public class SelectMode extends AbstractMode {
 					_selectShapes.add(shape);
 					_hasSelectShape = true;
 				}
-		} else
+		} else{
 			for (IShape shape : _model.getStoreShapes())
 				if (shape.checkIsSelect(selectArea)) {
 					shape.setSelected(true);
 					_selectShapes.add(shape);
 					_hasSelectShape = true;
 				}
+			if(_selectShapes.size() > 0){
+				checkShapeDepth();
+				System.out.println("aa");
+			}
+		}
 		if (_hasSelectShape)
 			return true;
 		return false;
+	}
+	
+	private void checkShapeDepth(){
+		IShape shape = _selectShapes.get(0);
+		for(int i = 0; i < _selectShapes.size(); i++){
+			IShape compareShape = _selectShapes.get(i);
+			if(compareShape.getDepth() > shape.getDepth()){
+				shape.setSelected(false);
+				shape = compareShape;
+			}
+			System.out.println(_selectShapes.size());
+		}
+		_selectShapes.removeAll(_selectShapes);
+		System.out.println(_selectShapes.size());
+		_selectShapes.add(shape);
+		System.out.println(_selectShapes.size());
 	}
 
 	private void configCoordinate(IShape selectArea) {
@@ -81,6 +104,7 @@ public class SelectMode extends AbstractMode {
 
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
+//		stringField.setName(name);
 	}
 
 	@Override
@@ -115,12 +139,6 @@ public class SelectMode extends AbstractMode {
 					isClickInSelectArea = true;
 					return;
 				}
-//				if (selectShape.getStartX() < mouseX
-//						&& selectShape.getEndX() > mouseX
-//						&& selectShape.getStartY() < mouseY
-//						&& selectShape.getEndY() > mouseY) {
-//					
-//				}
 			}
 			if(!isClickInSelectArea)
 				_selectShapes = new ArrayList<IShape>();

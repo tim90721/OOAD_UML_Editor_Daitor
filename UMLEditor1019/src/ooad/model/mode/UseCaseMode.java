@@ -22,7 +22,7 @@ public class UseCaseMode extends AbstractMode{
 		AbstractAreaShape useCase = (AbstractAreaShape)shapes.get(shapes.size() - 1);
 		useCase.addShapeString(stringField, name);
 		shapes.remove(useCase);
-		shapes.add(stringField);
+		storeShape(stringField);
 		_model.notifyPaintChange();
 	}
 

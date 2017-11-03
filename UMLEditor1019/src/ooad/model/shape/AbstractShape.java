@@ -176,4 +176,14 @@ public abstract class AbstractShape implements IShape, IGroupable{
 	public boolean checkIsSelect(IShape selectArea) {
 		return false;
 	}
+
+	@Override
+	public void setDepth(int depth) {
+		_depth = depth;
+	}
+
+	@Override
+	public int getDepth() {
+		return _depth;
+	}
 }

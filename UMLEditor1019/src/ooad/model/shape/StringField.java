@@ -17,12 +17,8 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	public StringField(AbstractAreaShape shape, String name){
 		_name = "StringField";
 		_parent = shape;
-		_nameField = name;
 		_font = new Font("Arial Black", Font.PLAIN, _fontSize);
-		configFontWidth(name);
-		configFontHeight(name);
-		setWidth(2 * _fontSize + _fontPixelWidth);
-		setHeight(2 * _fontSize + _fontPixelHeight);
+		setName(name);
 	}
 
 	@Override
@@ -30,7 +26,8 @@ public class StringField extends AbstractAreaShape implements IStringField{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("Arial Black", Font.PLAIN, _fontSize));
 		_parent.drawShape(g);
-		g2.drawString(_nameField, _startX, _startY);
+		if(!_nameField.equals(""))
+			g2.drawString(_nameField, _startX, _startY);
 	}
 
 	@Override
@@ -51,6 +48,10 @@ public class StringField extends AbstractAreaShape implements IStringField{
 	@Override
 	public void setName(String name) {
 		_nameField = name;
+		configFontWidth(_nameField);
+		configFontHeight(_nameField);
+		setWidth(2 * _fontSize + _fontPixelWidth);
+		setHeight(2 * _fontSize + _fontPixelHeight);
 	}
 
 	@Override

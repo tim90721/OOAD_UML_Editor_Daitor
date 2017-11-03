@@ -57,16 +57,6 @@ public class PresentationModel implements IPresentationModel{
 	}
 
 	@Override
-	public void setCanGroup() {
-		_canGroup = _model.checkCanGroup();
-	}
-
-	@Override
-	public void setCanUngroup() {
-		_canUngroup = _model.checkCanUnGroup();
-	}
-
-	@Override
 	public void refreshButtonState() {
 		_isSelect = false;
 		_isAssociationLine = false;
@@ -108,11 +98,16 @@ public class PresentationModel implements IPresentationModel{
 
 	@Override
 	public boolean canGroup() {
-		return _canGroup;
+		return _model.checkCanGroup();
 	}
 
 	@Override
 	public boolean canUngroup() {
-		return _canUngroup;
+		return  _model.checkCanUnGroup();
+	}
+
+	@Override
+	public boolean canEditName() {
+		return _model.checkCanEditName();
 	}
 }

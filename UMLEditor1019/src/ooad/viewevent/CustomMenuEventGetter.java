@@ -4,20 +4,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import ooad.model.IMenuItemChangeObserver;
-import ooad.model.IMenuItemChangeSubject;
+import ooad.model.IEditNameObserver;
+import ooad.model.IEditNameSubject;
+import ooad.model.IMenuItemGroupObserver;
+import ooad.model.IMenuItemGroupSubject;
 import ooad.model.IModel;
 import ooad.model.IPresentationModel;
 
-public class CustomMenuEventGetter implements IMenuItemChangeSubject{
+public class CustomMenuEventGetter implements IMenuItemGroupSubject, IEditNameSubject{
 	private IPresentationModel _presentationModel;
 	private IModel _model;
-	private ArrayList<IMenuItemChangeObserver> _observers;
+	private ArrayList<IMenuItemGroupObserver> _groupObservers;
+	private ArrayList<IEditNameObserver> _editNameObservers;
 	
 	public CustomMenuEventGetter(IPresentationModel presentationModel) {
 		_presentationModel = presentationModel;
 		_model = _presentationModel.getModel();
-		_observers = new ArrayList<IMenuItemChangeObserver>();
+		_groupObservers = new ArrayList<IMenuItemGroupObserver>();
+		_editNameObservers = new ArrayList<IEditNameObserver>();
 	}
 	
 	public CustomMenuEvent getGroupMenuEvent(){
@@ -28,15 +32,30 @@ public class CustomMenuEventGetter implements IMenuItemChangeSubject{
 		return new MenuItemUnGroupEvent(_presentationModel);
 	}
 	
+	public CustomMenuEvent getEditNameEvent(){
+		return new MenuItemEditNameEvent(_presentationModel);
+	}
+	
 	@Override
-	public void registerMenuItemObserver(IMenuItemChangeObserver observer) {
-		_observers.add(observer);
+	public void registerMenuItemGroupObserver(IMenuItemGroupObserver observer) {
+		_groupObservers.add(observer);
 	}
 
 	@Override
-	public void notifyMenuItemChange() {
-		for (IMenuItemChangeObserver observer : _observers) 
+	public void notifyMenuItemGroupChange() {
+		for (IMenuItemGroupObserver observer : _groupObservers) 
 			observer.updateItem();
+	}
+
+	@Override
+	public void registerEditNameObserver(IEditNameObserver observer) {
+		_editNameObservers.add(observer);
+	}
+
+	@Override
+	public void notifyEditName() {
+		for (IEditNameObserver observer : _editNameObservers) 
+			observer.updateEditName();
 	}
 
 	abstract class CustomMenuEvent implements ActionListener{
@@ -57,7 +76,7 @@ public class CustomMenuEventGetter implements IMenuItemChangeSubject{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			_model.groupShapes();;
-			notifyMenuItemChange();
+			notifyMenuItemGroupChange();
 		}
 	}
 	
@@ -69,7 +88,18 @@ public class CustomMenuEventGetter implements IMenuItemChangeSubject{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			_model.unGroupShapes();
-			notifyMenuItemChange();
+			notifyMenuItemGroupChange();
+		}
+	}
+	
+	private class MenuItemEditNameEvent extends CustomMenuEvent{
+		public MenuItemEditNameEvent(IPresentationModel presentationModel) {
+			super(presentationModel);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			notifyEditName();
 		}
 	}
 }

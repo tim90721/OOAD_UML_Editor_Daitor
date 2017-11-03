@@ -21,7 +21,7 @@ public class ClassGraphMode extends AbstractMode{
 		AbstractAreaShape classGraph = (AbstractAreaShape)shapes.get(shapes.size() - 1);
 		classGraph.addShapeString(stringField, name);
 		shapes.remove(classGraph);
-		shapes.add(stringField);
+		storeShape(stringField);
 		_model.notifyPaintChange();
 	}
 

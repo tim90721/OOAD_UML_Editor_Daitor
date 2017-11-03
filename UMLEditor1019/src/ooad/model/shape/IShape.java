@@ -32,4 +32,6 @@ public interface IShape {
 	void movePos(int difX, int difY);
 	boolean checkIsSelect(int x1, int y1, int x2, int y2);
 	boolean checkIsSelect(IShape selectArea);
+	void setDepth(int depth);
+	int getDepth();
 }

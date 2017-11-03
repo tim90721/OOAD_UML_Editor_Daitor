@@ -1,6 +1,7 @@
 package ooad.model.shape;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class ClassGraph extends AbstractAreaShape{
 		super.drawShape(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
+		g2.setColor(Color.WHITE);
+		g2.fillRect(getStartX(), getStartY(), getWidth(), getHeight());
+		g2.setColor(Color.BLACK);
 		g2.drawRect(getStartX(), getStartY(), getWidth(), getHeight());
 		g2.setStroke(new BasicStroke(1));
 	}

@@ -7,7 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ooad.model.DrawMode;
-import ooad.model.IMenuItemChangeSubject;
+import ooad.model.IEditNameObserver;
+import ooad.model.IMenuItemGroupSubject;
 import ooad.model.IModel;
 import ooad.model.IPopMsgObserver;
 import ooad.model.IPresentationModel;
@@ -37,7 +38,8 @@ import java.util.jar.Attributes.Name;
 import java.awt.Canvas;
 import java.awt.Font;
 
-public class UMLEditorView extends JFrame implements IPopMsgObserver {
+public class UMLEditorView extends JFrame implements IPopMsgObserver,
+		IEditNameObserver {
 
 	private JPanel _panelContentPane;
 	private JMenuBar _menuBar;
@@ -125,7 +127,8 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 	}
 
 	private void initiateMenu() {
-		CustomMenuEventGetter menuEventGetter = new CustomMenuEventGetter(_presentationModel);
+		CustomMenuEventGetter menuEventGetter = new CustomMenuEventGetter(
+				_presentationModel);
 		_menuBar = new JMenuBar();
 		setJMenuBar(_menuBar);
 
@@ -138,13 +141,14 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 		_menuBar.add(_menuEdit);
 
 		_itemEditName = new JMenuItem("Edit Name");
+		_itemEditName.addActionListener(menuEventGetter.getEditNameEvent());
 		_menuEdit.add(_itemEditName);
-		
+
 		_itemAddNewName = new JMenuItem("Add New Name");
 		_menuEdit.add(_itemAddNewName);
-		
+
 		_menuEdit.addSeparator();
-		
+
 		_itemGroup = new JMenuItem("Group");
 		_itemGroup.addActionListener(menuEventGetter.getGroupMenuEvent());
 		_menuEdit.add(_itemGroup);
@@ -152,11 +156,13 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 		_itemUnGroup = new JMenuItem("UnGroup");
 		_itemUnGroup.addActionListener(menuEventGetter.getUnGroupMenuEvent());
 		_menuEdit.add(_itemUnGroup);
-		
+
 		MenuItemEnable menuItemEnable = new MenuItemEnable(_itemGroup,
-				_itemUnGroup, _presentationModel);
-		((IMenuItemChangeSubject)_model).registerMenuItemObserver(menuItemEnable);
-		menuEventGetter.registerMenuItemObserver(menuItemEnable);
+				_itemUnGroup, _itemEditName, _itemAddNewName, _presentationModel);
+		((IMenuItemGroupSubject) _model)
+				.registerMenuItemGroupObserver(menuItemEnable);
+		menuEventGetter.registerMenuItemGroupObserver(menuItemEnable);
+		menuEventGetter.registerEditNameObserver(this);
 	}
 
 	private void initiateButtons() {
@@ -232,16 +238,24 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver {
 
 	@Override
 	public void updatePopMsg() {
-		showMsgBox();
+		if (_model.getDrawMode() == DrawMode.CLASS_MODE
+				|| _model.getDrawMode() == DrawMode.USECASE_MODE) {
+			String name = showMsgBox();
+			_model.addShapeString(name);
+		}
 	}
 
-	private void showMsgBox(){
-		if(_model.getDrawMode() == DrawMode.CLASS_MODE || _model.getDrawMode() == DrawMode.USECASE_MODE){
-			String name = (String)JOptionPane.showInputDialog(this, "class name:",
-					"Set Name", JOptionPane.PLAIN_MESSAGE, 
-					null, null, null);
-			if(!name.equals(""))
-				_model.addShapeString(name);
-		}
+	@Override
+	public void updateEditName() {
+		String name = showMsgBox();
+		_model.editShapeName(name);
+	}
+
+	private String showMsgBox() {
+		String name = (String) JOptionPane.showInputDialog(this, "class name:",
+				"Set Name", JOptionPane.PLAIN_MESSAGE, null, null, null);
+		if(name == null)
+			name = " ";
+		return name;
 	}
 }

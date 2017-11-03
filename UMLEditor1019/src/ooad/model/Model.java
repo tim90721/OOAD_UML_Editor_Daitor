@@ -19,11 +19,11 @@ import ooad.model.shape.NoneShape;
 import ooad.model.shape.ShapeFactory;
 import ooad.model.shape.StringField;
 
-public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
+public class Model implements IModel, IPaintSubject, IMenuItemGroupSubject{
 	private ArrayList<IShape> _shapes;
 	private ArrayList<IShape> _selectShapes;
 	private ArrayList<IPaintObserver> _paintObservers;
-	private ArrayList<IMenuItemChangeObserver> _menuObservers;
+	private ArrayList<IMenuItemGroupObserver> _menuObservers;
 	private int _mouseX, _mouseY;
 	private int _prevMouseX, _prevMouseY;
 	private int _closeOffset = 30;
@@ -40,7 +40,7 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 		_shapes = new ArrayList<IShape>();
 		_selectShapes = new ArrayList<IShape>();
 		_paintObservers = new ArrayList<IPaintObserver>();
-		_menuObservers = new ArrayList<IMenuItemChangeObserver>();
+		_menuObservers = new ArrayList<IMenuItemGroupObserver>();
 		_shapeFactory = new ShapeFactory();
 		_modeFactory = new ModeFactory(this);
 		setDrawMode(DrawMode.NONE);
@@ -51,12 +51,15 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 	public void draw(Graphics g) {
 		g.setColor(Color.BLACK);
 		_userMode.drawing(g, _shape, _mouseX, _mouseY, _closeOffset);
-		if (isMousePressed())
-			_shape.drawShape(g);
 		if (!isMousePressed() && !isMouseMoving()) 
 			_userMode.storeShape(_shape);
-		for (IShape shape : _shapes)
+		for (IShape shape : _shapes){
 			shape.drawShape(g);
+			System.out.println(shape.getShapeName() + " " + shape.getDepth());
+		}
+		System.out.println("---");
+		if (isMousePressed())
+			_shape.drawShape(g);
 	}
 
 	@Override
@@ -81,7 +84,7 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 		this._mouseX = x;
 		this._mouseY = y;
 		notifyPaintChange();
-		notifyMenuItemChange();
+		notifyMenuItemGroupChange();
 	}
 
 	/** 
@@ -182,6 +185,8 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 	@Override
 	public void storeShape(IShape shape) {
 		_shapes.add(shape);
+		for(IShape storeShape : _shapes)
+			storeShape.setDepth(_shapes.indexOf(storeShape));
 	}
 	
 	@Override
@@ -237,7 +242,7 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 			((IGroupShape)_shape).addShapeToGroup(shape);
 			_shapes.remove(shape);
 		}
-		_shapes.add(_shape);
+		storeShape(_shape);
 		_selectShapes.removeAll(_selectShapes);
 		_selectShapes.add(_shape);
 	}
@@ -248,7 +253,7 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 			IGroupShape groupShape = (IGroupShape)_selectShapes.get(0);
 			for(int i = 0; i < groupShape.getShapeCount(); i++){
 				IShape shape = groupShape.getStoredShape(i);
-				_shapes.add(shape);
+				storeShape(shape);
 				_selectShapes.add(shape);
 			}
 			_shapes.remove((IShape)groupShape);
@@ -273,14 +278,30 @@ public class Model implements IModel, IPaintSubject, IMenuItemChangeSubject{
 	}
 
 	@Override
-	public void registerMenuItemObserver(IMenuItemChangeObserver observer) {
+	public boolean checkCanEditName() {
+		if(_selectShapes.size() == 1){
+			IGroupable shape = (IGroupable)_selectShapes.get(0);
+			if(!shape.isGrouped())
+				return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void registerMenuItemGroupObserver(IMenuItemGroupObserver observer) {
 		_menuObservers.add(observer);
 	}
 
 	@Override
-	public void notifyMenuItemChange() {
-		for (IMenuItemChangeObserver observer : _menuObservers) {
+	public void notifyMenuItemGroupChange() {
+		for (IMenuItemGroupObserver observer : _menuObservers) 
 			observer.updateItem();
-		}
+	}
+
+	@Override
+	public void editShapeName(String name) {
+		IStringField shape = (IStringField)_selectShapes.get(0);
+		shape.setName(name);
+		notifyPaintChange();
 	}
 }
