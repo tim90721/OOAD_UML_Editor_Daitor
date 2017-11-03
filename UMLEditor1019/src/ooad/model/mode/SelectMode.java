@@ -50,7 +50,6 @@ public class SelectMode extends AbstractMode {
 				}
 			if(_selectShapes.size() > 0){
 				checkShapeDepth();
-				System.out.println("aa");
 			}
 		}
 		if (_hasSelectShape)
@@ -66,12 +65,9 @@ public class SelectMode extends AbstractMode {
 				shape.setSelected(false);
 				shape = compareShape;
 			}
-			System.out.println(_selectShapes.size());
 		}
 		_selectShapes.removeAll(_selectShapes);
-		System.out.println(_selectShapes.size());
 		_selectShapes.add(shape);
-		System.out.println(_selectShapes.size());
 	}
 
 	private void configCoordinate(IShape selectArea) {
