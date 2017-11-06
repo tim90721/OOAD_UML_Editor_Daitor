@@ -5,14 +5,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+/**
+ * general method for use case 
+ * @author Daitor
+ *
+ */
 public class UseCaseShape extends AbstractAreaShape{
 
+	/**
+	 * constructor
+	 */
 	public UseCaseShape() {
 		setWidth(100);
 		setHeight(60);
 		_name = "UseCase";
 	}
 	
+	/**
+	 * draw use case
+	 */
 	@Override
 	public void drawShape(Graphics g) {
 		super.drawShape(g);
@@ -24,7 +35,10 @@ public class UseCaseShape extends AbstractAreaShape{
 		g2.drawOval(getStartX(), getStartY(), getWidth(), getHeight());
 		g2.setStroke(new BasicStroke(1));
 	}
-	
+
+	/**
+	 * add shape string to use case
+	 */
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
 		stringField.setStart(getStartX() + stringField.getFontSize(),

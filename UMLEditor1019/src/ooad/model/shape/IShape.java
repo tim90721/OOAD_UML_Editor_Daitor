@@ -2,6 +2,11 @@ package ooad.model.shape;
 
 import java.awt.Graphics;
 
+/**
+ * general method for shape
+ * @author Daitor
+ *
+ */
 public interface IShape {
 	void drawShape(Graphics g);
 	void setStartX(int x);

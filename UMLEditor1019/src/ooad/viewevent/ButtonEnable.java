@@ -7,6 +7,11 @@ import ooad.model.IModeSwitchSubject;
 import ooad.model.IPaintObserver;
 import ooad.model.IPresentationModel;
 
+/**
+ * handle button should be enabled
+ * @author Daitor
+ *
+ */
 public class ButtonEnable implements IModeSwitchObserver{
 	private JButton _btnSelect;
 	private JButton _btnAssociaLine;
@@ -16,6 +21,16 @@ public class ButtonEnable implements IModeSwitchObserver{
 	private JButton _btnUseCase;
 	private IPresentationModel _presentationModel;
 	
+	/**
+	 * constructor
+	 * @param btnSelect select mode button 
+	 * @param btnAssociaLine association line mode button
+	 * @param btnGeneralLine general line mode button
+	 * @param btnCompositionLine composition line mode button
+	 * @param btnClass class graph mode button
+	 * @param btnUseCase use case mode button 
+	 * @param presentationModel presentation model
+	 */
 	public ButtonEnable(JButton btnSelect, JButton btnAssociaLine, JButton btnGeneralLine,
 			JButton btnCompositionLine, JButton btnClass, JButton btnUseCase, IPresentationModel presentationModel) {
 		_btnSelect = btnSelect;
@@ -28,11 +43,17 @@ public class ButtonEnable implements IModeSwitchObserver{
 		RefreshControl();
 	}
 
+	/**
+	 * handle button click event
+	 */
 	@Override
 	public void updateMode() {
 		RefreshControl();
 	}
 
+	/**
+	 * refresh button enable 
+	 */
 	public void RefreshControl(){
 		_btnSelect.setEnabled(!_presentationModel.isSelectMode());
 		_btnAssociaLine.setEnabled(!_presentationModel.isAssociaLineMode());

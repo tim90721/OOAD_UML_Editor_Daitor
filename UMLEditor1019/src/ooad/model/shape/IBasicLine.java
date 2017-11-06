@@ -1,5 +1,10 @@
 package ooad.model.shape;
 
+/**
+ * general method for basic lines
+ * @author Daitor
+ *
+ */
 public interface IBasicLine {
 	void setMiddle();
 	void setDirection(Direction direction);

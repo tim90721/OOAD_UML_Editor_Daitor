@@ -1,5 +1,10 @@
 package ooad.model.shape;
 
+/**
+ * general method for string field
+ * @author Daitor
+ *
+ */
 public interface IStringField extends IShape{
 	void setName(String name);
 	String getName();

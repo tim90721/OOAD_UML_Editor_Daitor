@@ -2,7 +2,18 @@ package ooad.model.shape;
 
 import ooad.model.DrawMode;
 
+/**
+ * generate shape 
+ * @author Daitor
+ *
+ */
 public class ShapeFactory {
+	
+	/**
+	 * get new shape based on drawing mode
+	 * @param mode drawing mode
+	 * @return new shape
+	 */
 	public IShape getShape(DrawMode mode) {
 		switch (mode) {
 		case SELECT:
