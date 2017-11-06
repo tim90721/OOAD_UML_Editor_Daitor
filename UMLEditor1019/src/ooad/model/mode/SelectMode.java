@@ -2,15 +2,17 @@ package ooad.model.mode;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.shape.IShape;
 import ooad.model.shape.IStringField;
-import ooad.model.shape.NoneShape;
 
+/**
+ * drawing method related to select mode
+ * @author daitor
+ *
+ */
 public class SelectMode extends AbstractMode {
 	private int _startX;
 	private int _startY;
@@ -18,16 +20,29 @@ public class SelectMode extends AbstractMode {
 	private int _endY;
 	private ArrayList<IShape> _selectShapes;
 
+	/**
+	 * constructor 
+	 * @param model model
+	 */
 	public SelectMode(IModel model) {
 		super(model);
 		_selectShapes = new ArrayList<IShape>();
 		_hasSelectShape = false;
 	}
 
+	/**
+	 * store shape.
+	 * this class override to do nothing
+	 */
 	@Override
 	public void storeShape(IShape shape) {
 	}
 
+	/**
+	 * check stored shape is select or not
+	 * @param selectArea select area set in select mode
+	 * @return if there is any store shape is select, than return true.
+	 */
 	@Override
 	public boolean checkIsSelect(IShape selectArea) {
 		super.checkIsSelect(selectArea);
@@ -57,6 +72,11 @@ public class SelectMode extends AbstractMode {
 		return false;
 	}
 	
+	/**
+	 * check select shapes depth. 
+	 * if user click an area contain multiple shapes,
+	 * model will choose shape with higher depth.
+	 */
 	private void checkShapeDepth(){
 		IShape shape = _selectShapes.get(0);
 		for(int i = 0; i < _selectShapes.size(); i++){
@@ -70,6 +90,10 @@ public class SelectMode extends AbstractMode {
 		_selectShapes.add(shape);
 	}
 
+	/**
+	 * configuration select area coordinate
+	 * @param selectArea select area set in select mode
+	 */
 	private void configCoordinate(IShape selectArea) {
 		_startX = selectArea.getStartX();
 		_startY = selectArea.getStartY();
@@ -92,17 +116,33 @@ public class SelectMode extends AbstractMode {
 		_startY = selectStartY;
 	}
 
+	/**
+	 * check is there any line enclose
+	 * @param line line need to check
+	 * @param mouseX mouse x location
+	 * @param mouseY mouse y location
+	 * @param closeOffset define how much pixel is meaning close
+	 */
 	@Override
 	public void isLineEnclose(IShape line, int mouseX, int mouseY,
 			int closeOffset) {
 		super.isLineEnclose(line, mouseX, mouseY, closeOffset);
 	}
 
+	/**
+	 * add string to shape
+	 * this class override to do nothing
+	 */
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
-//		stringField.setName(name);
 	}
 
+	/**
+	 * set shape coordinate
+	 * @param shape select area
+	 * @param mouseX mouse x location
+	 * @param mouseY mouse y location
+	 */
 	@Override
 	public void setCoordinate(IShape shape, int mouseX, int mouseY) {
 		super.setCoordinate(shape, mouseX, mouseY);
@@ -110,17 +150,27 @@ public class SelectMode extends AbstractMode {
 			shape.setEnd(mouseX, mouseY);
 	}
 
+	/**
+	 * set mode to select mode
+	 */
 	@Override
 	public void setMode() {
 		_model.setDrawMode(DrawMode.SELECT);
 	}
+//
+//	@Override
+//	public boolean moveSelectShape(int mouseX, int mouseY) {
+//		return false;
+//	}
 
-	@Override
-	public boolean moveSelectShape(int mouseX, int mouseY) {
-
-		return false;
-	}
-
+	/**
+	 * drawing method for select mode
+	 * @param g graphic object for painting
+	 * @param shape shape for painting
+	 * @param mouseX mouse x location 
+	 * @param mousey mouse y location
+	 * @param closeOffset define how much pixel is meaning close
+	 */
 	@Override
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
 			int closeOffset) {

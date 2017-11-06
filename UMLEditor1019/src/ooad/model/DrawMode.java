@@ -1,5 +1,10 @@
 package ooad.model;
 
+/**
+ * basic drawing mode
+ * @author daitor
+ *
+ */
 public enum DrawMode {
 	NONE,
 	SELECT,

@@ -28,19 +28,21 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.IOException;
-import java.util.jar.Attributes.Name;
-import java.awt.Canvas;
 import java.awt.Font;
 
+/**
+ * 
+ * @author daitor
+ * main frame
+ * 
+ */
 public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		IEditNameObserver {
-
 	private JPanel _panelContentPane;
 	private JMenuBar _menuBar;
 	private JMenu _menuFile;
@@ -89,10 +91,12 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 	public UMLEditorView(IPresentationModel presentationModel) {
 		this._presentationModel = presentationModel;
 		this._model = this._presentationModel.getModel();
+		// initial frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("UMLEditor");
 		setBounds(100, 100, 1000, 800);
 
+		// initial main panel
 		_panelContentPane = new JPanel();
 		_panelContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(_panelContentPane);
@@ -105,11 +109,14 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 				0.0, Double.MIN_VALUE };
 		_panelContentPane.setLayout(gbl_contentPane);
 
+		// initial components
 		initiateComponent();
 
+		// add popup message box listener
 		CustomMouseEvent mouseEvent = new CustomMouseEvent(_presentationModel);
 		mouseEvent.registerPopMsgObserver(this);
 
+		// add canvas
 		_pPanel = new PaintPanel(_model, mouseEvent);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridheight = 7;
@@ -120,12 +127,18 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		_panelContentPane.add(_pPanel, gbc_panel);
 	}
 
+	/**
+	 * initial components(Buttons, Menus)
+	 */
 	private void initiateComponent() {
 		initiateMenu();
 		initiateButtons();
 		initiateButtonIcon();
 	}
 
+	/**
+	 * initial menus
+	 */
 	private void initiateMenu() {
 		CustomMenuEventGetter menuEventGetter = new CustomMenuEventGetter(
 				_presentationModel);
@@ -165,6 +178,9 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		menuEventGetter.registerEditNameObserver(this);
 	}
 
+	/**
+	 * initial buttons
+	 */
 	private void initiateButtons() {
 		CustomButtonEventGetter buttonEvent = new CustomButtonEventGetter(
 				_presentationModel);
@@ -203,6 +219,11 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		buttonEvent.registerBtnEnableObserver(btnEnable);
 	}
 
+	/**
+	 * config button location
+	 * @param button button need to settle
+	 * @param index button row index
+	 */
 	private void configButton(JButton button, int index) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 5, 5);
@@ -214,6 +235,9 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		button.setMargin(new Insets(0, 0, 0, 0));
 	}
 
+	/**
+	 * initial buttons icon
+	 */
 	private void initiateButtonIcon() {
 		setButtonIcon(_btnSelect, MOUSE_IMAGE);
 		setButtonIcon(_btnAssociaLine, ASSOCIATIONLINE_IMAGE);
@@ -223,6 +247,11 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		setButtonIcon(_btnUseCase, USECASE_IMAGE);
 	}
 
+	/**
+	 * initial button icon
+	 * @param button button need to set icon
+	 * @param IconName icon file name
+	 */
 	private void setButtonIcon(JButton button, String IconName) {
 		String path = "img/" + IconName;
 		try {
@@ -236,6 +265,9 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		}
 	}
 
+	/**
+	 * popup message box for class graph and use case mode 
+	 */
 	@Override
 	public void updatePopMsg() {
 		if (_model.getDrawMode() == DrawMode.CLASS_MODE
@@ -245,12 +277,19 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		}
 	}
 
+	/**
+	 * popup message box for edit name 
+	 */
 	@Override
 	public void updateEditName() {
 		String name = showMsgBox();
 		_model.editShapeName(name);
 	}
 
+	/**
+	 * show message box
+	 * @return textbox string for setting object name
+	 */
 	private String showMsgBox() {
 		String name = (String) JOptionPane.showInputDialog(this, "class name:",
 				"Set Name", JOptionPane.PLAIN_MESSAGE, null, null, null);

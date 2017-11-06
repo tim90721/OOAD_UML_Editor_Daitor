@@ -1,5 +1,10 @@
 package ooad.model;
 
+/**
+ * presentation model 
+ * @author daitor
+ *
+ */
 public interface IPresentationModel {
 	void setSelectMode(boolean isSelect);
 	void setAssociaLineMode(boolean isAssociaLine);

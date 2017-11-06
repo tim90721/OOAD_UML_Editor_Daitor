@@ -6,15 +6,30 @@ import ooad.model.shape.IBasicLine;
 import ooad.model.shape.IShape;
 import ooad.model.shape.IStringField;
 
+/**
+ * basic drawing method for line
+ * @author daitor
+ *
+ */
 public abstract class BasicLineMode extends AbstractMode {
-	
 	private boolean _hasCloseShape = false;
 	private IShape _startShape;
 
+	/**
+	 * constructor
+	 * @param model model
+	 */
 	public BasicLineMode(IModel model) {
 		super(model);
 	}
 
+	/**
+	 * check is line enclose 
+	 * @param line current drawing line
+	 * @param mouseX mouse x location
+	 * @param mouseY mouse y location
+	 * @param closeOffset define how much pixel is meaning close 
+	 */
 	@Override
 	public void isLineEnclose(IShape line, int mouseX, int mouseY,
 			int closeOffset) {
@@ -47,6 +62,12 @@ public abstract class BasicLineMode extends AbstractMode {
 		}
 	}
 
+	/**
+	 * set line's coordinate
+	 * @param shape line need to set
+	 * @param mouseX mouse x location
+	 * @param mouseY mouse y location
+	 */
 	@Override
 	public void setCoordinate(IShape shape, int mouseX, int mouseY) {
 		super.setCoordinate(shape, mouseX, mouseY);
@@ -56,10 +77,17 @@ public abstract class BasicLineMode extends AbstractMode {
 		}
 	}
 
+	/**
+	 * do nothing
+	 */
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
 	}
 
+	/**
+	 * store shape
+	 * @param shape shape need to store
+	 */
 	@Override
 	public void storeShape(IShape shape) {
 		super.storeShape(shape);

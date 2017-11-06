@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import ooad.model.mode.IMode;
 import ooad.model.shape.IShape;
 
+/**
+ * model for storing data
+ * @author daitor
+ *
+ */
 public interface IModel {
 	void draw(Graphics g);
 	void registerPaintObserver(IPaintObserver observer);
@@ -29,6 +34,7 @@ public interface IModel {
 	void newShape();
 	void newShape(DrawMode mode);
 	void storeShape(IShape shape);
+	void refreshShapeDepth();
 	void setShapeSelectStatus(boolean selected);
 	void addShapeString(String name);
 	ArrayList<IShape> getStoreShapes();

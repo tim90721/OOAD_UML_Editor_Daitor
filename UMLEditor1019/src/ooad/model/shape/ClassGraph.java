@@ -4,16 +4,27 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
+/**
+ * data method for class graph
+ * @author daitor
+ *
+ */
 public class ClassGraph extends AbstractAreaShape{
 
+	/**
+	 * constructor
+	 */
 	public ClassGraph() {
 		setWidth(60);
 		setHeight(100);
 		_name = "ClassGraph";
 	}
 	
+	/**
+	 * draw class graph
+	 * @param g graphic object for painting
+	 */
 	@Override
 	public void drawShape(Graphics g){
 		super.drawShape(g);
@@ -26,8 +37,10 @@ public class ClassGraph extends AbstractAreaShape{
 		g2.setStroke(new BasicStroke(1));
 	}
 	
-	/* (non-Javadoc)
-	 * add string to shape
+	/**
+	 * add string to this class graph
+	 * @param stringField string field need to add to this class graph
+	 * @param name string field name
 	 */
 	@Override
 	public void addShapeString(IStringField stringField, String name) {

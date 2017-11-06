@@ -3,6 +3,11 @@ package ooad.model.mode;
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 
+/**
+ * get mode from factory 
+ * @author daitor
+ *
+ */
 public class ModeFactory {
 	private SelectMode _selectMode;
 	private MovingMode _movingMode;
@@ -13,6 +18,10 @@ public class ModeFactory {
 	private UseCaseMode _useCaseMode;
 	private NoneMode _noneMode;
 	
+	/**
+	 * constructor 
+	 * @param model model
+	 */
 	public ModeFactory(IModel model){
 		_selectMode = new SelectMode(model);
 		_movingMode = new MovingMode(model);
@@ -24,6 +33,11 @@ public class ModeFactory {
 		_noneMode = new NoneMode();
 	}
 	
+	/**
+	 * get mode according to current mode
+	 * @param mode drawing mode
+	 * @return Mode
+	 */
 	public IMode getMode(DrawMode mode){
 		switch (mode) {
 		case SELECT:

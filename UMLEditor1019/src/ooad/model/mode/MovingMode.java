@@ -1,32 +1,50 @@
 package ooad.model.mode;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import ooad.model.DrawMode;
 import ooad.model.IModel;
 import ooad.model.shape.IShape;
 import ooad.model.shape.IStringField;
-import ooad.model.shape.NoneShape;
 
+/**
+ * drawing method for moving mode
+ * @author daitor
+ *
+ */
 public class MovingMode extends AbstractMode{
 	
+	/**
+	 * constructor
+	 * @param model model
+	 */
 	public MovingMode(IModel model) {
 		super(model);
 	}
 
+	/**
+	 * add shape string.
+	 * this mode override to do nothing
+	 */
 	@Override
 	public void addShapeString(IStringField stringField, String name) {
 	}
 
+	/**
+	 * set mode
+	 * this mode override to do nothing
+	 */
 	@Override
 	public void setMode() {
-		// TODO Auto-generated method stub
-		
 	}
 
-	/* (non-Javadoc)
-	 * @see ooad.model.mode.AbstractMode#drawing(java.awt.Graphics, ooad.model.Shape.IShape, int, int, int)
+	/** 
+	 * drawing method for moving method
+	 * @param g graphic object for painting
+	 * @param shape shape for painting, moving
+	 * @param mouseX mouse x location 
+	 * @param mousey mouse y location
+	 * @param closeOffset define how much pixel is meaning close
 	 */
 	@Override
 	public void drawing(Graphics g, IShape shape, int mouseX, int mouseY,
