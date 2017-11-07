@@ -13,8 +13,6 @@ public class PresentationModel implements IPresentationModel{
 	private boolean _isCompositionLine;
 	private boolean _isClassMode;
 	private boolean _isUseCaseMode;
-	private boolean _canGroup;
-	private boolean _canUngroup;
 	
 	/**
 	 * constructor
@@ -184,5 +182,13 @@ public class PresentationModel implements IPresentationModel{
 	@Override
 	public boolean canEditName() {
 		return _model.checkCanEditName();
+	}
+
+	/**
+	 * delete all store shapes 
+	 */
+	@Override
+	public void newCanvas() {
+		_model.deleteAllShapes();
 	}
 }

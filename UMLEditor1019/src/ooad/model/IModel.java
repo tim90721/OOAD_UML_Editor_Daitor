@@ -1,9 +1,11 @@
 package ooad.model;
 
 import java.awt.Graphics;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import ooad.model.mode.IMode;
 import ooad.model.shape.IShape;
 
 /**
@@ -48,4 +50,7 @@ public interface IModel {
 	boolean checkCanUnGroup();
 	boolean checkCanEditName();
 	void editShapeName(String name);
+	void deleteAllShapes();
+	void saveFile(RenderedImage image, File file, String fileType) throws IOException;
+	int getStoreImageType(String fileType);
 }

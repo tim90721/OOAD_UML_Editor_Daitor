@@ -2,20 +2,21 @@ package ooad.model;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Shape;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.jws.WebParam.Mode;
+import javax.imageio.ImageIO;
 
 import ooad.model.mode.IMode;
 import ooad.model.mode.ModeFactory;
 import ooad.model.shape.AbstractAreaShape;
-import ooad.model.shape.ClassGraph;
 import ooad.model.shape.IGroupShape;
 import ooad.model.shape.IGroupable;
 import ooad.model.shape.IShape;
 import ooad.model.shape.IStringField;
-import ooad.model.shape.NoneShape;
 import ooad.model.shape.ShapeFactory;
 import ooad.model.shape.StringField;
 
@@ -432,5 +433,58 @@ public class Model implements IModel, IPaintSubject, IMenuItemGroupSubject{
 		IStringField shape = (IStringField)_selectShapes.get(0);
 		shape.setName(name);
 		notifyPaintChange();
+	}
+
+	/**
+	 * delete all stored shapes
+	 */
+	@Override
+	public void deleteAllShapes() {
+		_shapes.removeAll(_shapes);
+		_selectShapes.removeAll(_selectShapes);
+		notifyPaintChange();
+		notifyMenuItemGroupChange();
+	}
+
+	/**
+	 * save image file
+	 * @param image image to save
+	 * @param file target file
+	 */
+	@Override
+	public void saveFile(RenderedImage image, File file, String fileType) throws IOException{
+		File targetFile = checkFileType(file, fileType);
+		ImageIO.write(image, fileType, targetFile);
+	}
+	
+	/**
+	 * check filename contain file type inside
+	 * @param file file to check
+	 * @param fileType select file type
+	 * @return if original file name does not contain file type return original file.  
+	 * otherwise, return new File object 
+	 */
+	private File checkFileType(File file, String fileType){
+		if(file.toString().endsWith("." + fileType))
+			return file;
+		else {
+			File newFile = new File(file.getAbsolutePath() + "." + fileType);
+			System.out.println(newFile.getAbsolutePath());
+			return newFile;
+		}
+	}
+
+	/**
+	 * get save image format
+	 * @param fileType save file type
+	 * @return save image format
+	 */
+	@Override
+	public int getStoreImageType(String fileType) {
+		if(fileType.equals("png"))
+			return BufferedImage.TYPE_INT_ARGB;
+		else if(fileType.equals("jpg"))
+			return BufferedImage.TYPE_INT_RGB;
+		return 0;
 	}
 }

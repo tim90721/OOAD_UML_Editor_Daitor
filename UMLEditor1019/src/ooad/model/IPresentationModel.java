@@ -23,4 +23,5 @@ public interface IPresentationModel {
 	boolean canGroup();
 	boolean canUngroup();
 	boolean canEditName();
+	void newCanvas();
 }
