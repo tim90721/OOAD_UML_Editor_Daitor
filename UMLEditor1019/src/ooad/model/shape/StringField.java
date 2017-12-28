@@ -28,7 +28,10 @@ public class StringField extends AbstractAreaShape implements IStringField{
 		_name = "StringField";
 		_parent = shape;
 		_font = new Font("Arial Black", Font.PLAIN, _fontSize);
-		setName(name);
+		if (name != null)
+			setName(name);
+		else
+			setName(" ");
 	}
 
 	/**

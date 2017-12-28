@@ -113,7 +113,7 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 		
 		// initial frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("UMLEditor");
+		setTitle("UMLEditorEnd");
 		setBounds(100, 100, 1000, 800);
 
 		// initial main panel
@@ -340,8 +340,6 @@ public class UMLEditorView extends JFrame implements IPopMsgObserver,
 	private String showMsgBox() {
 		String name = (String) JOptionPane.showInputDialog(this, "class name:",
 				"Set Name", JOptionPane.PLAIN_MESSAGE, null, null, null);
-		if (name == null)
-			name = " ";
 		return name;
 	}
 

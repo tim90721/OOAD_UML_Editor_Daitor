@@ -430,6 +430,8 @@ public class Model implements IModel, IPaintSubject, IMenuItemGroupSubject{
 	 */
 	@Override
 	public void editShapeName(String name) {
+		if(name == null)
+			return;
 		IStringField shape = (IStringField)_selectShapes.get(0);
 		shape.setName(name);
 		notifyPaintChange();
